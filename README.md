@@ -6,7 +6,7 @@ a web micro-framework.
 
 ## Team
 
-- MEMBER1
+- Joshua Weiss
 - MEMBER2
 - MEMBER3
 - MEMBER4
