@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Joshua Weiss
-- Max Hoecker
+- Max Hoecker 
 - MEMBER3
 - MEMBER4
 
