@@ -9,7 +9,7 @@ a web micro-framework.
 - Joshua Weiss
 - Max Hoecker 
 - MEMBER3
-- Jacob Kobrak
+- Jacob Kobrak 
 
 
 ## Prerequisites
