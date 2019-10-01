@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Joshua Weiss
 - Max Hoecker 
-- MEMBER3
+- Jonathan Russo
 - Jacob Kobrak 
 
 
