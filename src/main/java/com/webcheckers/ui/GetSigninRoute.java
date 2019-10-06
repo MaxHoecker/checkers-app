@@ -6,6 +6,8 @@ public class GetSigninRoute implements Route {
 
     //Constants
     static final String VIEW_NAME = "/signin.ftl";
+    static final String TITLE = "Sign-in Page";
+
 
     //Attributes
     private TemplateEngine templateEngine;

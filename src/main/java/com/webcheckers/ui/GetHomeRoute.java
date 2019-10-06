@@ -25,6 +25,10 @@ public class GetHomeRoute implements Route {
 
   private final TemplateEngine templateEngine;
 
+  static final String TITLE_ATTR = "title";
+
+  static final String NEW_PLAYET_ATTR = "newPlayer";
+
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
