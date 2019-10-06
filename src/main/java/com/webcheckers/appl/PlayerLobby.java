@@ -5,7 +5,7 @@ public class PlayerLobby {
     private int numplayers;
     private Set<Player> players;
 
-    PlayerLobby(){
+    public PlayerLobby(){
         numplayers = 0;
     }
     public Set<Player> getPlayers(){
