@@ -5,7 +5,7 @@ import spark.*;
 public class GetSigninRoute implements Route {
 
     //Constants
-    static final String VIEW_NAME = "signin.ftl";
+    static final String VIEW_NAME = "/signin.ftl";
 
     //Attributes
     private TemplateEngine templateEngine;

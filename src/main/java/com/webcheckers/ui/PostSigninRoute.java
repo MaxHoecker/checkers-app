@@ -3,9 +3,15 @@ package com.webcheckers.ui;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.TemplateEngine;
 
 public class PostSigninRoute implements Route {
-    public PostSigninRoute() {
+
+    //Attributes
+    private TemplateEngine templateEngine;
+
+    public PostSigninRoute(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
     }
 
     @Override
