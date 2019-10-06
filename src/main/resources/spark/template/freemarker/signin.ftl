@@ -8,9 +8,11 @@
         <h1>Sign In</h1>
         <div class = "SignIn">
                 <form action="./signin" method="post">
-                    Username: <input type="text" name="signinField" value="username">
+                    Username: <input type="text" name="signinField" >
                     <br>
-                    <button type=submit class="player">Sign-in</button>
+                    <button type=submit class="player">
+                        Sign-in
+                    </button>
                 </form>
         </div>
     </div>

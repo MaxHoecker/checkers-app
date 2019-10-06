@@ -14,12 +14,12 @@ public class PlayerLobby {
     public int getNum(){
         return numplayers;
     }
-    // need to add functionality to check before adding
+    // TODO add functionality to check before adding
     public void addPlayer(Player x){
         numplayers++;
         players.add(x);
     }
-    // add funcitnality to check before deleting
+    //TODO add functionality to check before deleting
     public void remPlayer(Player x){
         if(numplayers > 0){
             numplayers--;
