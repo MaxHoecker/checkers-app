@@ -1,15 +1,14 @@
 package com.webcheckers.appl;
 import com.webcheckers.Model.Player;
-import java.util.ArrayList;
-
+import java.util.Set;
 public class PlayerLobby {
     private int numplayers;
-    private ArrayList<Player> players;
+    private Set<Player> players;
 
     PlayerLobby(){
         numplayers = 0;
     }
-    public ArrayList<Player> getPlayers(){
+    public Set<Player> getPlayers(){
         return players;
     }
     public int getNum(){
