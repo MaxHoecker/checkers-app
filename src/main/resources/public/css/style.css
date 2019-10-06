@@ -135,3 +135,18 @@ button.game {
   width: 100px;
   margin: 10px;
 }
+
+div.SignIn {
+  text-align: center;
+  margin: 10px;
+  margin-left: 28%;
+  margin-right: 28%;
+
+  padding: 4px;
+  background: #CAECFF;
+  filter: brightness(115%);
+  border: 1px solid #6ECCFF;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  font-size: 13px;
+}

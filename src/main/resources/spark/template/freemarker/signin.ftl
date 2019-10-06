@@ -6,10 +6,12 @@
 <body>
     <div class="page">
         <h1>Sign In</h1>
-        <form action="./signin" method="post">
-            Username: <input type="text" name="signinField" value="username">
-            <br>
-            <button type=submit>Sign-in</button>
-        </form>
+        <div class = "SignIn">
+                <form action="./signin" method="post">
+                    Username: <input type="text" name="signinField" value="username">
+                    <br>
+                    <button type=submit class="player">Sign-in</button>
+                </form>
+        </div>
     </div>
 </body>
