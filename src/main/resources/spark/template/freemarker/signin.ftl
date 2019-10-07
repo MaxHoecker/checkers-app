@@ -7,6 +7,7 @@
     <div class="page">
         <h1>Sign In</h1>
         <div class = "SignIn">
+                <#include "message.ftl" />
                 <form action="./signin" method="post">
                     Username: <input type="text" name="signinField" >
                     <br>

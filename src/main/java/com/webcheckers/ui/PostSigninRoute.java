@@ -17,7 +17,6 @@ public class PostSigninRoute implements Route {
     static final String INIT_SIGNIN_MSG = "Make sure your username has at least 1 alphanumeric character!";
     static final String INVALID_NAME_MSG = "Name missing an alphanumeric character. Please enter another name.";
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
-    static final String BACK_LINK = " <a href=\"signin\">BACK</a> ";
 
 
     //Attributes
@@ -32,22 +31,20 @@ public class PostSigninRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
         final Map<String, Object> vm = new HashMap<>();
+        Session curSession = request.session();
 
         String username = request.queryParams(USERNAME_PARAM);
         Player currentPlayer = new Player(username);
         if(!username.matches(".*\\w+.*")){ // <- regex: at least 1 alphanumeric char with any # of chars before and after
-            vm.put(MSG_ATTR, Message.error(INVALID_NAME_MSG + BACK_LINK));
-            return templateEngine.render(new ModelAndView(vm, "message.ftl"));
+            vm.put(MSG_ATTR, Message.error(INVALID_NAME_MSG));
+            return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }
         else if(!playerLobby.addPlayer(currentPlayer)) {
-            vm.put(MSG_ATTR, Message.error(NAME_TAKEN_MSG + BACK_LINK));
-            return templateEngine.render(new ModelAndView(vm, "message.ftl"));
+            vm.put(MSG_ATTR, Message.error(NAME_TAKEN_MSG));
+            return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }else{
-
+            curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
+            return templateEngine.render(new ModelAndView(null, GetHomeRoute.VIEW_NAME));
         }
-
-
-
-        return null;
     }
 }

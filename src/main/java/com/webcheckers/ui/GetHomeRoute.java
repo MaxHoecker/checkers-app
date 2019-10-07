@@ -69,11 +69,11 @@ public class GetHomeRoute implements Route {
 
     if(curSession.attribute(SIGNEDIN) == null){
       // render the View
+      curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
-    }else{
-      // TODO render list of signed in players
+    }else if(curSession.attribute(SIGNEDIN)){
       return null;
     }
-
+    return null;
   }
 }
