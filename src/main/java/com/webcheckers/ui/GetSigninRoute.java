@@ -25,6 +25,11 @@ public class GetSigninRoute implements Route {
     public String handle(Request request, Response response){
         Map<String, Object> vm = new HashMap<>();
 
-        return templateEngine.render(new ModelAndView(null, VIEW_NAME));
+        vm.put("title", TITLE);
+        vm.put("page", WebServer.SIGNIN_URL);
+
+
+
+        return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
 }

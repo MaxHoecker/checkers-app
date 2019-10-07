@@ -5,6 +5,7 @@ import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.util.Message;
 import spark.*;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +31,11 @@ public class PostSigninRoute implements Route {
 
     @Override
     public String handle(Request request, Response response) {
-        final Map<String, Object> vm = new HashMap<>();
-        Session curSession = request.session();
 
+        Map<String, Object> vm = new HashMap<>();
+        //Session curSession = request.session();
+
+         /**
         String username = request.queryParams(USERNAME_PARAM);
         Player currentPlayer = new Player(username);
         if(!username.matches(".*\\w+.*")){ // <- regex: at least 1 alphanumeric char with any # of chars before and after
@@ -46,5 +49,12 @@ public class PostSigninRoute implements Route {
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
             return templateEngine.render(new ModelAndView(null, GetHomeRoute.VIEW_NAME));
         }
+          */
+        vm.put("title", GetSigninRoute.TITLE);
+        vm.put("page", WebServer.SIGNIN_URL);
+
+         vm.put("message", Message.info("It works!"));
+        return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
+        //response.redirect(Webserver.HOME_URL)
     }
 }
