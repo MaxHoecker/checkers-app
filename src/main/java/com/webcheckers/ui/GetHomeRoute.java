@@ -27,6 +27,8 @@ public class GetHomeRoute implements Route {
   static final String TITLE_ATTR = "title";
 
   static final String NEW_PLAYER_ATTR = "newPlayer";
+  static final String PLAYER_LIST_ATTR = "playerList";
+  static final String CUR_PLAYER_ATTR = "curPlayer";
 
   static final String SIGNEDIN = "signedIn";
 
@@ -67,12 +69,14 @@ public class GetHomeRoute implements Route {
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    if(curSession.attribute(SIGNEDIN) == null){
+    if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
       // render the View
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else if(curSession.attribute(SIGNEDIN)){
-      return null;
+      vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
+      vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
+      return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
     return null;
   }

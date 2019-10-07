@@ -14,7 +14,7 @@ public class PostSigninRoute implements Route {
     static final String USERNAME_PARAM = "signinField";
 
     static final String MSG_ATTR = "message";
-    static final String INIT_SIGNIN_MSG = "Make sure your username has at least 1 alphanumeric character!";
+
     static final String INVALID_NAME_MSG = "Name missing an alphanumeric character. Please enter another name.";
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
 
@@ -44,7 +44,9 @@ public class PostSigninRoute implements Route {
             return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }else{
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
-            return templateEngine.render(new ModelAndView(null, GetHomeRoute.VIEW_NAME));
+            curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
+            response.redirect(GetHomeRoute.VIEW_NAME);
+            return null;
         }
     }
 }
