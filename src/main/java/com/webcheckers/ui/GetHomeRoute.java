@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.appl.PlayerLobby;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -25,9 +22,15 @@ public class GetHomeRoute implements Route {
 
   private final TemplateEngine templateEngine;
 
+  private final PlayerLobby playerLobby;
+
   static final String TITLE_ATTR = "title";
 
-  static final String NEW_PLAYET_ATTR = "newPlayer";
+  static final String NEW_PLAYER_ATTR = "newPlayer";
+
+  static final String SIGNEDIN = "signedIn";
+
+  static final String VIEW_NAME = "home.ftl";
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -35,8 +38,9 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+    this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -57,12 +61,19 @@ public class GetHomeRoute implements Route {
     LOG.finer("GetHomeRoute is invoked.");
     //
     Map<String, Object> vm = new HashMap<>();
+    Session curSession = request.session();
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    // render the View
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    if(curSession.attribute(SIGNEDIN) == null){
+      // render the View
+      return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
+    }else{
+      // TODO render list of signed in players
+      return null;
+    }
+
   }
 }
