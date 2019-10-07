@@ -45,7 +45,7 @@ public class PostSigninRoute implements Route {
         }else{
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
             curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
-            response.redirect(GetHomeRoute.VIEW_NAME);
+            response.redirect(WebServer.HOME_URL);
             return null;
         }
     }

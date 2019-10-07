@@ -76,6 +76,7 @@ public class GetHomeRoute implements Route {
     }else if(curSession.attribute(SIGNEDIN)){
       vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
       vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
+      vm.put(PostSigninRoute.MSG_ATTR, Message.info("Signin successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
     return null;
