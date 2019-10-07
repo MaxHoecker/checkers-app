@@ -16,7 +16,7 @@ public class PlayerLobby {
     public synchronized Set<Player> getPlayers(){
         return players;
     }
-    public synchronized int getNum(){
+    public synchronized int getNumPlayers(){
         return numPlayers;
     }
     // TODO add functionality to check before adding
