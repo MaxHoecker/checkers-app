@@ -74,7 +74,7 @@ public class GetHomeRoute implements Route {
     // show the number of signed in players
     vm.put(NUM_PLAYERS_ATTR, playerLobby.getNumPlayers());
 
-    vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
+    vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayersString().remove(curSession.attribute(CUR_PLAYER_ATTR)));
 
     if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
