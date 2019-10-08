@@ -1,27 +1,42 @@
 package com.webcheckers.Model;
 
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.PlayerServices;
+import spark.Session;
+
 public class Player {
 
     private String id;
-    private boolean inGame;
-    public int name;
+    private Color color;
+    private Session session;
+
+    public enum Color {RED, WHITE}
 
     public Player(String id){
         this.id = id;
-        this.inGame = false;
-        this.name = hashCode();
+        color = null;
     }
 
     public String getId(){
         return this.id;
     }
 
-    public boolean inGame(){
-        return this.inGame;
+    /**
+     * Assign a specific session to a player, and give that player their own player services instance
+     * @param playerSession: session
+     * @param lobby: WebServer's PlayerLobby instance
+     */
+    public void definePlayerServices(final Session playerSession, final PlayerLobby lobby){
+        session = playerSession;
+        session.attribute("playerServices", new PlayerServices(lobby));
     }
 
-    public void toggleInGame(){
-        this.inGame = !this.inGame;
+    public void setColor(Color color){
+        this.color = color;
+    }
+
+    public Color getColor(){
+        return color;
     }
 
     @Override

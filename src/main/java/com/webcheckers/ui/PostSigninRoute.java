@@ -49,6 +49,10 @@ public class PostSigninRoute implements Route {
         }else{
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
             curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
+
+            //pair player instance with the session that created it
+            currentPlayer.definePlayerServices(curSession, playerLobby);
+
             response.redirect(WebServer.HOME_URL);
             return null;
         }
