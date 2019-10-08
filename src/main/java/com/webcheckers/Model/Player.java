@@ -31,6 +31,10 @@ public class Player {
         session.attribute("playerServices", new PlayerServices(lobby));
     }
 
+    public Session session(){
+        return session;
+    }
+
     public void setColor(Color color){
         this.color = color;
     }
