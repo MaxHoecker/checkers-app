@@ -81,7 +81,7 @@ public class GetHomeRoute implements Route {
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else{
       vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayersString());
-      vm.put(CUR_PLAYER_ATTR, playerLobby.getCurrentPlayer(PostSigninRoute.USERNAME_PARAM));
+      vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
 
       vm.put("message", Message.info("Signin successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));

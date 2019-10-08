@@ -50,7 +50,6 @@ public class PostSigninRoute implements Route {
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
             curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
             response.redirect(WebServer.HOME_URL);
-            //return templateEngine.render(new ModelAndView(vm, GetHomeRoute.VIEW_NAME));
             return null;
         }
 

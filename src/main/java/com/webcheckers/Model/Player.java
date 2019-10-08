@@ -4,10 +4,12 @@ public class Player {
 
     private String id;
     private boolean inGame;
+    public int name;
 
     public Player(String id){
         this.id = id;
         this.inGame = false;
+        this.name = hashCode();
     }
 
     public String getId(){

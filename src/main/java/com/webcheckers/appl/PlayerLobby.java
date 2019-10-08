@@ -15,15 +15,16 @@ public class PlayerLobby {
         Set<Player> playerList = new HashSet<>(players.values());
         return playerList;
     }
+
     public synchronized Set<String> getPlayersString(){
         Set<Player> playerList = new HashSet<>(players.values());
         Set<String> playerListString = new HashSet<>();
         for (Player player : playerList){
             playerListString.add(player.getId());
         }
-
         return playerListString;
     }
+
     public synchronized int getNumPlayers(){
         return numPlayers;
     }
