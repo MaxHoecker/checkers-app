@@ -20,17 +20,19 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
-    <h3>Player List</h3>
+    <#if (numPlayers > 1)>
+        <h3>Player List</h3>
+            <#list playerList as player>
+                <ul style="list-style-type:none">
+                    <li>
+                        <a href="/">
+                            ${player}
+                        </a>
+                    </li>
+                </ul>
+            </#list>
+    </#if>
 
-    <#list playerList as player>
-        <ul style="list-style-type:none">
-            <li>
-                <a href="/">
-                    ${player}
-                </a>
-            </li>
-        </ul>
-    </#list>
 
     <!-- TODO: future content on the Home:
             to start games,
