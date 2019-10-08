@@ -32,30 +32,27 @@ public class PostSigninRoute implements Route {
     public String handle(Request request, Response response) {
 
         Map<String, Object> vm = new HashMap<>();
-        //Session curSession = request.session();
+        Session curSession = request.session();
 
-         /**
+        vm.put("title", GetSigninRoute.TITLE);
+        vm.put("page", WebServer.SIGNIN_URL);
+
         String username = request.queryParams(USERNAME_PARAM);
         Player currentPlayer = new Player(username);
         if(!username.matches(".*\\w+.*")){ // <- regex: at least 1 alphanumeric char with any # of chars before and after
             vm.put("message", Message.error(INVALID_NAME_MSG));
             return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }
-        else if(!playerLobby.addPlayer(currentPlayer)) {
+        else if(!playerLobby.addPlayer(username, currentPlayer)) {
             vm.put("message", Message.error(NAME_TAKEN_MSG));
             return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }else{
             curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
             curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
             response.redirect(WebServer.HOME_URL);
+            //return templateEngine.render(new ModelAndView(vm, GetHomeRoute.VIEW_NAME));
             return null;
         }
-          */
-        vm.put("title", GetSigninRoute.TITLE);
-        vm.put("page", WebServer.SIGNIN_URL);
 
-         vm.put("message", Message.info("It works!"));
-        return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
-        //response.redirect(Webserver.HOME_URL)
     }
 }

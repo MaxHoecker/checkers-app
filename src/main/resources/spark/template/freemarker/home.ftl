@@ -20,6 +20,14 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
+    <h3>Player List</h3>
+
+    <#list playerList as player>
+        <ul>
+        <li>${player}</li>
+        </ul>
+    </#list>
+
     <!-- TODO: future content on the Home:
             to start games,
             spectating active games,

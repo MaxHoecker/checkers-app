@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.Model.Player;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -28,7 +29,7 @@ public class GetHomeRoute implements Route {
 
   static final String NEW_PLAYER_ATTR = "newPlayer";
   static final String PLAYER_LIST_ATTR = "playerList";
-  static final String CUR_PLAYER_ATTR = "curPlayer";
+  static final String CUR_PLAYER_ATTR = "currentUser";
   static final String NUM_PLAYERS_ATTR = "numPlayers";
 
   static final String SIGNEDIN = "signedIn";
@@ -73,12 +74,15 @@ public class GetHomeRoute implements Route {
     // show the number of signed in players
     vm.put(NUM_PLAYERS_ATTR, playerLobby.getNumPlayers());
 
+    vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
+
     if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else{
       vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
-      vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
+      vm.put(CUR_PLAYER_ATTR, playerLobby.getCurrentPlayer(PostSigninRoute.USERNAME_PARAM));
+
       vm.put("message", Message.info("Signin successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }

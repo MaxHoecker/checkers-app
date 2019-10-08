@@ -1,31 +1,36 @@
 package com.webcheckers.appl;
 import com.webcheckers.Model.Player;
 
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PlayerLobby {
     private int numPlayers;
-    private Set<Player> players;
+    private HashMap<String, Player> players;
 
     public PlayerLobby(){
         numPlayers = 0;
-        players = new TreeSet<Player>((o1, o2) -> o1.getId().compareTo(o2.getId()));
+        players = new HashMap<String, Player>();
     }
     public synchronized Set<Player> getPlayers(){
-        return players;
+        Set<Player> playerList = new HashSet<>(players.values());
+        return playerList;
     }
     public synchronized int getNumPlayers(){
         return numPlayers;
     }
+    public synchronized Player getCurrentPlayer(String s){
+        return players.get(s);
+    }
     // TODO add functionality to check before adding
-    public synchronized boolean addPlayer(Player x){
-        boolean added = players.add(x);
-        if(added){
-            numPlayers++;
+    public synchronized boolean addPlayer(String s, Player x){
+        if (players.containsKey(s)){
+            return false;
         }
-        return added;
+        else{
+            players.put(s, x);
+            numPlayers++;
+            return true;
+        }
     }
     //TODO add functionality to check before deleting
     public synchronized void remPlayer(Player x){
@@ -39,6 +44,11 @@ public class PlayerLobby {
     }
 
     public synchronized boolean containsPlayer(Player player){
-        return players.contains(player);
+        return players.containsValue(player);
     }
+
+    //@Override
+    //public String toString() {
+
+    //}
 }
