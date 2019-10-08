@@ -28,9 +28,11 @@ public class PlayerLobby {
     public synchronized int getNumPlayers(){
         return numPlayers;
     }
+
     public synchronized Player getCurrentPlayer(String s){
         return players.get(s);
     }
+
     // TODO add functionality to check before adding
     public synchronized boolean addPlayer(String s, Player x){
         if (players.containsKey(s)){

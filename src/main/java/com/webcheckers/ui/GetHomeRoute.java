@@ -1,8 +1,6 @@
 package com.webcheckers.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
@@ -31,6 +29,7 @@ public class GetHomeRoute implements Route {
   static final String PLAYER_LIST_ATTR = "playerList";
   static final String CUR_PLAYER_ATTR = "currentUser";
   static final String NUM_PLAYERS_ATTR = "numPlayers";
+
 
   static final String SIGNEDIN = "signedIn";
 
@@ -74,13 +73,20 @@ public class GetHomeRoute implements Route {
     // show the number of signed in players
     vm.put(NUM_PLAYERS_ATTR, playerLobby.getNumPlayers());
 
-    vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayersString().remove(curSession.attribute(CUR_PLAYER_ATTR)));
+    vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
 
     if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else{
-      vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayersString());
+        if(playerLobby.getNumPlayers() > 1){
+            Set<String> x = playerLobby.getPlayersString();
+            x.remove(((Player)curSession.attribute(CUR_PLAYER_ATTR)).getId());
+            vm.put(PLAYER_LIST_ATTR, x);
+        }
+        else{
+            vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
+        }
       vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
 
       vm.put("message", Message.info("Signin successful")); //temporary placeholder
