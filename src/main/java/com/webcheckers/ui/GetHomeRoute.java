@@ -29,6 +29,7 @@ public class GetHomeRoute implements Route {
   static final String PLAYER_LIST_ATTR = "playerList";
   static final String CUR_PLAYER_ATTR = "currentUser";
   static final String NUM_PLAYERS_ATTR = "numPlayers";
+  static final String IS_SIGNED_IN = "isSignedIn";
 
 
   static final String SIGNEDIN = "signedIn";
@@ -76,9 +77,11 @@ public class GetHomeRoute implements Route {
     vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
 
     if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
+      vm.put(IS_SIGNED_IN, false);
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else{
+        vm.put(IS_SIGNED_IN, true);
         if(playerLobby.getNumPlayers() > 1){
             Set<String> x = playerLobby.getPlayersString();
             x.remove(((Player)curSession.attribute(CUR_PLAYER_ATTR)).getId());

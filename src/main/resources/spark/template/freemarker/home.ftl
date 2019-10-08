@@ -19,8 +19,10 @@
 
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
-
-    <#if (numPlayers > 1)>
+    <#if isSignedIn == false>
+      <h3>Number of Players</h3>
+      <p>${numPlayers}</p>
+    <#elseif (numPlayers > 1)>
         <h3>Player List</h3>
             <#list playerList as player>
                 <ul style="list-style-type:none">
