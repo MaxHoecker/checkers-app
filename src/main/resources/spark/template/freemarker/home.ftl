@@ -23,8 +23,12 @@
     <h3>Player List</h3>
 
     <#list playerList as player>
-        <ul>
-        <li>${player}</li>
+        <ul style="list-style-type:none">
+            <li>
+                <a href="/">
+                    ${player}
+                </a>
+            </li>
         </ul>
     </#list>
 
