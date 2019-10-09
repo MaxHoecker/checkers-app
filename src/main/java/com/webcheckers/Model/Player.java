@@ -8,31 +8,18 @@ public class Player {
 
     private String id;
     private Color color;
-    private Session session;
+    private Player opponent;
 
     public enum Color {RED, WHITE}
 
     public Player(String id){
         this.id = id;
         color = null;
+        opponent = null;
     }
 
     public String getId(){
         return this.id;
-    }
-
-    /**
-     * Assign a specific session to a player, and give that player their own player services instance
-     * @param playerSession: session
-     * @param lobby: WebServer's PlayerLobby instance
-     */
-    public void definePlayerServices(final Session playerSession, final PlayerLobby lobby){
-        session = playerSession;
-        session.attribute("playerServices", new PlayerServices(lobby));
-    }
-
-    public Session session(){
-        return session;
     }
 
     public void setColor(Color color){
@@ -41,6 +28,14 @@ public class Player {
 
     public Color getColor(){
         return color;
+    }
+
+    public void setOpponent(Player op){
+        this.opponent = op;
+    }
+
+    public Player getOpponent(){
+        return this.opponent;
     }
 
     @Override

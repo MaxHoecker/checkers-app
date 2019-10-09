@@ -81,16 +81,21 @@ public class GetHomeRoute implements Route {
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }else{
-        vm.put(IS_SIGNED_IN, true);
-        if(playerLobby.getNumPlayers() > 1){
-            Set<String> x = playerLobby.getPlayersString();
-            x.remove(((Player)curSession.attribute(CUR_PLAYER_ATTR)).getId());
-            vm.put(PLAYER_LIST_ATTR, x);
-        }
-        else{
-            vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
-        }
-      vm.put(CUR_PLAYER_ATTR, curSession.attribute(CUR_PLAYER_ATTR));
+      Player curPlayer = curSession.attribute(CUR_PLAYER_ATTR);
+      if(curPlayer.getColor() != null){ //handles player getting clicked on by another player
+        response.redirect(WebServer.GAME_URL);
+        return null;
+      }
+      vm.put(IS_SIGNED_IN, true);
+      if(playerLobby.getNumPlayers() > 1){
+        Set<String> x = playerLobby.getPlayersString();
+        x.remove(curPlayer.getId());
+        vm.put(PLAYER_LIST_ATTR, x);
+      }
+      else{
+        vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
+      }
+      vm.put(CUR_PLAYER_ATTR, curPlayer);
 
       vm.put("message", Message.info("Signin successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));

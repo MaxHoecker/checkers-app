@@ -24,15 +24,15 @@
       <p>${numPlayers}</p>
     <#elseif (numPlayers > 1)>
         <h3>Player List</h3>
+            <form action="/game" method="post">
             <#list playerList as player>
                 <ul style="list-style-type:none">
                     <li>
-                        <a href="/">
-                            ${player}
-                        </a>
+                        <button type="submit" name="opponent" value=${player}>${player}</button>
                     </li>
                 </ul>
             </#list>
+            </form>
 
     </#if>
 

@@ -150,6 +150,10 @@ public class WebServer {
 
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
 
+    post(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+
+    get(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+
     //
     LOG.config("WebServer is initialized.");
   }
