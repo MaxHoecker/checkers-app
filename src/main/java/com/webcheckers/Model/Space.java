@@ -30,4 +30,14 @@ public class Space {
         return isValid;
     }
 
+    public void moveto(Piece p){
+        occupant = p;
+    }
+
+    public Piece removeOccupant(){
+        Piece p = occupant;
+        occupant = null;
+        return p;
+    }
+
 }
