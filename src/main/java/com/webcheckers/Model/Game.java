@@ -1,25 +1,27 @@
 package com.webcheckers.Model;
 
 public class Game {
+
+    private static int gameNum = 0;
     private Player red;
     private Player white;
-    private int gameid;
+    private int gameID;
     /**
      * @param one, first player
      * @param two, second player
-     * @param id, id for the game
      */
-    public Game(Player one, Player two, int id){
+    public Game(Player one, Player two){
         red = one;
         white = two;
-        gameid = id;
+        gameID = gameNum;
+        gameNum++;
     }
 
     /**
      * @return the gameid
      */
-    public int getGameid() {
-        return gameid;
+    public int getGameID() {
+        return gameID;
     }
 
     /**

@@ -1,25 +1,31 @@
 package com.webcheckers.Model;
 
-import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.appl.PlayerServices;
-import spark.Session;
-
 public class Player {
 
-    private String id;
+    private String name;
     private Color color;
     private Player opponent;
+    private Board board;
 
     public enum Color {RED, WHITE}
 
-    public Player(String id){
-        this.id = id;
+    public Player(String name){
+        this.name = name;
         color = null;
         opponent = null;
+        board = null;
     }
 
-    public String getId(){
-        return this.id;
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board){
+        this.board = board;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public void setColor(Color color){
@@ -43,11 +49,11 @@ public class Player {
         if(!(that instanceof Player)) return false;
         if(that == this) return true;
         Player other = (Player)that;
-        return other.getId().equals(this.id);
+        return other.getName().equals(this.name);
     }
 
     @Override
     public int hashCode(){
-        return this.id.hashCode();
+        return this.name.hashCode();
     }
 }

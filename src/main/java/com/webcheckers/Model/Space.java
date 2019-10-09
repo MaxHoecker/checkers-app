@@ -1,42 +1,42 @@
 package com.webcheckers.Model;
 
 public class Space {
-    private Piece occupant;
+    private Piece piece;
     //x and y coordinates
-    private int[] cellidx = new int[2];
+    private int[] cellIdx;
     private boolean isValid;
 
     public Space(boolean v, int[] coords){
         isValid = v;
-        cellidx = coords;
+        cellIdx = coords;
     }
 
     //no need for v since if there is a piece there it must be valid
     public Space(int[] coords, Piece p){
         isValid = true;
-        cellidx = coords;
-        occupant = p;
+        cellIdx = coords;
+        piece = p;
     }
 
-    public Piece getOccumpant(){
-        return occupant;
+    public Piece getOccupant(){
+        return piece;
     }
     
     public int[] getCell() {
-        return cellidx;
+        return cellIdx;
     }
 
-    public boolean getValid(){
+    public boolean isValid(){
         return isValid;
     }
 
     public void moveto(Piece p){
-        occupant = p;
+        piece = p;
     }
 
     public Piece removeOccupant(){
-        Piece p = occupant;
-        occupant = null;
+        Piece p = piece;
+        piece = null;
         return p;
     }
 

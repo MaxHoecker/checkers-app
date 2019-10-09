@@ -1,23 +1,23 @@
 package com.webcheckers.Model;
 
 public class Piece {
-    private boolean isKinged;
+    private boolean type; //boolean for isKinged
     // true will be red false will be white(done so that we can easily do this outside of class)
     private boolean color;
     Piece(boolean c){
         color = c;
-        isKinged = false;
+        type = false;
     }
 
-    public boolean getisKinged() {
-        return isKinged;
+    public boolean type() {
+        return type;
     }
 
     public boolean getColor() {
         return color;
     }
 
-    public void Kingme(){
-        isKinged = true;
+    public void kingMe(){
+        type = true;
     }
 }

@@ -28,7 +28,7 @@
             <#list playerList as player>
                 <ul style="list-style-type:none">
                     <li>
-                        <button type="submit" name="opponent" value=${player}>${player}</button>
+                        <button type="submit" name="opponent" value="${player}">${player}</button>
                     </li>
                 </ul>
             </#list>

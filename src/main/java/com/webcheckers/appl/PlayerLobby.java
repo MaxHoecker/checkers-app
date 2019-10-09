@@ -20,7 +20,7 @@ public class PlayerLobby {
         Set<Player> playerList = new HashSet<>(players.values());
         Set<String> playerListString = new HashSet<>();
         for (Player player : playerList){
-            playerListString.add(player.getId());
+            playerListString.add(player.getName());
         }
         return playerListString;
     }
