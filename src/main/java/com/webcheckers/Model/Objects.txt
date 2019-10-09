@@ -1,0 +1,18 @@
+further specifications in the game.ftl
+
+Game object
+    game Id
+    red player
+    white player
+
+Board object
+    space array
+    row array made up of space arrays
+
+Space
+    occupied by (type Piece)
+    "cellIdx"
+    "isValid"
+
+Piece
+    kinged boolean
