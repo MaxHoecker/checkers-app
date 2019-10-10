@@ -13,6 +13,7 @@ import com.webcheckers.util.Message;
  * The UI Controller to GET the Home page.
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -25,7 +26,6 @@ public class GetHomeRoute implements Route {
 
   static final String TITLE_ATTR = "title";
 
-  static final String NEW_PLAYER_ATTR = "newPlayer";
   static final String PLAYER_LIST_ATTR = "playerList";
   static final String CUR_PLAYER_ATTR = "currentUser";
   static final String NUM_PLAYERS_ATTR = "numPlayers";
