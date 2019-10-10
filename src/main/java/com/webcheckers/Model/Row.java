@@ -23,6 +23,13 @@ public class Row {
         spaces.add(space);
     }
 
+    public int getIndex(boolean flip){
+        if(flip){
+            return 8-index;
+        }
+        return index;
+    }
+
     public int getIndex(){
         return index;
     }

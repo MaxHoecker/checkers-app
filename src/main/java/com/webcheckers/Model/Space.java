@@ -26,6 +26,13 @@ public class Space {
         return isValid;
     }
 
+    public int getCellIdx(boolean flip)
+    {
+        if(flip){
+            return 8-cellIdx;
+        }
+        return cellIdx;
+    }
     public int getCellIdx()
     {
         return cellIdx;
@@ -47,7 +54,12 @@ public class Space {
             return piece.toString();
         }
         else{
-            return "0";
+            if(isValid){
+                return "1";
+            }
+            else {
+                return "0";
+            }
         }
 
     }

@@ -58,22 +58,22 @@ public class PostGameRoute implements Route {
             curPlayer.setBoard(board);
             opponent.setBoard(board);
 
-            vm.put(VIEW_MODE, "");
+            vm.put(VIEW_MODE, "PLAY");
             vm.put(CUR_USER_ATTR, curPlayer);
             vm.put(RED_PLAYER_ATTR, curPlayer);
             vm.put(WHITE_PLAYER_ATTR, opponent);
-            vm.put(ACTIVE_COLOR_ATTR, "red");
+            vm.put(ACTIVE_COLOR_ATTR, "RED");
             LOG.info(curPlayer.getBoard().toString());
             vm.put(BOARD_ATTR, curPlayer.getBoard());
             //TODO fill out vm stuff, render game page
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
-            vm.put(VIEW_MODE, "");
+            vm.put(VIEW_MODE, "PLAY");
             vm.put(CUR_USER_ATTR, curPlayer);
             vm.put(RED_PLAYER_ATTR, curPlayer.getOpponent());
             vm.put(WHITE_PLAYER_ATTR, curPlayer);
-            vm.put(ACTIVE_COLOR_ATTR, "red");
+            vm.put(ACTIVE_COLOR_ATTR, "RED");
             LOG.info(curPlayer.getBoard().toString());
             vm.put(BOARD_ATTR, curPlayer.getBoard());
             //TODO fill out vm stuff, render game page
