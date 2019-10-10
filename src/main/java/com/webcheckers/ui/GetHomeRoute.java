@@ -76,11 +76,16 @@ public class GetHomeRoute implements Route {
 
     vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
 
-    if(curSession.attribute(SIGNEDIN) == null || !(Boolean)curSession.attribute(SIGNEDIN)){
+    if(curSession.attribute(SIGNEDIN) == null){
       vm.put(IS_SIGNED_IN, false);
       curSession.attribute(SIGNEDIN, Boolean.FALSE);
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
-    }else{
+    }else if(!(Boolean)curSession.attribute(SIGNEDIN)){
+      vm.put(IS_SIGNED_IN, false);
+      vm.put("message", Message.info("Sign-out Successful!"));
+      return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+    }
+    else{
       Player curPlayer = curSession.attribute(CUR_PLAYER_ATTR);
       if(curPlayer.getColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
@@ -97,7 +102,7 @@ public class GetHomeRoute implements Route {
       }
       vm.put(CUR_PLAYER_ATTR, curPlayer);
 
-      vm.put("message", Message.info("Signin successful")); //temporary placeholder
+      vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
   }
