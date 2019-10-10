@@ -14,14 +14,23 @@ public class Space {
         piece = p;
     }
 
+    /**
+     * @return piece
+     */
     public Piece getOccupant(){
         return piece;
     }
     
+    /**
+     * @return cellIdx
+     */
     public int getCell() {
         return cellIdx;
     }
 
+    /**
+     * @return isValid
+     */
     public boolean isValid(){
         return isValid;
     }

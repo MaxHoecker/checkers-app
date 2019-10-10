@@ -7,7 +7,7 @@ public class Board {
 
     private ArrayList<Row> rows = new ArrayList<>(); //used an arraylist because it has an iterator() method
     //all boards will be set up like this to start,
-
+    // constructor to initialize board
     public Board() {
         for(int i = 0; i < 8; i++){
             rows.add(new Row(i));
@@ -27,10 +27,12 @@ public class Board {
         }
     }
 
+    // return rows.iterator()
     public Iterator<Row> iterator(){
         return rows.iterator();
     }
 
+    // create string to print when tostring is called for board
     @Override
     public String toString() {
         String result = "";
