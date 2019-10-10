@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Row {
 
-    private int index ;
+    private int index;
     private ArrayList<Space> spaces = new ArrayList<>();
 
     public Row(int index) {
@@ -31,5 +31,7 @@ public class Row {
         return spaces;
     }
 
-
+    public String toString(){
+        return String.format("[%d] %s", index, spaces.toString());
+    }
 }

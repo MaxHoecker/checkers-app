@@ -22,4 +22,14 @@ public class Piece {
     public void kingMe(){
         type = true;
     }
+
+    @Override
+    public String toString() {
+        if (color){
+            return"R";
+        }
+        else{
+            return "W";
+        }
+    }
 }

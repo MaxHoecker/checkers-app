@@ -36,4 +36,14 @@ public class Space {
         return p;
     }
 
+    @Override
+    public String toString() {
+        if(piece!= null){
+            return piece.toString();
+        }
+        else{
+            return "0";
+        }
+
+    }
 }
