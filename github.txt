@@ -1,0 +1,68 @@
+commit b6d94d457a74bc64c2e373b7a47ec5dd2988188d
+Author: jdrusso00 <47147784+jdrusso00@users.noreply.github.com>
+Date:   Tue Oct 1 14:34:34 2019 -0400
+
+    Added my name
+
+commit 28f06ddd7039dcee9887ce9b0bc2bc39f4c44eda
+Author: Jacob Kobrak <jak3703@g.rit.edu>
+Date:   Mon Sep 30 14:45:42 2019 -0400
+
+    me adding my name but I followed directions this time
+
+commit f95a2addc860c2ed3535f59e2a9d9c30810fd857
+Merge: 1417f69 10970a0
+Author: mjh9131 <mjh9131@rit.edu>
+Date:   Thu Sep 26 19:37:35 2019 -0400
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 1417f6933a9007ef6cf89f473b77a07c43a2cd4e
+Author: mjh9131 <mjh9131@rit.edu>
+Date:   Thu Sep 26 19:36:26 2019 -0400
+
+    Added name to team member list
+
+commit 10970a06d28a48e629baebf06e84be2cb4f0ffe4
+Author: jak3703 <55769072+jak3703@users.noreply.github.com>
+Date:   Thu Sep 26 19:21:53 2019 -0400
+
+    Update README.md
+
+commit 0c3e1e2d81b7301fb383b4cad70ce8266eaa2467
+Author: mjh9131 <47237498+mjh9131@users.noreply.github.com>
+Date:   Thu Sep 26 18:43:58 2019 -0400
+
+    Update README.md
+
+commit e10e5e2636550d098337107c8230771bf4f4a421
+Author: Joshua Weiss <jxw7470>
+Date:   Tue Sep 24 18:59:26 2019 -0400
+
+    my first commit
+
+commit cc0a57ed88309083216e0f7aa6c7c6a0cc5705bf
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:46:59 2019 -0400
+
+    Updates for you to always include disclaimers
+
+commit 58a0d2291cd13129702c22c1d52aa5c44b4f150a
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:39:27 2019 -0400
+
+    For your benefit.
+    
+    Share if you think something else is needed.
+
+commit ce03d52fe9e6b3b6c9d824d65d9e77777fe1e31e
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:35:55 2019 -0400
+
+    Initial WEBCHECKERS SEED REPO 2188-2191
+
+commit 7e7b18fcb7e7d1297d8985bf430ed1f27fa92151
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:32:48 2019 -0400
+
+    Initial commit

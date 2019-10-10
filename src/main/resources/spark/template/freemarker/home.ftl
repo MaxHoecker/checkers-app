@@ -19,6 +19,23 @@
 
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
+    <#if isSignedIn == false>
+      <h3>Number of Players</h3>
+      <p>${numPlayers}</p>
+    <#elseif (numPlayers > 1)>
+        <h3>Player List</h3>
+            <form action="/game" method="post">
+            <#list playerList as player>
+                <ul style="list-style-type:none">
+                    <li>
+                        <button type="submit" name="opponent" value="${player}">${player}</button>
+                    </li>
+                </ul>
+            </#list>
+            </form>
+
+    </#if>
+
 
     <!-- TODO: future content on the Home:
             to start games,

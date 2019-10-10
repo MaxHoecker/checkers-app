@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import com.webcheckers.appl.PlayerLobby;
 import spark.TemplateEngine;
 
 
@@ -41,6 +42,7 @@ import spark.TemplateEngine;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class WebServer {
   private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
@@ -53,6 +55,9 @@ public class WebServer {
    * The URL pattern to request the Home page.
    */
   public static final String HOME_URL = "/";
+  public static final String SIGNIN_URL = "/signin";
+  public static final String SIGNOUT_URL = "/signout";
+  public static final String GAME_URL = "/game";
 
   //
   // Attributes
@@ -60,6 +65,7 @@ public class WebServer {
 
   private final TemplateEngine templateEngine;
   private final Gson gson;
+  private final PlayerLobby playerLobby;
 
   //
   // Constructor
@@ -81,6 +87,7 @@ public class WebServer {
     Objects.requireNonNull(templateEngine, "templateEngine must not be null");
     Objects.requireNonNull(gson, "gson must not be null");
     //
+    this.playerLobby = new PlayerLobby();
     this.templateEngine = templateEngine;
     this.gson = gson;
   }
@@ -137,7 +144,19 @@ public class WebServer {
     //// code clean; using small classes.
 
     // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(templateEngine));
+    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
+
+    get(SIGNIN_URL, new GetSigninRoute(templateEngine));
+
+    post(SIGNIN_URL, new PostSigninRoute(playerLobby, templateEngine));
+
+    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
+
+    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
+
+    post(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+
+    get(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
 
     //
     LOG.config("WebServer is initialized.");
