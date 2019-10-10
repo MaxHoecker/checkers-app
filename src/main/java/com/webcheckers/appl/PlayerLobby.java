@@ -33,7 +33,6 @@ public class PlayerLobby {
         return players.get(s);
     }
 
-    // TODO add functionality to check before adding
     public synchronized boolean addPlayer(String s, Player x){
         if (players.containsKey(s)){
             return false;
@@ -44,11 +43,11 @@ public class PlayerLobby {
             return true;
         }
     }
-    //TODO add functionality to check before deleting
+
     public synchronized void remPlayer(Player x){
         if(numPlayers > 0){
             numPlayers--;
-            players.remove(x);
+            players.remove(x.getName());
         }
         else{
             System.out.println("error! No players to remove");
