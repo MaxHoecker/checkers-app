@@ -57,9 +57,14 @@
           </fieldset>
           
         </div>
-  
-        <div class="game-board">
-          <table id="game-board">
+
+
+        <#if currentUser.getName() == redPlayer.getName()>
+            <div class="game-board" style = "transform: rotate(180deg);">
+        <#else>
+            <div class="game-board">
+        </#if>
+            <table id="game-board">
             <tbody>
             <#list board.iterator() as row>
               <tr data-row="${row.getIndex()}">
@@ -70,10 +75,21 @@
                     </#if>
                     >
                 <#if space.getOccupant()??>
-                  <div class="Piece"
-                       id="piece-${row.getIndex()}-${space.getCellIdx()}"
-                       data-type="${space.getOccupant().getType()}"
-                       data-color="${space.getOccupant().getColor()}">
+                    <#if currentUser.getName() == redPlayer.getName()>
+                        <div class="Piece"
+                        id="piece-${row.getIndex()}-${space.getCellIdx()}"
+                        data-type="${space.getOccupant().getType()}"
+                        data-color="${space.getOccupant().getColor()}"
+                        style = "transform: rotate(180deg);"
+                        >
+                    <#else>
+                        <div class="Piece"
+                        id="piece-${row.getIndex()}-${space.getCellIdx()}"
+                        data-type="${space.getOccupant().getType()}"
+                        data-color="${space.getOccupant().getColor()}"
+                        >
+                    </#if>
+
                   </div>
                 </#if>
                 </td>

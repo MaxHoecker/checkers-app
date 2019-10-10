@@ -2,30 +2,43 @@ package com.webcheckers.Model;
 
 public class Space {
     private Piece piece;
-    //x and y coordinates
     private int cellIdx;
     private boolean isValid;
 
-
-    //no need for v since if there is a piece there it must be valid
     public Space(boolean v, int index, Piece p ){
         isValid = v;
         cellIdx = index;
         piece = p;
     }
 
+    /**
+     * @return piece
+     */
     public Piece getOccupant(){
         return piece;
     }
     
+    /**
+     * @return cellIdx
+     */
     public int getCell() {
         return cellIdx;
     }
 
+    /**
+     * @return isValid
+     */
     public boolean isValid(){
         return isValid;
     }
 
+    public int getCellIdx(boolean flip)
+    {
+        if(flip){
+            return 8-cellIdx;
+        }
+        return cellIdx;
+    }
     public int getCellIdx()
     {
         return cellIdx;
@@ -47,7 +60,12 @@ public class Space {
             return piece.toString();
         }
         else{
-            return "0";
+            if(isValid){
+                return "1";
+            }
+            else {
+                return "0";
+            }
         }
 
     }
