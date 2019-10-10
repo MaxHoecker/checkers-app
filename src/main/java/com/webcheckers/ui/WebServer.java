@@ -42,6 +42,7 @@ import spark.TemplateEngine;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class WebServer {
   private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
