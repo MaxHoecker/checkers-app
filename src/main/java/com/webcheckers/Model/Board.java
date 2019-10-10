@@ -3,11 +3,17 @@ package com.webcheckers.Model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The board object that contains row objects
+ */
 public class Board {
 
+    //an array of row objects
     private ArrayList<Row> rows = new ArrayList<>(); //used an arraylist because it has an iterator() method
-    //all boards will be set up like this to start,
-    // constructor to initialize board
+
+    /**
+     * board constructor that makes the 8x8 board filled in with pieces where they should be
+     */
     public Board() {
         for(int i = 0; i < 8; i++){
             rows.add(new Row(i));
@@ -27,12 +33,17 @@ public class Board {
         }
     }
 
-    // return rows.iterator()
+    /**
+     *
+     * @return an iterable collection for the game.ftl file to use
+     */
     public Iterator<Row> iterator(){
         return rows.iterator();
     }
 
-    // create string to print when tostring is called for board
+    /**
+     * create string to print when toString is called for board
+      */
     @Override
     public String toString() {
         String result = "";

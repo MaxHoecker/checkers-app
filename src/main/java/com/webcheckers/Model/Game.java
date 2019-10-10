@@ -1,12 +1,21 @@
 package com.webcheckers.Model;
 
+/**
+ * The game object
+ */
 public class Game {
 
+    /**
+     * Attributes
+     */
     private static int gameNum = 0;
     private Player red;
     private Player white;
     private int gameID;
+
+
     /**
+     * constructor for game object
      * @param one, first player
      * @param two, second player
      */
