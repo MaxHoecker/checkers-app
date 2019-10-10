@@ -5,14 +5,14 @@ import java.util.Iterator;
 
 public class Row {
 
-    private int index;
+    public int index;
     private ArrayList<Space> spaces = new ArrayList<>();
 
     public Row(int index) {
         this.index = index;
     }
 
-    public void addSpacePiece(boolean valid, int index, boolean color){
+    public void addSpacePiece(boolean valid, int index, String color){
         Piece piece = new Piece(color);
         Space space = new Space(valid, index, piece);
         spaces.add(space);
@@ -23,12 +23,16 @@ public class Row {
         spaces.add(space);
     }
 
+    public int getIndex(){
+        return index;
+    }
+
     public Space getSpace(int index){
         return spaces.get(index);
     }
 
-    public ArrayList<Space> iterator(){
-        return spaces;
+    public Iterator<Space> iterator(){
+        return spaces.iterator();
     }
 
     public String toString(){

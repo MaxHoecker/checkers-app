@@ -1,31 +1,30 @@
 package com.webcheckers.Model;
 
 public class Piece {
-    private boolean type; //boolean for isKinged
+    private String type; // "SINGLE" or "KING"
     // true will be red false will be white(done so that we can easily do this outside of class)
-    private boolean color;
+    private String color;
 
-
-    Piece(boolean c){
+    public Piece(String c){
         color = c;
-        type = false;
+        type = "SINGLE";
     }
 
-    public boolean type() {
+    public String getType() {
         return type;
     }
 
-    public boolean getColor() {
+    public String getColor() {
         return color;
     }
 
     public void kingMe(){
-        type = true;
+        type = "KING";
     }
 
     @Override
     public String toString() {
-        if (color){
+        if (color.equals("RED")){
             return"R";
         }
         else{

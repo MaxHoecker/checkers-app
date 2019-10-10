@@ -26,6 +26,11 @@ public class Space {
         return isValid;
     }
 
+    public int getCellIdx()
+    {
+        return cellIdx;
+    }
+
     public void moveTo(Piece p){
         piece = p;
     }
