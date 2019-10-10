@@ -3,6 +3,9 @@ package com.webcheckers.Model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The Row object
+ */
 public class Row {
 
     public int index;

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 /**
  * The board object that contains row objects
+ * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
 public class Board {
 

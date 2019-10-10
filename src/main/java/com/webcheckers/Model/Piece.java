@@ -1,5 +1,8 @@
 package com.webcheckers.Model;
-
+/**
+ * The Piece Object
+ * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
+ */
 public class Piece {
     private String type; // "SINGLE" or "KING"
     // true will be red false will be white(done so that we can easily do this outside of class)

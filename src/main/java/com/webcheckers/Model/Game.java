@@ -2,6 +2,7 @@ package com.webcheckers.Model;
 
 /**
  * The game object
+ * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
 public class Game {
 
