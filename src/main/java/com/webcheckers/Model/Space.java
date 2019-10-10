@@ -3,18 +3,14 @@ package com.webcheckers.Model;
 public class Space {
     private Piece piece;
     //x and y coordinates
-    private int[] cellIdx;
+    private int cellIdx;
     private boolean isValid;
 
-    public Space(boolean v, int[] coords){
-        isValid = v;
-        cellIdx = coords;
-    }
 
     //no need for v since if there is a piece there it must be valid
-    public Space(int[] coords, Piece p){
-        isValid = true;
-        cellIdx = coords;
+    public Space(boolean v, int index, Piece p ){
+        isValid = v;
+        cellIdx = index;
         piece = p;
     }
 
@@ -22,7 +18,7 @@ public class Space {
         return piece;
     }
     
-    public int[] getCell() {
+    public int getCell() {
         return cellIdx;
     }
 
@@ -30,7 +26,7 @@ public class Space {
         return isValid;
     }
 
-    public void moveto(Piece p){
+    public void moveTo(Piece p){
         piece = p;
     }
 

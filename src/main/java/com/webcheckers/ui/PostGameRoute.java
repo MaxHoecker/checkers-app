@@ -21,6 +21,8 @@ public class PostGameRoute implements Route {
     static final String ACTIVE_COLOR_ATTR = "activeColor";
     static final String BOARD_ATTR = "board";
     static final String VIEW_NAME = "game.ftl";
+    static final String VIEW_MODE = "viewMode";
+
 
     //Attributes
     private PlayerLobby lobby;
@@ -55,19 +57,23 @@ public class PostGameRoute implements Route {
             curPlayer.setBoard(board);
             opponent.setBoard(board);
 
+            vm.put(VIEW_MODE, "");
             vm.put(CUR_USER_ATTR, curPlayer);
             vm.put(RED_PLAYER_ATTR, curPlayer);
             vm.put(WHITE_PLAYER_ATTR, opponent);
-            vm.put(ACTIVE_COLOR_ATTR, "red"); //TODO figure out what the "activeColor" attribute is expecting
+            vm.put(ACTIVE_COLOR_ATTR, "red");
+            LOG.info(curPlayer.getBoard().toString());
             vm.put(BOARD_ATTR, curPlayer.getBoard());
             //TODO fill out vm stuff, render game page
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
+            vm.put(VIEW_MODE, "");
             vm.put(CUR_USER_ATTR, curPlayer);
             vm.put(RED_PLAYER_ATTR, curPlayer.getOpponent());
             vm.put(WHITE_PLAYER_ATTR, curPlayer);
-            vm.put(ACTIVE_COLOR_ATTR, "white"); //TODO figure out what the "activeColor" attribute is expecting
+            vm.put(ACTIVE_COLOR_ATTR, "red");
+            LOG.info(curPlayer.getBoard().toString());
             vm.put(BOARD_ATTR, curPlayer.getBoard());
             //TODO fill out vm stuff, render game page
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
