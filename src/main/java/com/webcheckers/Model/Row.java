@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 /**
  * The Row object
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class Row {
 

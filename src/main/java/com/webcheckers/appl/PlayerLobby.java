@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  * The Lobby object that stores all the logged in players
- *
+ *  @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class PlayerLobby {
 
