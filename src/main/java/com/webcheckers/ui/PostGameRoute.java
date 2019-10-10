@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * UI Controller for rendering the game page
+ *
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ */
 public class PostGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostGameRoute.class.getName());
 
@@ -29,11 +34,23 @@ public class PostGameRoute implements Route {
     private PlayerLobby lobby;
     private TemplateEngine templateEngine;
 
+    /**
+     * Construct PostGameRoute
+     * @param lobby WebServer's PlayerLobby instance
+     * @param templateEngine WebServer's TemplateEngine instance
+     */
     public PostGameRoute(final PlayerLobby lobby, final TemplateEngine templateEngine){
         this.lobby = lobby;
         this.templateEngine = templateEngine;
     }
 
+    /**
+     * Render the game page for both the player who clicks on another player and the player
+     * that got clicked on
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return a string used by outside code to render the page
+     */
     @Override
     public String handle(Request request, Response response){
         Map<String, Object> vm = new HashMap<>();
