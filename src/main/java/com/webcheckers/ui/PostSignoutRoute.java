@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.PlayerServices;
 import spark.*;
 
 /**
@@ -33,10 +33,10 @@ public class PostSignoutRoute implements Route {
     @Override
     public String handle(Request request, Response response){
         Session session = request.session();
-        Player curPlayer = session.attribute(GetHomeRoute.CUR_PLAYER_ATTR);
-        playerLobby.remPlayer(curPlayer);
-        session.attribute(GetHomeRoute.CUR_PLAYER_ATTR, null);
-        session.attribute(GetHomeRoute.SIGNEDIN, false);
+        PlayerServices playerServices = session.attribute("playerServices");
+        playerLobby.remPlayer(playerServices.curPlayerName());
+        playerServices.setCurPlayer(null);
+        playerServices.setSignedIn(false);
         response.redirect(WebServer.HOME_URL);
         return null;
     }

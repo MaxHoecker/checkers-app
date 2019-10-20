@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.PlayerServices;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -20,8 +20,6 @@ public class PostSigninRoute implements Route {
     static final String USERNAME_PARAM = "signinField";
 
 
-    static final String INVALID_NAME_MSG = "Name missing an alphanumeric character. Please enter another name.";
-    static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
 
 
     //Attributes
@@ -50,23 +48,17 @@ public class PostSigninRoute implements Route {
 
         Map<String, Object> vm = new HashMap<>();
         Session curSession = request.session();
+        PlayerServices playerServices = curSession.attribute("playerServices");
 
         vm.put("title", GetSigninRoute.TITLE);
         vm.put("page", WebServer.SIGNIN_URL);
 
         String username = request.queryParams(USERNAME_PARAM);
-        Player currentPlayer = new Player(username);
-        if(!username.matches(".*\\w+.*")){ // <- regex: at least 1 alphanumeric char with any # of chars before and after
-            vm.put("message", Message.error(INVALID_NAME_MSG));
-            return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
-        }
-        else if(!playerLobby.addPlayer(username, currentPlayer)) {
-            vm.put("message", Message.error(NAME_TAKEN_MSG));
+        String result = playerServices.setCurPlayer(username);
+        if(result != null){
+            vm.put("message", Message.error(result));
             return templateEngine.render(new ModelAndView(vm, GetSigninRoute.VIEW_NAME));
         }else{
-            curSession.attribute(GetHomeRoute.SIGNEDIN, Boolean.TRUE);
-            curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR, currentPlayer);
-
             response.redirect(WebServer.HOME_URL);
             return null;
         }
