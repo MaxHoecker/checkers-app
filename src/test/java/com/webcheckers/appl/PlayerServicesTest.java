@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +17,7 @@ public class PlayerServicesTest {
     private PlayerServices CuT;
 
     private PlayerLobby playerLobby;
-    private String VALID = "username";
+    private String VALID = "h";
     private String VALID2 = "username1";
     private String INVALID1 = ";";
     private String INVALID2 = "\"David\"";
@@ -43,6 +44,7 @@ public class PlayerServicesTest {
 
     @Test
     public void test_initialize_player_valid_name(){
+        when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
         assertNull(CuT.curPlayer());
 
         CuT.setCurPlayer(VALID);
@@ -86,7 +88,9 @@ public class PlayerServicesTest {
 
     @Test
     public void test_nullify_player(){
+        when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
         Player opponent = null;
+        CuT.setCurPlayer(VALID);
         assertNotNull(CuT.curPlayer());
         if(CuT.curPlayer().getOpponent() != null){
             opponent = CuT.curPlayer().getOpponent();
@@ -94,13 +98,17 @@ public class PlayerServicesTest {
 
         CuT.setCurPlayer(null);
 
-        assertNull(opponent.getOpponent());
+        if(opponent != null) {
+            assertNull(opponent.getOpponent());
+        }
         assertNull(CuT.curPlayer());
     }
 
     @Test
     public void test_set_up_game_opponent_not_in_game(){
         when(playerLobby.getPlayer(VALID2)).thenReturn(opponentNotInGame);
+        when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
+        CuT.setCurPlayer(VALID);
         assertNull(CuT.curPlayer().getBoard());
         assertNull(CuT.curPlayer().getColor());
 
@@ -118,6 +126,8 @@ public class PlayerServicesTest {
     @Test
     public void test_set_up_game_opponent_in_game(){
         when(playerLobby.getPlayer(VALID2)).thenReturn(opponentInGame);
+        when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
+        CuT.setCurPlayer(VALID);
         assertNull(CuT.curPlayer().getBoard());
         assertNull(CuT.curPlayer().getColor());
         assertNull(CuT.curPlayer().getOpponent());
