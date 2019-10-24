@@ -22,17 +22,18 @@ public class PlayerTest {
     @Test
     public void Constructor_Test(){
         assertNull(CuT.getBoard());
-        assertNull(CuT.getClass());
+        assertNull(CuT.getOpponent());
         assertNull(CuT.getColor());
         assertNotNull(CuT.getName());
     }
-     @Test
+
+    @Test
     public void Functions_test(){
-        CuT.setBoard(mock(Board.class));
-        CuT.setColor(mock(Color.class));
-        CuT.setOpponent(mock(Player.class));
+        CuT.setBoard(new Board());
+        CuT.setColor(Color.RED);
+        CuT.setOpponent(new Player("Josh"));
         assertNotNull(CuT.getBoard());
-        assertNotNull(CuT.getClass());
+        assertNotNull(CuT.getOpponent());
         assertNotNull(CuT.getColor());
         assertNotNull(CuT.getName());
     }
