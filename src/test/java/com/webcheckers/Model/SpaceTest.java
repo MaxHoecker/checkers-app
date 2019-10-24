@@ -45,7 +45,7 @@ public class SpaceTest {
     @Test
     public void test_correct_Idx(){
         CuT = new Space(false, VALIDID1, null);
-        assertEquals(1, CuT.getCellIdx());
+        assertEquals(0, CuT.getCellIdx());
 
         CuT = new Space(false, VALIDID2, null);
         assertEquals(7, CuT.getCellIdx());
@@ -73,13 +73,4 @@ public class SpaceTest {
 
         assertNull(CuT.getOccupant());
     }
-
-    //test to make sure that when constructed its getters don't return null and don't
-    /**
-     * getOccupant
-     * isValid
-     * getCellIdx
-     * moveTo
-     * removeOccupant
-     */
 }

@@ -43,19 +43,6 @@ public class Space {
 
     /**
      * 
-     * @param flip 
-     * @return cellIdx
-     */
-    public int getCellIdx(boolean flip)
-    {
-        if(flip){
-            return 8-cellIdx;
-        }
-        return cellIdx;
-    }
-
-    /**
-     * 
      * @return CellIdx
      */
     public int getCellIdx()
@@ -71,7 +58,6 @@ public class Space {
         if(isValid){
             piece = p;
         }
-
     }
 
     /**
