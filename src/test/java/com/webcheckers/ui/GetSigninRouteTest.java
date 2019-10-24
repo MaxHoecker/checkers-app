@@ -60,7 +60,6 @@ public class GetSigninRouteTest {
         testHelper.assertViewModelAttribute("page", WebServer.SIGNIN_URL);
 
         testHelper.assertViewName(GetSigninRoute.VIEW_NAME);
-
     }
 
     @Test
