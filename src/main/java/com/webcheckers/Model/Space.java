@@ -10,14 +10,14 @@ public class Space {
     
     /**
     * 
-    * @param v assigns is valid
+    * @param isValid assigns is valid
     * @param index index for the space
-    * @param p peice on the space
+    * @param piece peice on the space
     */
-    public Space(boolean v, int index, Piece p ){
-        isValid = v;
+    public Space(boolean isValid, int index, Piece piece ){
+        this.isValid = isValid;
         cellIdx = index;
-        piece = p;
+        this.piece = piece;
     }
 
     /**
@@ -68,7 +68,10 @@ public class Space {
      * @param p peice being moved onto square
      */
     public void moveTo(Piece p){
-        piece = p;
+        if(isValid){
+            piece = p;
+        }
+
     }
 
     /**
