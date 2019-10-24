@@ -54,7 +54,7 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
+![The WebCheckers Domain com.webcheckers.Model](domain-model-placeholder.png)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
@@ -77,7 +77,7 @@ some minimal CSS for styling the page.  There is also some JavaScript
 that has been provided to the team by the architect.
 
 The server-side tiers include the UI Tier that is composed of UI Controllers and Views.
-Controllers are built using the Spark framework and View are built using the FreeMarker framework.  The Application and Model tiers are built using plain-old Java objects (POJOs).
+Controllers are built using the Spark framework and View are built using the FreeMarker framework.  The Application and com.webcheckers.Model tiers are built using plain-old Java objects (POJOs).
 
 Details of the components within these tiers are supplied below.
 
@@ -123,7 +123,7 @@ with the WebCheckers application.
 > Tier above._
 
 
-### Model Tier
+### com.webcheckers.Model Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._

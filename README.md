@@ -49,7 +49,7 @@ To run tests on a single tier do this:
 To run tests on all the tiers in isolation do this:
 
 1. Execute `mvn exec:exec@tests-and-coverage`
-2. To view the Model tier tests open in your browser the file at `PROJECT_HOME/target/site/jacoco/model/index.html`
+2. To view the com.webcheckers.Model tier tests open in your browser the file at `PROJECT_HOME/target/site/jacoco/model/index.html`
 3. To view the Application tier tests open in your browser the file at `PROJECT_HOME/target/site/jacoco/appl/index.html`
 4. To view the UI tier tests open in your browser the file at `PROJECT_HOME/target/site/jacoco/ui/index.html`
 

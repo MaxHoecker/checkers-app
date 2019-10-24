@@ -1,13 +1,12 @@
-package Model;
+package com.webcheckers.Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import com.webcheckers.Model.Piece;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("Model tier")
+@Tag("com.webcheckers.Model tier")
 public class PieceTest {
 
     private static final String W = "W";
