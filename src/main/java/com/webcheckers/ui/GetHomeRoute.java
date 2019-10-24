@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.Model.Player;
+import com.webcheckers.appl.PlayerServices;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -31,8 +31,9 @@ public class GetHomeRoute implements Route {
   static final String NUM_PLAYERS_ATTR = "numPlayers";
   static final String IS_SIGNED_IN = "isSignedIn";
 
+  static final String PLAYER_SERVICE_ATTR = "playerServices";
 
-  static final String SIGNEDIN = "signedIn";
+
 
   static final String VIEW_NAME = "home.ftl";
 
@@ -66,6 +67,12 @@ public class GetHomeRoute implements Route {
     //
     Map<String, Object> vm = new HashMap<>();
     Session curSession = request.session();
+
+    if(curSession.attribute(PLAYER_SERVICE_ATTR) == null){
+      curSession.attribute(PLAYER_SERVICE_ATTR, new PlayerServices(playerLobby));
+    }
+    PlayerServices playerServices = curSession.attribute(PLAYER_SERVICE_ATTR);
+
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
@@ -76,31 +83,30 @@ public class GetHomeRoute implements Route {
 
     vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
 
-    if(curSession.attribute(SIGNEDIN) == null){
+    if(playerServices.signedIn() == null) {
       vm.put(IS_SIGNED_IN, false);
-      curSession.attribute(SIGNEDIN, Boolean.FALSE);
-      return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
-    }else if(!(Boolean)curSession.attribute(SIGNEDIN)){
+      playerServices.setSignedIn(false);
+      return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+    }else if(!playerServices.signedIn()){
       vm.put(IS_SIGNED_IN, false);
       vm.put("message", Message.info("Sign-out Successful!"));
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
     else{
-      Player curPlayer = curSession.attribute(CUR_PLAYER_ATTR);
-      if(curPlayer.getColor() != null){ //handles player getting clicked on by another player
+      if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
         return null;
       }
       vm.put(IS_SIGNED_IN, true);
       if(playerLobby.getNumPlayers() > 1){
         Set<String> x = playerLobby.getPlayersString();
-        x.remove(curPlayer.getName());
+        x.remove(playerServices.curPlayerName());
         vm.put(PLAYER_LIST_ATTR, x);
       }
       else{
         vm.put(PLAYER_LIST_ATTR, Message.info("no players yet!"));
       }
-      vm.put(CUR_PLAYER_ATTR, curPlayer);
+      vm.put(CUR_PLAYER_ATTR, playerServices.curPlayer());
 
       vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));

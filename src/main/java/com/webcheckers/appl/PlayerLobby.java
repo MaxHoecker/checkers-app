@@ -58,7 +58,7 @@ public class PlayerLobby {
      * @param s the player's username
      * @return the player object associated with the username string
      */
-    public synchronized Player getCurrentPlayer(String s){
+    public synchronized Player getPlayer(String s){
         return players.get(s);
     }
 
@@ -81,17 +81,17 @@ public class PlayerLobby {
 
     /**
      * removes a player from the lobby
-     * @param x the player to be removed
+     * @param x the name of the player to be removed
      */
-    public synchronized void remPlayer(Player x){
+    public synchronized void remPlayer(String x){
         if(numPlayers > 0){
             numPlayers--;
-            players.remove(x.getName());
-        }
-        else{
-            System.out.println("error! No players to remove");
+            players.remove(x);
+        }else{
+            System.err.println("No players in map to remove!");
         }
     }
+
 
     /**
      * determines if a player exists in a lobby

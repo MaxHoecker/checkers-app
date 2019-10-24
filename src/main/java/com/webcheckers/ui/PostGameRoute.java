@@ -1,8 +1,7 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.Model.Board;
-import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.PlayerServices;
 import spark.*;
 
 import java.util.HashMap;
@@ -56,44 +55,37 @@ public class PostGameRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         Session curSession = request.session();
 
-        Player curPlayer = curSession.attribute(GetHomeRoute.CUR_PLAYER_ATTR);
+        PlayerServices playerServices = curSession.attribute("playerServices");
+
         vm.put("title", "Game Page");
 
-        if(curPlayer.getColor() == null) { // case where curPlayer is the one who clicked
+        if(playerServices.curPlayerColor() == null){ // case where curPlayer is the one who clicked
             String opponentId = request.queryParams(OPPONENT_PARAM);
-            Player opponent = lobby.getCurrentPlayer(opponentId);
-            LOG.info(curPlayer.getName() + " clicked on " + opponentId);
-            if(opponent.getColor() != null){ //clicked on opponent is in a game
+            LOG.info(playerServices.curPlayerName() + " clicked on " + opponentId);
+
+            if(!playerServices.setUpGame(opponentId)){
+                System.err.println(opponentId + " is in a game.");
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }
-            opponent.setColor(Player.Color.WHITE);
-            curPlayer.setColor(Player.Color.RED);
-            curPlayer.setOpponent(opponent);
-            opponent.setOpponent(curPlayer);
-            Board board = new Board();
-            curPlayer.setBoard(board);
-            opponent.setBoard(board);
 
             vm.put(VIEW_MODE, "PLAY");
-            vm.put(CUR_USER_ATTR, curPlayer);
-            vm.put(RED_PLAYER_ATTR, curPlayer);
-            vm.put(WHITE_PLAYER_ATTR, opponent);
+            vm.put(CUR_USER_ATTR, playerServices.curPlayer());
+            vm.put(RED_PLAYER_ATTR, playerServices.curPlayer());
+            vm.put(WHITE_PLAYER_ATTR, playerServices.opponent());
             vm.put(ACTIVE_COLOR_ATTR, "RED");
-            LOG.info(curPlayer.getBoard().toString());
-            vm.put(BOARD_ATTR, curPlayer.getBoard());
-            //TODO fill out vm stuff, render game page
+            LOG.info(playerServices.gameBoard().toString());
+            vm.put(BOARD_ATTR, playerServices.gameBoard());
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
             vm.put(VIEW_MODE, "PLAY");
-            vm.put(CUR_USER_ATTR, curPlayer);
-            vm.put(RED_PLAYER_ATTR, curPlayer.getOpponent());
-            vm.put(WHITE_PLAYER_ATTR, curPlayer);
+            vm.put(CUR_USER_ATTR, playerServices.curPlayer());
+            vm.put(RED_PLAYER_ATTR, playerServices.opponent());
+            vm.put(WHITE_PLAYER_ATTR, playerServices.curPlayer());
             vm.put(ACTIVE_COLOR_ATTR, "RED");
-            LOG.info(curPlayer.getBoard().toString());
-            vm.put(BOARD_ATTR, curPlayer.getBoard());
-            //TODO fill out vm stuff, render game page
+            LOG.info(playerServices.gameBoard().toString());
+            vm.put(BOARD_ATTR, playerServices.gameBoard());
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
         }
     }
