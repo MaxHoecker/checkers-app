@@ -37,7 +37,6 @@ public class GetHomeRouteTest {
     private String CUR_PLAYER_ATTR = GetHomeRoute.CUR_PLAYER_ATTR;
     private String NUM_PLAYERS_ATTR = GetHomeRoute.NUM_PLAYERS_ATTR;
     private String IS_SIGNED_IN = GetHomeRoute.IS_SIGNED_IN;
-    private String SIGNEDIN = GetHomeRoute.SIGNEDIN;
 
 
     @BeforeEach
