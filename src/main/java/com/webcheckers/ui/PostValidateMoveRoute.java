@@ -34,8 +34,10 @@ public class PostValidateMoveRoute implements Route {
         JsonObject obj = new JsonParser().parse(param).getAsJsonObject();
         int row = obj.getAsJsonObject("start").get("row").getAsInt();
         System.err.println("row: "+ row);
+        Position start = new Position(obj.getAsJsonObject("start").get("row").getAsInt(), obj.getAsJsonObject("start").get("cell").getAsInt());
+        Position end = new Position(obj.getAsJsonObject("end").get("row").getAsInt(), obj.getAsJsonObject("end").get("cell").getAsInt());
          */
-        response.body("ERROR");
-        return null;
+        response.type("application/json");
+        return param;
     }
 }

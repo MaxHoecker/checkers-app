@@ -62,6 +62,7 @@ public class PostGameRoute implements Route {
         if(playerServices.curPlayerColor() == null){ // case where curPlayer is the one who clicked
             String opponentId = request.queryParams(OPPONENT_PARAM);
             LOG.info(playerServices.curPlayerName() + " clicked on " + opponentId);
+            LOG.info(request.queryParams().toString());
 
             if(!playerServices.setUpGame(opponentId)){
                 System.err.println(opponentId + " is in a game.");
