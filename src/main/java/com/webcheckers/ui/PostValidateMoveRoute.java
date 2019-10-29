@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.webcheckers.Model.Move;
 import com.webcheckers.Model.Position;
+import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -28,16 +29,19 @@ public class PostValidateMoveRoute implements Route {
         System.err.println(param);
         Move move = gson.fromJson(param, Move.class);
         System.err.println("move: " + move.toString());
-        /* We can get individual json elements this way as well
-            we aren't since gson is already injected, making testing easier.
 
-        JsonObject obj = new JsonParser().parse(param).getAsJsonObject();
-        int row = obj.getAsJsonObject("start").get("row").getAsInt();
-        System.err.println("row: "+ row);
-        Position start = new Position(obj.getAsJsonObject("start").get("row").getAsInt(), obj.getAsJsonObject("start").get("cell").getAsInt());
-        Position end = new Position(obj.getAsJsonObject("end").get("row").getAsInt(), obj.getAsJsonObject("end").get("cell").getAsInt());
-         */
-        response.type("application/json");
-        return param;
+
+        boolean x = true;
+        //x == true if valid
+        //x == false if not
+        if(x)
+        {
+            return gson.toJson( new Message("Valid Move", Message.Type.INFO));
+        }
+        else
+        {
+            //ToDo include why it's invalid
+            return gson.toJson(new Message("Invalid Move", Message.Type.ERROR));
+        }
     }
 }
