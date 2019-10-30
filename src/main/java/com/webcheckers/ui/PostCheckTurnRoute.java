@@ -1,25 +1,21 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.webcheckers.Model.Move;
-import com.webcheckers.Model.Position;
+import com.webcheckers.appl.PlayerServices;
 import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
-import spark.Route;
+import spark.Session;
 
-public class PostValidateMoveRoute implements Route {
-
+public class PostCheckTurnRoute {
     //constants
     static final String ACTION_DATA_PARAM = "actionData";
 
     //attributes
     private Gson gson;
 
-    public PostValidateMoveRoute(final Gson gson){
+    public PostCheckTurnRoute(final Gson gson){
         this.gson = gson;
     }
 
@@ -29,18 +25,24 @@ public class PostValidateMoveRoute implements Route {
         System.err.println(param);
         Move move = gson.fromJson(param, Move.class);
         System.err.println("move: " + move.toString());
+        Session curSession = request.session();
+        PlayerServices name = curSession.attribute("playerServices");
 
         boolean x = true;
         //x == true if valid
         //x == false if not
+
+        if(! name.curPlayer().isMyTurn()){
+            x = false;
+        }
+
         if(x)
         {
-            return gson.toJson( Message.info("Valid Move"));
+            return gson.toJson( Message.info("true"));
         }
         else
         {
-            //ToDo include why it's invalid
-            return gson.toJson(Message.error("Invalid Move"));
+            return gson.toJson(Message.info("false"));
         }
     }
 }
