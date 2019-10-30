@@ -14,6 +14,12 @@ public class Game {
     private Player white;
     private Board board;
     private int gameID;
+    private Enum currentPlayer;
+
+    /**
+     * Enum used to assign a color to a player
+     */
+    public enum Color {RED, WHITE}
 
 
     /**
@@ -27,6 +33,7 @@ public class Game {
         gameID = gameNum;
         board = new Board();
         gameNum++;
+        currentPlayer = Color.RED;
     }
 
     /**
@@ -44,6 +51,14 @@ public class Game {
 
     public Player getPlayer(Player.Color color){
         if(color == Player.Color.WHITE){
+            return white;
+        }else{
+            return red;
+        }
+    }
+
+    public Player getCurrentPlayer(){
+        if(currentPlayer == Player.Color.WHITE){
             return white;
         }else{
             return red;
@@ -68,6 +83,10 @@ public class Game {
         }else{
             System.err.println("Invalid Color");
         }
+    }
+
+    public void setCurrentPlayer(Player.Color color){
+        currentPlayer = color;
     }
 
 }
