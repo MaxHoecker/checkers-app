@@ -8,6 +8,7 @@ public class PlayerServices {
     private Player curPlayer = null; //represents this session's player
     private Boolean signedIn = null;
     private PlayerLobby playerLobby;
+    private String viewMode = null;
 
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
@@ -75,6 +76,22 @@ public class PlayerServices {
      */
     public Color curPlayerColor(){
         return curPlayer.getColor();
+    }
+
+    public void setViewMode(String s){
+        this.viewMode = s;
+    }
+
+    public String getViewMode(){
+        return this.viewMode;
+    }
+
+    public Player whitePlayer(){
+        return curPlayer.game().getPlayer(Color.WHITE);
+    }
+
+    public Player redPlayer(){
+        return curPlayer.game().getPlayer(Color.RED);
     }
 
     /**

@@ -70,7 +70,8 @@ public class PostGameRoute implements Route {
                 return null;
             }
 
-            vm.put(VIEW_MODE, "PLAY");
+            playerServices.setViewMode("PLAY");
+            vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.curPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.opponent());
@@ -80,7 +81,8 @@ public class PostGameRoute implements Route {
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
-            vm.put(VIEW_MODE, "PLAY");
+            playerServices.setViewMode("PLAY");
+            vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.opponent());
             vm.put(WHITE_PLAYER_ATTR, playerServices.curPlayer());
