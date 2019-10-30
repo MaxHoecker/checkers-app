@@ -11,10 +11,6 @@ public class Player {
     private Color color;
     private Game game;
 
-    /**
-     * Enum used to assign a color to a player
-     */
-    public enum Color {RED, WHITE}
 
     /**
      * Construct a player object. All attributes apart from name are null until
@@ -54,6 +50,15 @@ public class Player {
      */
     public Color getColor(){
         return color;
+    }
+
+
+
+    public boolean isMyTurn(){
+        if(game.getCurrentPlayerColor() == color){
+            return true;
+        }
+        return false;
     }
 
 

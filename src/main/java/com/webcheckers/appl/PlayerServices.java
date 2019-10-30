@@ -1,9 +1,6 @@
 package com.webcheckers.appl;
 
-import com.webcheckers.Model.Board;
-import com.webcheckers.Model.Game;
-import com.webcheckers.Model.Move;
-import com.webcheckers.Model.Player;
+import com.webcheckers.Model.*;
 
 public class PlayerServices {
 
@@ -76,7 +73,7 @@ public class PlayerServices {
      * Get the color checker the current user is using
      * @return Color enum
      */
-    public Player.Color curPlayerColor(){
+    public Color curPlayerColor(){
         return curPlayer.getColor();
     }
 
@@ -126,8 +123,8 @@ public class PlayerServices {
         if(op.getColor() != null){
             return false;
         }else{
-            op.setColor(Player.Color.WHITE);
-            curPlayer.setColor(Player.Color.RED);
+            op.setColor(Color.WHITE);
+            curPlayer.setColor(Color.RED);
             Game game = new Game(curPlayer, op);
             op.setGame(game);
             curPlayer.setGame(game);
