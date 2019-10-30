@@ -34,6 +34,14 @@ public class Board {
         }
     }
 
+    public synchronized Space getAtPosition(Position pos){
+        return getAtPosition(pos.getRow(), pos.getCell());
+    }
+
+    public synchronized Space getAtPosition(int row, int col){
+        return rows.get(row).getSpace(col);
+    }
+
     /**
      *
      * @return an iterable collection for the game.ftl file to use

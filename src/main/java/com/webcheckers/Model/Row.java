@@ -8,7 +8,7 @@ import java.util.Iterator;
  */
 public class Row {
 
-    public int index;
+    private int index;
     private ArrayList<Space> spaces = new ArrayList<>();
 
     // constructor for row
@@ -58,6 +58,11 @@ public class Row {
      */
     public int getIndex(){
         return index;
+    }
+
+
+    public void setIndex(int cell, Space space){
+        spaces.set(cell, space);
     }
 
     /**

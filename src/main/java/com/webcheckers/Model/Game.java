@@ -89,4 +89,11 @@ public class Game {
         currentPlayer = color;
     }
 
+    public synchronized void makeMove(Move move){
+        Space toMoveFrom = board.getAtPosition(move.start);
+        Piece toMove = toMoveFrom.removeOccupant();
+        Space toMoveTo = board.getAtPosition(move.end);
+        toMoveTo.setOccupant(toMove);
+    }
+
 }
