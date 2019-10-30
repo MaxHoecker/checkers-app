@@ -1,6 +1,7 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.Model.Board;
+import com.webcheckers.Model.Game;
 import com.webcheckers.Model.Player;
 
 public class PlayerServices {
@@ -51,7 +52,7 @@ public class PlayerServices {
      * @return Player instance
      */
     public Player opponent(){
-        return curPlayer.getOpponent();
+        return curPlayer.game().getOpponent(curPlayer);
     }
 
     /**
@@ -59,7 +60,7 @@ public class PlayerServices {
      * @return Board instance
      */
     public Board gameBoard(){
-        return curPlayer.getBoard();
+        return curPlayer.game().getBoard();
     }
 
     /**
@@ -90,8 +91,8 @@ public class PlayerServices {
      */
     public String setCurPlayer(String username){
         if(username == null){
-            if(curPlayer.getOpponent() != null) {
-                curPlayer.getOpponent().setOpponent(null);
+            if(curPlayer.game() != null) {
+                curPlayer.game().setPlayer(curPlayer.getColor(), null);
             }
             curPlayer = null;
             return null;
@@ -124,6 +125,7 @@ public class PlayerServices {
         if(op.getColor() != null){
             return false;
         }else{
+            /*
             op.setColor(Player.Color.WHITE);
             curPlayer.setOpponent(op);
             curPlayer.setColor(Player.Color.RED);
@@ -131,6 +133,13 @@ public class PlayerServices {
             Board board = new Board();
             curPlayer.setBoard(board);
             op.setBoard(board);
+            return true;
+            */
+            op.setColor(Player.Color.WHITE);
+            curPlayer.setColor(Player.Color.RED);
+            Game game = new Game(curPlayer, op);
+            op.setGame(game);
+            curPlayer.setGame(game);
             return true;
         }
     }

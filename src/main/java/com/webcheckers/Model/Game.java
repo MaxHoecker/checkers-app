@@ -12,18 +12,20 @@ public class Game {
     private static int gameNum = 0;
     private Player red;
     private Player white;
+    private Board board;
     private int gameID;
 
 
     /**
      * constructor for game object
-     * @param one, first player
-     * @param two, second player
+     * @param red, first player
+     * @param white, second player
      */
-    public Game(Player one, Player two){
-        red = one;
-        white = two;
+    public Game(Player red, Player white){
+        this.red = red;
+        this.white = white;
         gameID = gameNum;
+        board = new Board();
         gameNum++;
     }
 
@@ -34,18 +36,38 @@ public class Game {
         return gameID;
     }
 
-    /**
-     * @return the red
-     */
-    public Player getRed() {
-        return red;
+
+    public Board getBoard(){
+        return board;
     }
-    
-    /**
-     * @return the white
-     */
-    public Player getWhite() {
-        return white;
+
+
+    public Player getPlayer(Player.Color color){
+        if(color == Player.Color.WHITE){
+            return white;
+        }else{
+            return red;
+        }
+    }
+
+    public Player getOpponent(Player player){
+        if(player.getColor() == Player.Color.WHITE){
+            return red;
+        }else if(player.getColor() == Player.Color.RED){
+            return white;
+        }
+        return null;
+    }
+
+
+    public void setPlayer(Player.Color color, Player player){
+        if(color == Player.Color.RED){
+            this.red = player;
+        }else if(color == Player.Color.WHITE){
+            this.white = player;
+        }else{
+            System.err.println("Invalid Color");
+        }
     }
 
 }
