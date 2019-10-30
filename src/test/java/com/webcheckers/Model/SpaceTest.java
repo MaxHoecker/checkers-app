@@ -31,13 +31,13 @@ public class SpaceTest {
         CuT = new Space(false, 0, null);
         assertFalse(CuT.isValid());
         assertNull(CuT.getOccupant());
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
         assertNull(CuT.getOccupant());
 
         CuT = new Space(true, 0, null);
         assertTrue(CuT.isValid());
         assertNull(CuT.getOccupant());
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
         assertNotNull(CuT.getOccupant());
 
     }
@@ -58,7 +58,7 @@ public class SpaceTest {
         CuT = new Space(true, 0, null);
         assertNull(CuT.getOccupant());
 
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
 
         assertNotNull(CuT.getOccupant());
 

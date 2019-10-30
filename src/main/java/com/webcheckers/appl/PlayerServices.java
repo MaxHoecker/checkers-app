@@ -2,6 +2,7 @@ package com.webcheckers.appl;
 
 import com.webcheckers.Model.Board;
 import com.webcheckers.Model.Game;
+import com.webcheckers.Model.Move;
 import com.webcheckers.Model.Player;
 
 public class PlayerServices {
@@ -125,16 +126,6 @@ public class PlayerServices {
         if(op.getColor() != null){
             return false;
         }else{
-            /*
-            op.setColor(Player.Color.WHITE);
-            curPlayer.setOpponent(op);
-            curPlayer.setColor(Player.Color.RED);
-            op.setOpponent(curPlayer);
-            Board board = new Board();
-            curPlayer.setBoard(board);
-            op.setBoard(board);
-            return true;
-            */
             op.setColor(Player.Color.WHITE);
             curPlayer.setColor(Player.Color.RED);
             Game game = new Game(curPlayer, op);
@@ -142,5 +133,14 @@ public class PlayerServices {
             curPlayer.setGame(game);
             return true;
         }
+    }
+
+    /**
+     * Alter the board that is shown to curPlayer and their opponent
+     * @pre move has already been validated by PostValidateMoveRoute
+     * @param move the start and end positions of the piece to be moved
+     */
+    public synchronized void makeMove(Move move){
+        curPlayer.game().makeMove(move);
     }
 }

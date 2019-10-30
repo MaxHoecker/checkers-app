@@ -67,7 +67,7 @@ public class Space {
      * 
      * @param p peice being moved onto square
      */
-    public void moveTo(Piece p){
+    public void setOccupant(Piece p){
         if(isValid){
             piece = p;
         }
