@@ -8,19 +8,22 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-public class PostSubmitTurnRoute implements Route {
+
+public class PostBackupMoveRoute implements Route {
 
     private Gson gson;
 
-    public PostSubmitTurnRoute(Gson gson){
+    public PostBackupMoveRoute(final Gson gson){
         this.gson = gson;
     }
-    @Override
+
+
     public String handle(Request request, Response response){
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
 
-        playerServices.makeMove(playerServices.getcurMove());
+        playerServices.setCurMove(null);
+
         return gson.toJson(Message.info(""));
     }
 }

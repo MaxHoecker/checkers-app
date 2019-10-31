@@ -1,9 +1,6 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.webcheckers.Model.Board;
 import com.webcheckers.Model.Move;
 import com.webcheckers.Model.Position;
@@ -36,8 +33,8 @@ public class PostValidateMoveRoute implements Route {
         Move move = gson.fromJson(param, Move.class);
         System.err.println("move: " + move.toString());
         Session curSession = request.session();
-        PlayerServices name = curSession.attribute("playerServices");
-        Board game = name.gameBoard();
+        PlayerServices playerServices = curSession.attribute("playerServices");
+        Board game = playerServices.gameBoard();
         Space start = game.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
         Space end = game.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
         boolean validMove = true;
@@ -69,11 +66,11 @@ public class PostValidateMoveRoute implements Route {
                     return gson.toJson(Message.info("Valid Move"));
                 }
                 else{
-                    return gson.toJson(Message.error("Invalid move:Jumped piece is wrong color or non-existant"));  
+                    return gson.toJson(Message.error("Invalid move:Jumped piece is wrong color or non-existant"));
                 }
             }
             else{
-                return gson.toJson(Message.error("Invalid Move: Invalid distance"));  
+                return gson.toJson(Message.error("Invalid Move: Invalid distance"));
             }
             */
             return gson.toJson(Message.info("Valid Move"));

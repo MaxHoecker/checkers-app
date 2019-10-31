@@ -9,6 +9,7 @@ public class PlayerServices {
     private Boolean signedIn = null;
     private PlayerLobby playerLobby;
     private String viewMode = null;
+    private Move curMove = null;
 
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
@@ -36,6 +37,14 @@ public class PlayerServices {
      */
     public void setSignedIn(Boolean signedIn){
         this.signedIn = signedIn;
+    }
+
+    public void setCurMove(Move move){
+        this.curMove = move;
+    }
+
+    public Move getcurMove(){
+        return curMove;
     }
 
     /**

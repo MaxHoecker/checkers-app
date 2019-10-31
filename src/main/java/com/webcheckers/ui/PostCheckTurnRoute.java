@@ -19,17 +19,16 @@ public class PostCheckTurnRoute implements Route {
     public PostCheckTurnRoute(final Gson gson){
         this.gson = gson;
     }
-
+    @Override
     public String handle(Request request, Response response){
-
         Session curSession = request.session();
-        PlayerServices name = curSession.attribute("playerServices");
+        PlayerServices playerServices = curSession.attribute("playerServices");
 
         boolean x = true;
         //x == true if valid
         //x == false if not
 
-        if(! name.curPlayer().isMyTurn()){
+        if(! playerServices.curPlayer().isMyTurn()){
             x = false;
         }
 
