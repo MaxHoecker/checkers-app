@@ -6,9 +6,10 @@ import com.webcheckers.appl.PlayerServices;
 import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
+import spark.Route;
 import spark.Session;
 
-public class PostCheckTurnRoute {
+public class PostCheckTurnRoute implements Route {
     //constants
     static final String ACTION_DATA_PARAM = "actionData";
 
@@ -21,10 +22,6 @@ public class PostCheckTurnRoute {
 
     public String handle(Request request, Response response){
 
-        String param = request.queryParams(ACTION_DATA_PARAM);
-        System.err.println(param);
-        Move move = gson.fromJson(param, Move.class);
-        System.err.println("move: " + move.toString());
         Session curSession = request.session();
         PlayerServices name = curSession.attribute("playerServices");
 

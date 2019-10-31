@@ -1,5 +1,6 @@
 package com.webcheckers.appl;
 
+import com.webcheckers.Model.Color;
 import com.webcheckers.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +33,7 @@ public class PlayerServicesTest {
         player = new Player(VALID);
         opponentNotInGame = new Player(VALID2);
         opponentInGame = new Player(VALID2);
-        opponentInGame.setColor(Player.Color.RED);
+        opponentInGame.setColor(Color.RED);
         playerLobby = mock(PlayerLobby.class);
         CuT = new PlayerServices(playerLobby);
     }

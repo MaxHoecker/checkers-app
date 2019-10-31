@@ -26,9 +26,9 @@ public class PostValidateMoveRoute implements Route {
     public String handle(Request request, Response response){
 
         String param = request.queryParams(ACTION_DATA_PARAM);
-        System.err.println(param);
+
         Move move = gson.fromJson(param, Move.class);
-        System.err.println("move: " + move.toString());
+
 
         boolean x = true;
         //x == true if valid
