@@ -38,8 +38,8 @@ public class PostValidateMoveRoute implements Route {
         Session curSession = request.session();
         PlayerServices name = curSession.attribute("playerServices");
         Board game = name.gameBoard();
-        Space start = game.getAtPosition(move.getStart().getCell(), move.getStart().getRow());
-        Space end = game.getAtPosition(move.getEnd().getCell(), move.getEnd().getRow());
+        Space start = game.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
+        Space end = game.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
         boolean validMove = true;
         if(start.isValid() == false) {
             return gson.toJson(Message.error("Invalid Move:Starting Square is Invalid"));
@@ -57,6 +57,25 @@ public class PostValidateMoveRoute implements Route {
         }
         else
         {
+            /*we should implement method to measure distance between start and end cells(aka valid simple move, invalid move(moving more than one space at a time), or a valid jump)
+            if(start.distance(end)==1){
+                return gson.toJson(Message.info("Valid Move"));
+            }
+            else if(start.distance(end) == 3){
+                int mrow = move.getStart().getRow() + (move.getStart().getRow() - move.getEnd().getRow())/2;
+                int mcell = move.getStart().getCell() + (move.getStart().getCell() - move.getEnd().getCell())/2;
+                Space mid = game.getAtPosition(mrow, mcell);
+                if(mid.getOcuupant() != null && mid.getOccupant().getColor() == name.curPLayer.getColor()){
+                    return gson.toJson(Message.info("Valid Move"));
+                }
+                else{
+                    return gson.toJson(Message.error("Invalid move:Jumped piece is wrong color or non-existant"));  
+                }
+            }
+            else{
+                return gson.toJson(Message.error("Invalid Move: Invalid distance"));  
+            }
+            */
             return gson.toJson(Message.info("Valid Move"));
         }
     }
