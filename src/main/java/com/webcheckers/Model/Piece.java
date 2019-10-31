@@ -6,10 +6,10 @@ package com.webcheckers.Model;
 public class Piece {
     private String type; // "SINGLE" or "KING"
     // true will be red false will be white(done so that we can easily do this outside of class)
-    private String color;
+    private Color color;
 
     // constructor to initialize pieces
-    public Piece(String c){
+    public Piece(Color c){
         color = c;
         type = "SINGLE";
     }
@@ -24,7 +24,7 @@ public class Piece {
     /**
      * @return color
      */
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -38,7 +38,7 @@ public class Piece {
     // modify toString so that it returns R or W depending on color of piece
     @Override
     public String toString() {
-        if (color.equals("RED")){
+        if (color.equals(Color.RED)){
             return"R";
         }
         else{

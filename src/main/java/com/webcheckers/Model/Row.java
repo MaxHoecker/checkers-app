@@ -22,7 +22,7 @@ public class Row {
      * @param color color of the piece
      * adds space with a piece
      */
-    public void addSpacePiece(boolean valid, int index, String color){
+    public void addSpacePiece(boolean valid, int index, Color color){
         Piece piece = new Piece(color);
         Space space = new Space(valid, index, piece);
         spaces.add(space);

@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
@@ -56,13 +57,31 @@ public class PostGameRoute implements Route {
         Session curSession = request.session();
 
         PlayerServices playerServices = curSession.attribute("playerServices");
+        System.err.println("Player:" + playerServices.curPlayer().toString());
 
         vm.put("title", "Game Page");
+
+        if(playerServices.curPlayer().game() != null){
+            vm.put(CUR_USER_ATTR, playerServices.curPlayer());
+            vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
+            vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
+            vm.put(BOARD_ATTR, playerServices.gameBoard());
+            vm.put(VIEW_MODE, "PLAY");
+            if((playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.RED) ||
+                (!playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.WHITE)){
+                vm.put(ACTIVE_COLOR_ATTR, "RED");
+            }else if((playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.WHITE) ||
+                (!playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.RED)){
+                vm.put(ACTIVE_COLOR_ATTR, "WHITE");
+            }
+            return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+        }
 
         if(playerServices.curPlayerColor() == null){ // case where curPlayer is the one who clicked
             String opponentId = request.queryParams(OPPONENT_PARAM);
             LOG.info(playerServices.curPlayerName() + " clicked on " + opponentId);
             LOG.info(request.queryParams().toString());
+
 
             if(!playerServices.setUpGame(opponentId)){
                 System.err.println(opponentId + " is in a game.");

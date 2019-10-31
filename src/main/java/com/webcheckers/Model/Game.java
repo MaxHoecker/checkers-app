@@ -1,5 +1,7 @@
 package com.webcheckers.Model;
 
+import com.webcheckers.appl.PlayerServices;
+
 /**
  * The game object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
@@ -14,7 +16,7 @@ public class Game {
     private Player white;
     private Board board;
     private int gameID;
-    private Enum currentPlayerColor;
+    private Color currentPlayerColor;
 
 
 
@@ -86,10 +88,17 @@ public class Game {
     }
 
     public synchronized void makeMove(Move move){
-        Space toMoveFrom = board.getAtPosition(move.start);
+        Space toMoveFrom = board.getAtPosition(move.getStart());
         Piece toMove = toMoveFrom.removeOccupant();
-        Space toMoveTo = board.getAtPosition(move.end);
+        Space toMoveTo = board.getAtPosition(move.getEnd());
         toMoveTo.setOccupant(toMove);
+        toMoveFrom.setOccupant(null);
+        if(currentPlayerColor == Color.RED){
+            setCurrentPlayerColor(Color.WHITE);
+        }
+        else if(currentPlayerColor==Color.WHITE){
+            setCurrentPlayerColor(Color.RED);
+        }
     }
 
 }

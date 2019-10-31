@@ -52,28 +52,28 @@ public class PostValidateMoveRoute implements Route {
         {
             return gson.toJson(Message.error("Invalid Move:Target position already occupied"));  
         }
-        else
+        else if(move.getDistance()==1)
         {
-            /*we should implement method to measure distance between start and end cells(aka valid simple move, invalid move(moving more than one space at a time), or a valid jump)
-            if(start.distance(end)==1){
+            playerServices.setCurMove(move);
+            return gson.toJson(Message.info("Valid Move"));
+        }
+        else if(move.getDistance() == 2)
+        {
+            int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
+            int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
+            Space mid = game.getAtPosition(mrow, mcell);
+            System.err.println(mrow + " " + mcell + " " + mid.toString());
+            if(mid.getOccupant() != null && mid.getOccupant().getColor() != playerServices.curPlayer().getColor()){
+                playerServices.setCurMove(move);
                 return gson.toJson(Message.info("Valid Move"));
             }
-            else if(start.distance(end) == 3){
-                int mrow = move.getStart().getRow() + (move.getStart().getRow() - move.getEnd().getRow())/2;
-                int mcell = move.getStart().getCell() + (move.getStart().getCell() - move.getEnd().getCell())/2;
-                Space mid = game.getAtPosition(mrow, mcell);
-                if(mid.getOcuupant() != null && mid.getOccupant().getColor() != name.curPLayer.getColor()){
-                    return gson.toJson(Message.info("Valid Move"));
-                }
-                else{
-                    return gson.toJson(Message.error("Invalid move:Jumped piece is wrong color or non-existant"));
-                }
-            }
             else{
-                return gson.toJson(Message.error("Invalid Move: Invalid distance"));
+                return gson.toJson(Message.error("Invalid move:Jumped piece is wrong color or non-existant"));
             }
-            */
-            return gson.toJson(Message.info("Valid Move"));
+        }
+        else
+        {
+            return gson.toJson(Message.error("Invalid Move: Invalid distance"));
         }
     }
 }

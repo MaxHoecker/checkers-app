@@ -21,9 +21,9 @@ public class Board {
             for(int j = 0; j < 8; j++){
                 if((i+j)%2 != 0){
                     if(i <= 2){
-                        rows.get(i).addSpacePiece(true, j, "RED");
+                        rows.get(i).addSpacePiece(true, j, Color.RED);
                     }else if(i >= 5){
-                        rows.get(i).addSpacePiece(true, j, "WHITE");
+                        rows.get(i).addSpacePiece(true, j, Color.WHITE);
                     }else{
                         rows.get(i).addEmptySpace(true, j);
                     }

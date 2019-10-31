@@ -28,7 +28,7 @@ public class PostCheckTurnRoute implements Route {
         //x == true if valid
         //x == false if not
 
-        if(! playerServices.curPlayer().isMyTurn()){
+        if(!playerServices.curPlayer().isMyTurn()){
             x = false;
         }
 
