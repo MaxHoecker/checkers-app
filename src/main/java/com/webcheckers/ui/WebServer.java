@@ -60,6 +60,7 @@ public class WebServer {
   public static final String GAME_URL = "/game";
   public static final String VALIDATE_MOVE_URL = "/validateMove";
   public static final String SUBMIT_TURN_URL = "/submitTurn";
+  public static final String CHECK_TURN_URL = "/checkTurn";
 
   //
   // Attributes
@@ -164,6 +165,7 @@ public class WebServer {
 
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson));
 
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gson));
 
     get(GAME_URL, new GetGameRoute(templateEngine));
     //

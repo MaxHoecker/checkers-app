@@ -28,7 +28,7 @@ public class PostValidateMoveRoute implements Route {
     public PostValidateMoveRoute(final Gson gson){
         this.gson = gson;
     }
-
+    @Override
     public String handle(Request request, Response response){
 
         String param = request.queryParams(ACTION_DATA_PARAM);
@@ -65,7 +65,7 @@ public class PostValidateMoveRoute implements Route {
                 int mrow = move.getStart().getRow() + (move.getStart().getRow() - move.getEnd().getRow())/2;
                 int mcell = move.getStart().getCell() + (move.getStart().getCell() - move.getEnd().getCell())/2;
                 Space mid = game.getAtPosition(mrow, mcell);
-                if(mid.getOcuupant() != null && mid.getOccupant().getColor() == name.curPLayer.getColor()){
+                if(mid.getOcuupant() != null && mid.getOccupant().getColor() != name.curPLayer.getColor()){
                     return gson.toJson(Message.info("Valid Move"));
                 }
                 else{
