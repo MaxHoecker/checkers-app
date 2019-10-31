@@ -21,19 +21,14 @@ public class PostCheckTurnRoute implements Route {
     }
     @Override
     public String handle(Request request, Response response){
-
-        String param = request.queryParams(ACTION_DATA_PARAM);
-        System.err.println(param);
-        Move move = gson.fromJson(param, Move.class);
-        //System.err.println("move: " + move.toString());
         Session curSession = request.session();
-        PlayerServices name = curSession.attribute("playerServices");
+        PlayerServices playerServices = curSession.attribute("playerServices");
 
         boolean x = true;
         //x == true if valid
         //x == false if not
 
-        if(! name.curPlayer().isMyTurn()){
+        if(! playerServices.curPlayer().isMyTurn()){
             x = false;
         }
 
