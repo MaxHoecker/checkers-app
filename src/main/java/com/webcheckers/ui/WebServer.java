@@ -158,9 +158,9 @@ public class WebServer {
 
     post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
 
-    post(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+    post(GAME_URL, new PostGameRoute(gson, templateEngine));
 
-    get(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+    get(GAME_URL, new PostGameRoute(gson, templateEngine));
 
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
 

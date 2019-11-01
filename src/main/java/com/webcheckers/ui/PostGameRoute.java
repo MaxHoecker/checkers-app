@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
@@ -28,20 +29,21 @@ public class PostGameRoute implements Route {
     static final String VIEW_NAME = "game.ftl";
     static final String VIEW_MODE = "viewMode";
 
+    static final String ALL_CAPTURED_MSG = "%s has captured all of the pieces.";
 
 
     //Attributes
-    private PlayerLobby lobby;
+    private Gson gson;
     private TemplateEngine templateEngine;
 
     /**
      * Construct PostGameRoute
-     * @param lobby WebServer's PlayerLobby instance
+     * @param gson WebServer's Gson instance
      * @param templateEngine WebServer's TemplateEngine instance
      */
-    public PostGameRoute(final PlayerLobby lobby, final TemplateEngine templateEngine){
-        this.lobby = lobby;
+    public PostGameRoute(final Gson gson, final TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
+        this.gson = gson;
     }
 
     /**
@@ -61,7 +63,7 @@ public class PostGameRoute implements Route {
 
         vm.put("title", "Game Page");
 
-        if(playerServices.curPlayer().game() != null){
+        if(playerServices.curPlayer().game() != null){ //getting game route
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
@@ -73,6 +75,16 @@ public class PostGameRoute implements Route {
             }else if((playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.WHITE) ||
                 (!playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.RED)){
                 vm.put(ACTIVE_COLOR_ATTR, "WHITE");
+            }
+            Map<String, Object> modeOptions = new HashMap<>(2);
+            if(playerServices.curPlayer().game().numRedPieces() == 0){
+                modeOptions.put("isGameOver", true);
+                modeOptions.put("gameOverMessage", String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName()));
+                vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+            }else if(playerServices.curPlayer().game().numWhitePieces() == 0){
+                modeOptions.put("isGameOver", true);
+                modeOptions.put("gameOVerMessage", String.format(ALL_CAPTURED_MSG, playerServices.redPlayer().getName()));
+                vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
         }

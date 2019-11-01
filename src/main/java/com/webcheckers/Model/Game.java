@@ -18,6 +18,8 @@ public class Game {
     private int gameID;
     private Color currentPlayerColor;
 
+    private int numRedPieces = 12;
+    private int numWhitePieces = 12;
 
 
     /**
@@ -83,6 +85,14 @@ public class Game {
         }
     }
 
+    public int numRedPieces(){
+        return numRedPieces;
+    }
+
+    public int numWhitePieces(){
+        return numWhitePieces;
+    }
+
     public void setCurrentPlayerColor(Color color){
         currentPlayerColor = color;
     }
@@ -96,7 +106,12 @@ public class Game {
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
             Space midPoint = board.getAtPosition(mrow, mcell);
-            midPoint.removeOccupant();
+            Piece removed = midPoint.removeOccupant();
+            if(removed.getColor() == Color.RED){
+                numRedPieces--;
+            }else{
+                numWhitePieces--;
+            }
         }
 
         // change board state
