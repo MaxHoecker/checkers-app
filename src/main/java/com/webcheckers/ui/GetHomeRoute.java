@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import java.util.*;
 import java.util.logging.Logger;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
@@ -24,6 +25,8 @@ public class GetHomeRoute implements Route {
 
   private final PlayerLobby playerLobby;
 
+  private final Gson gson;
+
   static final String TITLE_ATTR = "title";
 
   static final String PLAYER_LIST_ATTR = "playerList";
@@ -43,9 +46,10 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine, final Gson gson) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
+    this.gson = Objects.requireNonNull(gson);
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -69,7 +73,7 @@ public class GetHomeRoute implements Route {
     Session curSession = request.session();
 
     if(curSession.attribute(PLAYER_SERVICE_ATTR) == null){
-      curSession.attribute(PLAYER_SERVICE_ATTR, new PlayerServices(playerLobby));
+      curSession.attribute(PLAYER_SERVICE_ATTR, new PlayerServices(playerLobby, gson));
     }
     PlayerServices playerServices = curSession.attribute(PLAYER_SERVICE_ATTR);
 

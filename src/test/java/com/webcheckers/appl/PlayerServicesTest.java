@@ -1,5 +1,6 @@
 package com.webcheckers.appl;
 
+import com.google.gson.Gson;
 import com.webcheckers.Model.Color;
 import com.webcheckers.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ public class PlayerServicesTest {
     private PlayerServices CuT;
 
     private PlayerLobby playerLobby;
+    private Gson gson = new Gson();
     private String VALID = "h";
     private String VALID2 = "username1";
     private String INVALID1 = ";";
@@ -35,12 +37,12 @@ public class PlayerServicesTest {
         opponentInGame = new Player(VALID2);
         opponentInGame.setColor(Color.RED);
         playerLobby = mock(PlayerLobby.class);
-        CuT = new PlayerServices(playerLobby);
+        CuT = new PlayerServices(playerLobby, gson);
     }
 
     @Test
     public void test_constructor(){
-        new PlayerServices(playerLobby);
+        new PlayerServices(playerLobby, gson);
     }
 
     @Test

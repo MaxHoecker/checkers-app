@@ -1,10 +1,13 @@
 package com.webcheckers.appl;
 
+import com.google.gson.Gson;
 import com.webcheckers.Model.*;
+import com.webcheckers.util.Message;
 
 public class PlayerServices {
 
     //Attributes
+    private Gson gson;
     private Player curPlayer = null; //represents this session's player
     private Boolean signedIn = null;
     private PlayerLobby playerLobby;
@@ -19,8 +22,9 @@ public class PlayerServices {
      * Constructs PlayerServices
      * @param playerLobby server's player lobby
      */
-    public PlayerServices(final PlayerLobby playerLobby){
+    public PlayerServices(final PlayerLobby playerLobby, final Gson gson){
         this.playerLobby = playerLobby;
+        this.gson = gson;
     }
 
     /**
@@ -165,5 +169,50 @@ public class PlayerServices {
      */
     public synchronized void makeMove(Move move){
         curPlayer.game().makeMove(move);
+    }
+
+    public Message validateMove(String moveJson){
+        Move move = gson.fromJson(moveJson, Move.class);
+        Board game = gameBoard();
+        Space start = game.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
+        Space end = game.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
+        boolean validMove = true;
+        if(start.isValid() == false) {
+            return Message.error("Invalid Move:Starting Square is Invalid");
+        }
+        else if(end.isValid() == false) {
+            return Message.error("Invalid Move:Ending Square is Invalid");
+        }
+        else if(start.getOccupant() == null)
+        {
+            return Message.error("Invalid Move:No Piece in Starting Position");
+        }
+        else if(end.getOccupant() != null)
+        {
+            return Message.error("Invalid Move:Target position already occupied");
+        }
+        else if(move.getDistance()==1)
+        {
+            setCurMove(move);
+            return Message.info("Valid Move");
+        }
+        else if(move.getDistance() == 2)
+        {
+            int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
+            int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
+            Space mid = game.getAtPosition(mrow, mcell);
+            System.err.println(mrow + " " + mcell + " " + mid.toString());
+            if(mid.getOccupant() != null && mid.getOccupant().getColor() != curPlayer().getColor()){
+                setCurMove(move);
+                return Message.info("Valid Move");
+            }
+            else{
+                return Message.error("Invalid move:Jumped piece is wrong color or non-existant");
+            }
+        }
+        else
+        {
+            return Message.error("Invalid Move: Invalid distance");
+        }
     }
 }
