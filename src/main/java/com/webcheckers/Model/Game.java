@@ -91,8 +91,20 @@ public class Game {
         Space toMoveFrom = board.getAtPosition(move.getStart());
         Piece toMove = toMoveFrom.removeOccupant();
         Space toMoveTo = board.getAtPosition(move.getEnd());
+
+        if(move.getDistance() == 2){
+            int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
+            int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
+            Space midPoint = board.getAtPosition(mrow, mcell);
+            midPoint.removeOccupant();
+        }
+
+        // change board state
         toMoveTo.setOccupant(toMove);
         toMoveFrom.setOccupant(null);
+
+
+        // swap turns
         if(currentPlayerColor == Color.RED){
             setCurrentPlayerColor(Color.WHITE);
         }

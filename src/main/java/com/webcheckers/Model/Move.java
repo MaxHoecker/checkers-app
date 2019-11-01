@@ -21,8 +21,8 @@ public class Move {
         int yDist = 0;
         int xDist = 0;
         int dist = 0;
-        yDist = Math.abs(yDist = end.getRow() - start.getRow());
-        xDist = Math.abs(xDist = end.getCell() - start.getCell());
+        yDist = Math.abs( end.getRow() - start.getRow());
+        xDist = Math.abs( end.getCell() - start.getCell());
 
         if(xDist != yDist){
             dist = 0;
