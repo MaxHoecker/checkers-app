@@ -4,20 +4,20 @@ package com.webcheckers.Model;
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
 public class Piece {
-    private String type; // "SINGLE" or "KING"
+    private PieceType type;
     // true will be red false will be white(done so that we can easily do this outside of class)
     private Color color;
 
     // constructor to initialize pieces
     public Piece(Color c){
         color = c;
-        type = "SINGLE";
+        type = PieceType.SINGLE;
     }
 
     /**
      * @return type
      */
-    public String getType() {
+    public PieceType getType() {
         return type;
     }
 
@@ -32,7 +32,7 @@ public class Piece {
      * reassign type to king
      */
     public void kingMe(){
-        type = "KING";
+        type = PieceType.KING;
     }
 
     // modify toString so that it returns R or W depending on color of piece
