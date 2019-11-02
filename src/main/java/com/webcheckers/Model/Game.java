@@ -102,7 +102,7 @@ public class Game {
         Piece toMove = toMoveFrom.removeOccupant();
         Space toMoveTo = board.getAtPosition(move.getEnd());
 
-        if(move.getDistance() == 2){
+        if(Math.abs(move.getDistance()) == 2){
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
             Space midPoint = board.getAtPosition(mrow, mcell);
@@ -117,6 +117,8 @@ public class Game {
         toMoveTo.setOccupant(toMove);
         toMoveFrom.setOccupant(null);
 
+
+        //kinging
         if(currentPlayerColor == Color.WHITE && move.getEnd().getRow() == 0){
             toMove.kingMe();
             System.err.println("Kinged!");

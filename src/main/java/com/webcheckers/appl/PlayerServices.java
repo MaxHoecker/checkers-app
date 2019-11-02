@@ -164,7 +164,7 @@ public class PlayerServices {
 
     /**
      * Alter the board that is shown to curPlayer and their opponent
-     * @pre move has already been validated by PostValidateMoveRoute
+     * @precondition move has already been validated by PostValidateMoveRoute
      * @param move the start and end positions of the piece to be moved
      */
     public synchronized void makeMove(Move move){
@@ -173,10 +173,14 @@ public class PlayerServices {
 
     public Message validateMove(String moveJson){
         Move move = gson.fromJson(moveJson, Move.class);
-        Board game = gameBoard();
-        Space start = game.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
-        Space end = game.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
-        boolean validMove = true;
+        Board board = gameBoard();
+        Game game = curPlayer.game();
+        Space start = board.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
+        Space end = board.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
+        int distance = move.getDistance();
+        boolean movingBackwards = (game.getCurrentPlayerColor() == Color.RED && distance < 0 && start.getOccupant().getType() != PieceType.KING)
+                || (game.getCurrentPlayerColor() == Color.WHITE && distance > 0 && start.getOccupant().getType() != PieceType.KING);
+
         if(start.isValid() == false) {
             return Message.error("Invalid Move:Starting Square is Invalid");
         }
@@ -191,16 +195,19 @@ public class PlayerServices {
         {
             return Message.error("Invalid Move:Target position already occupied");
         }
-        else if(move.getDistance()==1)
+        else if(movingBackwards){
+            return Message.error("Invalid Move:Piece cannot move backwards");
+        }
+        else if(Math.abs(distance) == 1)
         {
             setCurMove(move);
             return Message.info("Valid Move");
         }
-        else if(move.getDistance() == 2)
+        else if(Math.abs(distance) == 2)
         {
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
-            Space mid = game.getAtPosition(mrow, mcell);
+            Space mid = board.getAtPosition(mrow, mcell);
             System.err.println(mrow + " " + mcell + " " + mid.toString());
             if(mid.getOccupant() != null && mid.getOccupant().getColor() != curPlayer().getColor()){
                 setCurMove(move);

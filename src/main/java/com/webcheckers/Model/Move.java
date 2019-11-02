@@ -21,14 +21,18 @@ public class Move {
         int yDist = 0;
         int xDist = 0;
         int dist = 0;
-        yDist = Math.abs( end.getRow() - start.getRow());
-        xDist = Math.abs( end.getCell() - start.getCell());
+        yDist = end.getRow() - start.getRow();
+        xDist = end.getCell() - start.getCell();
 
+        /*
         if(xDist != yDist){
             dist = 0;
         }
         else{
             dist = xDist;
+        }*/
+        if(Math.abs(xDist) == Math.abs(yDist)){
+            dist = yDist;
         }
 
         return dist;
