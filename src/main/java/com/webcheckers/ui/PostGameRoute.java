@@ -2,7 +2,6 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.Model.Color;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
 
