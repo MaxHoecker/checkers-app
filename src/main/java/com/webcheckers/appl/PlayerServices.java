@@ -162,6 +162,26 @@ public class PlayerServices {
         }
     }
 
+    public boolean removeFromGame(){
+
+        if(curPlayer.game() == null){
+            return false;
+        }
+        else{
+            if(curPlayer.getColor() == Color.RED){
+                curPlayer.game().setPlayer(Color.RED, null);
+            }
+            else{
+                curPlayer.game().setPlayer(Color.WHITE, null);
+            }
+            curPlayer.setColor(null);
+            curPlayer.setGame(null);
+            viewMode = null;
+            curMove = null;
+            return true;
+        }
+    }
+
     /**
      * Alter the board that is shown to curPlayer and their opponent
      * @pre move has already been validated by PostValidateMoveRoute
