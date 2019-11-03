@@ -27,14 +27,14 @@ public class MoveTest {
 
     @Test
     public void test_get_start(){
-        assertEquals(7, dist1.start.getRow());
-        assertEquals(0, dist1.start.getCell());
+        assertEquals(7, dist1.start.getRow().intValue());
+        assertEquals(0, dist1.start.getCell().intValue());
     }
 
     @Test
     public void test_get_end(){
-        assertEquals(6, dist1.end.getRow());
-        assertEquals(1, dist1.end.getCell());
+        assertEquals(6, dist1.end.getRow().intValue());
+        assertEquals(1, dist1.end.getCell().intValue());
     }
 
     @Test
