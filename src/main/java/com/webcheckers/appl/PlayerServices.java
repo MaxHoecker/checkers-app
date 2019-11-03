@@ -13,6 +13,7 @@ public class PlayerServices {
     private PlayerLobby playerLobby;
     private String viewMode = null;
     private Move curMove = null;
+    private Boolean wonGame = null;
 
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
@@ -160,6 +161,35 @@ public class PlayerServices {
             curPlayer.setGame(game);
             return true;
         }
+    }
+
+    public boolean removeFromGame(){
+
+        if(curPlayer.game() == null){
+            return false;
+        }
+        else{
+
+            if(curPlayer.getColor() == Color.RED){
+                curPlayer.game().setPlayer(Color.RED, null);
+            }
+            else{
+                curPlayer.game().setPlayer(Color.WHITE, null);
+            }
+            curPlayer.setColor(null);
+            curPlayer.setGame(null);
+            viewMode = null;
+            curMove = null;
+            return true;
+        }
+    }
+
+    public Boolean getWonGame(){
+        return wonGame;
+    }
+
+    public void setWonGame(Boolean won){
+        wonGame = won;
     }
 
     /**

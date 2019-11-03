@@ -64,6 +64,14 @@ public class PostGameRoute implements Route {
         vm.put("title", "Game Page");
 
         if(playerServices.curPlayer().game() != null){ //getting game route
+            if(playerServices.opponent() == null){
+                playerServices.setWonGame(true);
+                playerServices.curPlayer().setGame(null);
+                playerServices.curPlayer().setColor(null);
+                playerServices.setCurMove(null);
+                response.redirect(WebServer.HOME_URL);
+                return null;
+            }
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
@@ -78,10 +86,22 @@ public class PostGameRoute implements Route {
             }
             Map<String, Object> modeOptions = new HashMap<>(2);
             if(playerServices.curPlayer().game().numRedPieces() == 0){
+                if(playerServices.curPlayer().getColor() == Color.WHITE){
+                    playerServices.setWonGame(true);
+                }
+                else{
+                    playerServices.setWonGame(false);
+                }
                 modeOptions.put("isGameOver", true);
                 modeOptions.put("gameOverMessage", String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName()));
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }else if(playerServices.curPlayer().game().numWhitePieces() == 0){
+                if(playerServices.curPlayer().getColor() == Color.RED){
+                    playerServices.setWonGame(true);
+                }
+                else{
+                    playerServices.setWonGame(false);
+                }
                 modeOptions.put("isGameOver", true);
                 modeOptions.put("gameOVerMessage", String.format(ALL_CAPTURED_MSG, playerServices.redPlayer().getName()));
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
