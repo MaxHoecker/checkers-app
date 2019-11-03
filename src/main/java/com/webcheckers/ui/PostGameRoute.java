@@ -2,7 +2,6 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.Model.Color;
-import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
 
@@ -59,7 +58,7 @@ public class PostGameRoute implements Route {
         Session curSession = request.session();
 
         PlayerServices playerServices = curSession.attribute("playerServices");
-        System.err.println("Player:" + playerServices.curPlayer().toString());
+        //System.err.println("Player:" + playerServices.curPlayer().toString());
 
         vm.put("title", "Game Page");
 
