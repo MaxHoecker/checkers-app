@@ -31,13 +31,13 @@ public class SpaceTest {
         CuT = new Space(false, 0, null);
         assertFalse(CuT.isValid());
         assertNull(CuT.getOccupant());
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
         assertNull(CuT.getOccupant());
 
         CuT = new Space(true, 0, null);
         assertTrue(CuT.isValid());
         assertNull(CuT.getOccupant());
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
         assertNotNull(CuT.getOccupant());
 
     }
@@ -45,7 +45,7 @@ public class SpaceTest {
     @Test
     public void test_correct_Idx(){
         CuT = new Space(false, VALIDID1, null);
-        assertEquals(1, CuT.getCellIdx());
+        assertEquals(0, CuT.getCellIdx());
 
         CuT = new Space(false, VALIDID2, null);
         assertEquals(7, CuT.getCellIdx());
@@ -58,7 +58,7 @@ public class SpaceTest {
         CuT = new Space(true, 0, null);
         assertNull(CuT.getOccupant());
 
-        CuT.moveTo(piece);
+        CuT.setOccupant(piece);
 
         assertNotNull(CuT.getOccupant());
 
@@ -73,13 +73,4 @@ public class SpaceTest {
 
         assertNull(CuT.getOccupant());
     }
-
-    //test to make sure that when constructed its getters don't return null and don't
-    /**
-     * getOccupant
-     * isValid
-     * getCellIdx
-     * moveTo
-     * removeOccupant
-     */
 }

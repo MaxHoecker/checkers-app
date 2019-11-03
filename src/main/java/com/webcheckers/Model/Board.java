@@ -6,6 +6,7 @@ import java.util.Iterator;
 /**
  * The board object that contains row objects
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class Board {
 
@@ -21,9 +22,9 @@ public class Board {
             for(int j = 0; j < 8; j++){
                 if((i+j)%2 != 0){
                     if(i <= 2){
-                        rows.get(i).addSpacePiece(true, j, "RED");
+                        rows.get(i).addSpacePiece(true, j, Color.RED);
                     }else if(i >= 5){
-                        rows.get(i).addSpacePiece(true, j, "WHITE");
+                        rows.get(i).addSpacePiece(true, j, Color.WHITE);
                     }else{
                         rows.get(i).addEmptySpace(true, j);
                     }
@@ -32,6 +33,14 @@ public class Board {
                 }
             }
         }
+    }
+
+    public synchronized Space getAtPosition(Position pos){
+        return getAtPosition(pos.getRow(), pos.getCell());
+    }
+
+    public synchronized Space getAtPosition(int row, int col){
+        return rows.get(row).getSpace(col);
     }
 
     /**

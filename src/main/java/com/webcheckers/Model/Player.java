@@ -9,13 +9,8 @@ public class Player {
 
     private String name;
     private Color color;
-    private Player opponent;
-    private Board board;
+    private Game game;
 
-    /**
-     * Enum used to assign a color to a player
-     */
-    public enum Color {RED, WHITE}
 
     /**
      * Construct a player object. All attributes apart from name are null until
@@ -25,22 +20,15 @@ public class Player {
     public Player(String name){
         this.name = name;
         color = null;
-        opponent = null;
-        board = null;
+        game = null;
     }
 
-    /**
-     * @return board
-     */
-    public Board getBoard() {
-        return board;
+    public Game game(){
+        return game;
     }
 
-    /**
-     * @param board board
-     */
-    public void setBoard(Board board){
-        this.board = board;
+    public void setGame(Game game){
+        this.game = game;
     }
 
     /**
@@ -64,19 +52,15 @@ public class Player {
         return color;
     }
 
-    /**
-     * @param op opponent
-     */
-    public void setOpponent(Player op){
-        this.opponent = op;
+
+
+    public boolean isMyTurn(){
+        if(game.getCurrentPlayerColor() == color){
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * @return opponent
-     */
-    public Player getOpponent(){
-        return this.opponent;
-    }
 
     /**
      * Returns true if the player's username equals the other player's username

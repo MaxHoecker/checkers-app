@@ -222,7 +222,7 @@
             <id>model</id>
             <configuration>
               <properties>
-                <includeTags>Model-tier</includeTags>
+                <includeTags>com.webcheckers.Model-tier</includeTags>
               </properties>
             </configuration>
           </execution>
@@ -273,8 +273,8 @@
           <execution>
             <id>model</id>
             <configuration>
-              <footer>Model Tier</footer>
-              <title>WebCheckers Model Tier Test Coverage</title>
+              <footer>com.webcheckers.Model Tier</footer>
+              <title>WebCheckers com.webcheckers.Model Tier Test Coverage</title>
               <outputDirectory>target/site/jacoco/model</outputDirectory>
             </configuration>
             <goals>

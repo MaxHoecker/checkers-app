@@ -59,6 +59,10 @@ public class WebServer {
   public static final String SIGNOUT_URL = "/signout";
   public static final String GAME_URL = "/game";
   public static final String VALIDATE_MOVE_URL = "/validateMove";
+  public static final String SUBMIT_TURN_URL = "/submitTurn";
+  public static final String CHECK_TURN_URL = "/checkTurn";
+  public static final String BACKUP_MOVE_URL = "/backupMove";
+  public static final String RESIGN_URL= "/resignGame";
 
   //
   // Attributes
@@ -145,22 +149,29 @@ public class WebServer {
     //// code clean; using small classes.
 
     // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
+    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
 
     get(SIGNIN_URL, new GetSigninRoute(templateEngine));
 
     post(SIGNIN_URL, new PostSigninRoute(playerLobby, templateEngine));
 
-    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
+    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
 
     post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
 
-    post(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+    post(GAME_URL, new PostGameRoute(gson, templateEngine));
 
-    get(GAME_URL, new PostGameRoute(playerLobby, templateEngine));
+    get(GAME_URL, new PostGameRoute(gson, templateEngine));
 
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
 
+    post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gson));
+
+    post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson));
+
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gson));
+
+    post(RESIGN_URL, new PostResignGameRoute(gson));
     //
     LOG.config("WebServer is initialized.");
   }

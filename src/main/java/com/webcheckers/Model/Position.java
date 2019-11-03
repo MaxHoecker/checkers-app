@@ -9,11 +9,11 @@ public class Position {
         this.cell = cell;
     }
 
-    public int getRow(){
+    public Integer getRow(){
         return row;
     }
 
-    public int getCell(){
+    public Integer getCell(){
         return cell;
     }
 
