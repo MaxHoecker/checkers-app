@@ -202,20 +202,26 @@ public class PlayerServices {
     }
 
     public Message validateMove(String moveJson){
+        if(moveJson.contains("null")){
+            return Message.error("Invalid Move:null square detected");
+        }
         Move move = gson.fromJson(moveJson, Move.class);
         Board board = gameBoard();
         Game game = curPlayer.game();
+
+
+
         Space start = board.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
         Space end = board.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
         int distance = move.getDistance();
         boolean movingBackwards = (game.getCurrentPlayerColor() == Color.RED && distance < 0 && start.getOccupant().getType() != PieceType.KING)
                 || (game.getCurrentPlayerColor() == Color.WHITE && distance > 0 && start.getOccupant().getType() != PieceType.KING);
 
-        if(start.isValid() == false) {
-            return Message.error("Invalid Move:Starting Square is Invalid");
+        if( ! start.isValid()) {
+                return Message.error("Invalid Move:Starting Square is Invalid");
         }
-        else if(end.isValid() == false) {
-            return Message.error("Invalid Move:Ending Square is Invalid");
+        else if( ! end.isValid()) {
+                return Message.error("Invalid Move:Ending Square is Invalid");
         }
         else if(start.getOccupant() == null)
         {
