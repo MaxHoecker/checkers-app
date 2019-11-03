@@ -1,5 +1,7 @@
 package com.webcheckers.appl;
 
+import com.google.gson.Gson;
+import com.webcheckers.Model.Color;
 import com.webcheckers.Model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -17,6 +19,7 @@ public class PlayerServicesTest {
     private PlayerServices CuT;
 
     private PlayerLobby playerLobby;
+    private Gson gson = new Gson();
     private String VALID = "h";
     private String VALID2 = "username1";
     private String INVALID1 = ";";
@@ -32,14 +35,14 @@ public class PlayerServicesTest {
         player = new Player(VALID);
         opponentNotInGame = new Player(VALID2);
         opponentInGame = new Player(VALID2);
-        opponentInGame.setColor(Player.Color.RED);
+        opponentInGame.setColor(Color.RED);
         playerLobby = mock(PlayerLobby.class);
-        CuT = new PlayerServices(playerLobby);
+        CuT = new PlayerServices(playerLobby, gson);
     }
 
     @Test
     public void test_constructor(){
-        new PlayerServices(playerLobby);
+        new PlayerServices(playerLobby, gson);
     }
 
     @Test
@@ -92,14 +95,14 @@ public class PlayerServicesTest {
         Player opponent = null;
         CuT.setCurPlayer(VALID);
         assertNotNull(CuT.curPlayer());
-        if(CuT.curPlayer().getOpponent() != null){
-            opponent = CuT.curPlayer().getOpponent();
+        if(CuT.curPlayer().game().getOpponent(CuT.curPlayer()) != null){
+            opponent = CuT.curPlayer().game().getOpponent(CuT.curPlayer());
         }
 
         CuT.setCurPlayer(null);
 
         if(opponent != null) {
-            assertNull(opponent.getOpponent());
+            assertNull(opponent.game().getOpponent(opponent));
         }
         assertNull(CuT.curPlayer());
     }
@@ -109,17 +112,17 @@ public class PlayerServicesTest {
         when(playerLobby.getPlayer(VALID2)).thenReturn(opponentNotInGame);
         when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
         CuT.setCurPlayer(VALID);
-        assertNull(CuT.curPlayer().getBoard());
+        assertNull(CuT.curPlayer().game().getBoard());
         assertNull(CuT.curPlayer().getColor());
 
         boolean result = CuT.setUpGame(VALID2);
 
         assertNotNull(CuT.curPlayer().getColor());
-        assertNotNull(CuT.curPlayer().getOpponent());
-        assertNotNull(CuT.curPlayer().getOpponent().getColor());
-        assertNotNull(CuT.curPlayer().getBoard());
-        assertNotNull(CuT.curPlayer().getOpponent().getBoard());
-        assertEquals(CuT.curPlayer().getBoard(), CuT.curPlayer().getOpponent().getBoard());
+        assertNotNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()));
+        assertNotNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()).getColor());
+        assertNotNull(CuT.curPlayer().game().getBoard());
+        assertNotNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()).game().getBoard());
+        assertEquals(CuT.curPlayer().game().getBoard(), CuT.curPlayer().game().getOpponent(CuT.curPlayer()).game().getBoard());
         assertTrue(result);
     }
 
@@ -128,15 +131,15 @@ public class PlayerServicesTest {
         when(playerLobby.getPlayer(VALID2)).thenReturn(opponentInGame);
         when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
         CuT.setCurPlayer(VALID);
-        assertNull(CuT.curPlayer().getBoard());
+        assertNull(CuT.curPlayer().game().getBoard());
         assertNull(CuT.curPlayer().getColor());
-        assertNull(CuT.curPlayer().getOpponent());
+        assertNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()));
 
         boolean result = CuT.setUpGame(VALID2);
 
-        assertNull(CuT.curPlayer().getOpponent());
+        assertNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()));
         assertNull(CuT.curPlayer().getColor());
-        assertNull(CuT.curPlayer().getOpponent());
+        assertNull(CuT.curPlayer().game().getOpponent(CuT.curPlayer()));
         assertFalse(result);
     }
 }

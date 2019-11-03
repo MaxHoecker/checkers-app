@@ -9,7 +9,7 @@ import java.util.Iterator;
  */
 public class Row {
 
-    public int index;
+    private int index;
     private ArrayList<Space> spaces = new ArrayList<>();
 
     // constructor for row
@@ -23,7 +23,7 @@ public class Row {
      * @param color color of the piece
      * adds space with a piece
      */
-    public void addSpacePiece(boolean valid, int index, String color){
+    public void addSpacePiece(boolean valid, int index, Color color){
         Piece piece = new Piece(color);
         Space space = new Space(valid, index, piece);
         spaces.add(space);
@@ -59,6 +59,11 @@ public class Row {
      */
     public int getIndex(){
         return index;
+    }
+
+
+    public void setIndex(int cell, Space space){
+        spaces.set(cell, space);
     }
 
     /**
