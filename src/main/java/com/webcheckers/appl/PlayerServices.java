@@ -184,7 +184,7 @@ public class PlayerServices {
 
     /**
      * Alter the board that is shown to curPlayer and their opponent
-     * @pre move has already been validated by PostValidateMoveRoute
+     * @precondition move has already been validated by PostValidateMoveRoute
      * @param move the start and end positions of the piece to be moved
      */
     public synchronized void makeMove(Move move){
@@ -193,10 +193,14 @@ public class PlayerServices {
 
     public Message validateMove(String moveJson){
         Move move = gson.fromJson(moveJson, Move.class);
-        Board game = gameBoard();
-        Space start = game.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
-        Space end = game.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
-        boolean validMove = true;
+        Board board = gameBoard();
+        Game game = curPlayer.game();
+        Space start = board.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
+        Space end = board.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
+        int distance = move.getDistance();
+        boolean movingBackwards = (game.getCurrentPlayerColor() == Color.RED && distance < 0 && start.getOccupant().getType() != PieceType.KING)
+                || (game.getCurrentPlayerColor() == Color.WHITE && distance > 0 && start.getOccupant().getType() != PieceType.KING);
+
         if(start.isValid() == false) {
             return Message.error("Invalid Move:Starting Square is Invalid");
         }
@@ -211,16 +215,23 @@ public class PlayerServices {
         {
             return Message.error("Invalid Move:Target position already occupied");
         }
-        else if(move.getDistance()==1)
+        else if(movingBackwards){
+            return Message.error("Invalid Move:Piece cannot move backwards");
+        }
+        else if(Math.abs(distance) == 1)
         {
+            boolean existsValidJump = checkForValidJump(move, game, game.getCurrentPlayerColor());
+            if(existsValidJump){
+                return Message.error("Invalid Move:Must take available jump");
+            }
             setCurMove(move);
             return Message.info("Valid Move");
         }
-        else if(move.getDistance() == 2)
+        else if(Math.abs(distance) == 2)
         {
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
-            Space mid = game.getAtPosition(mrow, mcell);
+            Space mid = board.getAtPosition(mrow, mcell);
             System.err.println(mrow + " " + mcell + " " + mid.toString());
             if(mid.getOccupant() != null && mid.getOccupant().getColor() != curPlayer().getColor()){
                 setCurMove(move);
@@ -234,5 +245,62 @@ public class PlayerServices {
         {
             return Message.error("Invalid Move: Invalid distance");
         }
+    }
+
+    /**
+     * Helper method for validate move. Checks to see if it is possible for the piece at the start of a move to make a
+     * jump
+     * @param move the move being validated
+     * @param game the game state
+     * @param currentColor the color of the player whose turn it is
+     * @return true if there is a possible jump, false otherwise
+     */
+    private boolean checkForValidJump(Move move, Game game, Color currentColor){
+        Board board = game.getBoard();
+        Space start = board.getAtPosition(move.getStart());
+        int moveStartRow = move.getStart().getRow();
+        int moveStartCol = move.getStart().getCell();
+        if(start.getOccupant().getType() == PieceType.KING){
+            for(int x = -1; x < 2; x+=2){
+                for(int y = -1; y < 2; y+=2){
+                    if(moveStartCol + x < 0 || moveStartCol + 2*x < 0 || moveStartCol + x > 7 || moveStartCol + 2*x > 7){
+                        continue;
+                    }
+                    if(moveStartRow + y < 0 || moveStartRow + 2*y < 0|| moveStartRow + y > 7 || moveStartRow + 2*y > 7){
+                        continue;
+                    }
+                    Space neighbor = board.getAtPosition(moveStartRow + y, moveStartCol + x);
+                    if(neighbor.getOccupant() != null && neighbor.getOccupant().getColor() != currentColor){
+                        Space behindNeighbor = board.getAtPosition(moveStartRow + (2*y), moveStartCol + (2*x));
+                        if(behindNeighbor.getOccupant() == null){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        int y;
+        if(currentColor == Color.RED) {
+            y = 1;
+        }else {
+            y = -1;
+        }
+        for(int x = -1; x < 2; x+=2){
+            if(moveStartCol + x < 0 || moveStartCol + 2*x < 0 || moveStartCol + x > 7 || moveStartCol + 2*x > 7){
+                continue;
+            }
+            if(moveStartRow + y < 0 || moveStartRow + 2*y < 0 || moveStartRow + y > 7 || moveStartRow + 2*y > 7){
+                continue;
+            }
+            Space neighbor = board.getAtPosition(moveStartRow + y, moveStartCol + x);
+            if(neighbor.getOccupant() != null && neighbor.getOccupant().getColor() != currentColor){
+                Space behindNeighbor = board.getAtPosition(moveStartRow + 2*y, moveStartCol + 2*x);
+                if(behindNeighbor.getOccupant() == null){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
