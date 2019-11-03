@@ -22,6 +22,7 @@ public class PostResignGameRoute implements Route {
         PlayerServices playerServices = curSession.attribute("playerServices");
         boolean removed = playerServices.removeFromGame();
         if(removed){
+            playerServices.setWonGame(false);
             return gson.toJson(Message.info(""));
         }
         else{

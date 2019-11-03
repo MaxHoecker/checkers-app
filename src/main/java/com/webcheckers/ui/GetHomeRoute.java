@@ -89,7 +89,6 @@ public class GetHomeRoute implements Route {
 
     if(playerServices.signedIn() == null) {
       vm.put(IS_SIGNED_IN, false);
-      playerServices.setSignedIn(false);
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }else if(!playerServices.signedIn()){
       vm.put(IS_SIGNED_IN, false);
@@ -97,6 +96,21 @@ public class GetHomeRoute implements Route {
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
     else{
+      vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
+
+      //ToDo
+      //if(playerServices.getViewMode() == "Spectator" || playerServices.getViewMode() == "Replay"){
+
+      if (playerServices.getWonGame() == null){ }
+      else if(playerServices.getWonGame()){
+        vm.put("message", Message.info("You Won!"));
+        playerServices.setWonGame(null);
+      }
+      else{
+        vm.put("message", Message.info("You lost :("));
+        playerServices.setWonGame(null);
+      }
+      //}
       if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
         return null;
@@ -112,7 +126,6 @@ public class GetHomeRoute implements Route {
       }
       vm.put(CUR_PLAYER_ATTR, playerServices.curPlayer());
 
-      vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
   }

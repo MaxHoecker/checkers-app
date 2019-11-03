@@ -171,8 +171,6 @@ public class WebServer {
 
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gson));
 
-    get(GAME_URL, new GetGameRoute(templateEngine));
-
     post(RESIGN_URL, new PostResignGameRoute(gson));
     //
     LOG.config("WebServer is initialized.");
