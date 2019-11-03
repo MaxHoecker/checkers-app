@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
 
@@ -29,6 +30,7 @@ public class GetHomeRouteTest {
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private Session session;
+    private Gson gson;
 
     //HTML constant
     private String TITLE_ATTR = GetHomeRoute.TITLE_ATTR;
@@ -47,8 +49,9 @@ public class GetHomeRouteTest {
         response = mock(Response.class);
         templateEngine = mock(TemplateEngine.class);
         playerLobby = mock(PlayerLobby.class);
+        gson = mock(Gson.class);
 
-        CuT = new GetHomeRoute(playerLobby, templateEngine);
+        CuT = new GetHomeRoute(playerLobby, templateEngine, gson);
     }
 
     @Test
@@ -69,8 +72,7 @@ public class GetHomeRouteTest {
     public void test_NO_SIGNIN_FIRST_USER(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        request.session().attribute(SIGNEDIN, false);
-       
+
         CuT.handle(request, response);
 
         testHelper.assertViewModelAttribute("title", "Welcome!");
@@ -82,8 +84,7 @@ public class GetHomeRouteTest {
     public void test_SIGNIN_FIRST_USER(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        request.session().attribute(SIGNEDIN, true);
-        
+
         CuT.handle(request, response);
 
         testHelper.assertViewModelAttribute("title", "Welcome!");
@@ -95,7 +96,6 @@ public class GetHomeRouteTest {
     public void test_NOT_SIGNED_IN_SECOND_USER(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        request.session().attribute(SIGNEDIN, false);
         playerLobby.addPlayer("Josh", new Player("Josh"));
         request.session().attribute(NUM_PLAYERS_ATTR, playerLobby.getNumPlayers());
         
@@ -110,7 +110,6 @@ public class GetHomeRouteTest {
     public void test_SIGNED_IN_SECOND_USER(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        request.session().attribute(SIGNEDIN, true);
         playerLobby.addPlayer("Josh", new Player("Josh"));
         request.session().attribute(NUM_PLAYERS_ATTR, playerLobby.getNumPlayers());
         

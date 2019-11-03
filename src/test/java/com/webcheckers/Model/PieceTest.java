@@ -14,13 +14,13 @@ public class PieceTest {
 
     @Test
     public void ctor_testW(){
-        final Piece CuT = new Piece(W);
+        final Piece CuT = new Piece(Color.WHITE);
         assertSame("W" , CuT.toString());
     }
 
     @Test
     public void ctor_testR(){
-        final Piece Cut = new Piece(R);
+        final Piece Cut = new Piece(Color.RED);
         assertSame("R" , Cut.toString());
 
     }
