@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 @Tag("com.webcheckers.Model tier")
 public class PieceTest {
 
-    private static final String W = "W";
-    private static final String R = "RED";
+    private static final Color W = Color.WHITE;
+    private static final Color R = Color.RED;
 
     @Test
     public void ctor_testW(){

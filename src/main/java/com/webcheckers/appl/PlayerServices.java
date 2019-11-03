@@ -198,7 +198,12 @@ public class PlayerServices {
      * @param move the start and end positions of the piece to be moved
      */
     public synchronized void makeMove(Move move){
-        curPlayer.game().makeMove(move);
+        Game game = curPlayer.game();
+        Board board = game.getBoard();
+        Piece toMove = board.getAtPosition(move.getStart()).getOccupant();
+        PieceType type = toMove.getType();
+        boolean multiJump = Math.abs(move.getDistance()) == 2 && checkForValidJump(move.getEnd(), type, game.getCurrentPlayerColor());
+        curPlayer.game().makeMove(move, multiJump);
     }
 
     public Message validateMove(String moveJson){
@@ -240,7 +245,7 @@ public class PlayerServices {
                 for(int y = 0; y < 8; y++) {
                     Space curSpace = game.getBoard().getAtPosition(x, y);
                     if(curSpace.getOccupant() != null && curSpace.getOccupant().getColor() == game.getCurrentPlayerColor()) {
-                        boolean existsValidJump = checkForValidJump(new Position(x,y), game, game.getCurrentPlayerColor());
+                        boolean existsValidJump = checkForValidJump(new Position(x,y), curSpace.getOccupant().getType(), game.getCurrentPlayerColor());
                         if (existsValidJump) {
                             return Message.error("Invalid Move:Must take available jump");
                         }
@@ -273,16 +278,15 @@ public class PlayerServices {
      * Helper method for validate move. Checks to see if it is possible for the piece at a position to make a
      * jump
      * @param pos we check for valid jumps from here
-     * @param game the game state
      * @param currentColor the color of the player whose turn it is
      * @return true if there is a possible jump, false otherwise
      */
-    private boolean checkForValidJump(Position pos, Game game, Color currentColor){
+    private boolean checkForValidJump(Position pos, PieceType type, Color currentColor){
+        Game game = curPlayer().game();
         Board board = game.getBoard();
-        Space start = board.getAtPosition(pos);
         int moveStartRow = pos.getRow();
         int moveStartCol = pos.getCell();
-        if(start.getOccupant().getType() == PieceType.KING){
+        if(type == PieceType.KING){
             for(int x = -1; x < 2; x+=2){
                 for(int y = -1; y < 2; y+=2){
                     if(moveStartCol + x < 0 || moveStartCol + 2*x < 0 || moveStartCol + x > 7 || moveStartCol + 2*x > 7){

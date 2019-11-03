@@ -97,7 +97,7 @@ public class Game {
         currentPlayerColor = color;
     }
 
-    public synchronized void makeMove(Move move){
+    public synchronized void makeMove(Move move, boolean multiJump){
         Space toMoveFrom = board.getAtPosition(move.getStart());
         Piece toMove = toMoveFrom.removeOccupant();
         Space toMoveTo = board.getAtPosition(move.getEnd());
@@ -129,11 +129,12 @@ public class Game {
 
 
         // swap turns
-        if(currentPlayerColor == Color.RED){
-            setCurrentPlayerColor(Color.WHITE);
-        }
-        else if(currentPlayerColor==Color.WHITE){
-            setCurrentPlayerColor(Color.RED);
+        if(!(Math.abs(move.getDistance()) == 2 && multiJump)) {
+            if (currentPlayerColor == Color.RED) {
+                setCurrentPlayerColor(Color.WHITE);
+            } else if (currentPlayerColor == Color.WHITE) {
+                setCurrentPlayerColor(Color.RED);
+            }
         }
     }
 
