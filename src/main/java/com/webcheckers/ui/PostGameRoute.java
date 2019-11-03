@@ -59,7 +59,6 @@ public class PostGameRoute implements Route {
         Session curSession = request.session();
 
         PlayerServices playerServices = curSession.attribute("playerServices");
-        System.err.println("Player:" + playerServices.curPlayer().toString());
 
         vm.put("title", "Game Page");
 

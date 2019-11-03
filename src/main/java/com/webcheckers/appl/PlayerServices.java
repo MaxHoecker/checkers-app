@@ -255,7 +255,6 @@ public class PlayerServices {
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
             Space mid = board.getAtPosition(mrow, mcell);
-            System.err.println(mrow + " " + mcell + " " + mid.toString());
             if(mid.getOccupant() != null && mid.getOccupant().getColor() != curPlayer().getColor()){
                 setCurMove(move);
                 return Message.info("Valid Move");
