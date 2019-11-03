@@ -200,9 +200,16 @@ public class PlayerServices {
         }
         else if(Math.abs(distance) == 1)
         {
-            boolean existsValidJump = checkForValidJump(move, game, game.getCurrentPlayerColor());
-            if(existsValidJump){
-                return Message.error("Invalid Move:Must take available jump");
+            for(int x = 0; x < 8; x++) {
+                for(int y = 0; y < 8; y++) {
+                    Space curSpace = game.getBoard().getAtPosition(x, y);
+                    if(curSpace.getOccupant() != null && curSpace.getOccupant().getColor() == game.getCurrentPlayerColor()) {
+                        boolean existsValidJump = checkForValidJump(new Position(x,y), game, game.getCurrentPlayerColor());
+                        if (existsValidJump) {
+                            return Message.error("Invalid Move:Must take available jump");
+                        }
+                    }
+                }
             }
             setCurMove(move);
             return Message.info("Valid Move");
@@ -228,18 +235,18 @@ public class PlayerServices {
     }
 
     /**
-     * Helper method for validate move. Checks to see if it is possible for the piece at the start of a move to make a
+     * Helper method for validate move. Checks to see if it is possible for the piece at a position to make a
      * jump
-     * @param move the move being validated
+     * @param pos we check for valid jumps from here
      * @param game the game state
      * @param currentColor the color of the player whose turn it is
      * @return true if there is a possible jump, false otherwise
      */
-    private boolean checkForValidJump(Move move, Game game, Color currentColor){
+    private boolean checkForValidJump(Position pos, Game game, Color currentColor){
         Board board = game.getBoard();
-        Space start = board.getAtPosition(move.getStart());
-        int moveStartRow = move.getStart().getRow();
-        int moveStartCol = move.getStart().getCell();
+        Space start = board.getAtPosition(pos);
+        int moveStartRow = pos.getRow();
+        int moveStartCol = pos.getCell();
         if(start.getOccupant().getType() == PieceType.KING){
             for(int x = -1; x < 2; x+=2){
                 for(int y = -1; y < 2; y+=2){
