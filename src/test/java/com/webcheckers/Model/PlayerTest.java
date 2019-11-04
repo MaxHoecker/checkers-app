@@ -21,31 +21,28 @@ public class PlayerTest {
 
     @BeforeEach
     public void setup() {
-        CuT = new Player("Player1");
-        p2 = new Player("Player2");
-        CuT.setColor(Color.RED);
-        p2.setColor(Color.WHITE);
+        CuT = new Player("Red");
+        p2 = new Player("White");
         game = mock(Game.class);
         CuT.setGame(game);
         p2.setGame(game);
-        game.setCurrentPlayerColor(Color.RED);
+        CuT.setColor(Color.RED);
+        p2.setColor(Color.WHITE);
+        game.setCurrentPlayerColor(Color.WHITE);
     }
 
 
     @Test
     public void is_my_turn(){
+        when(game.getCurrentPlayerColor()).thenReturn(Color.RED);
         assertTrue(CuT.isMyTurn());
     }
 
     @Test
     public void is_not_my_turn(){
+        when(game.getCurrentPlayerColor()).thenReturn(Color.RED);
         assertFalse(p2.isMyTurn());
 
-    }
-
-    @Test
-    public void is_equal(){
-        assertTrue(this.CuT.equals(game.getPlayer(Color.RED)));
     }
 
     
