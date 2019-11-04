@@ -54,6 +54,7 @@ public class PostGameRoute implements Route {
      */
     @Override
     public String handle(Request request, Response response){
+        LOG.info("entering postGameRoute");
         Map<String, Object> vm = new HashMap<>();
         Session curSession = request.session();
 
@@ -63,17 +64,15 @@ public class PostGameRoute implements Route {
 
         if(playerServices.curPlayer().game() != null){ //getting game route
             if(playerServices.getWonGame() != null){
-                playerServices.curPlayer().setGame(null);
-                playerServices.curPlayer().setColor(null);
-                playerServices.setCurMove(null);
+                playerServices.removeFromGame();
+
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }
             if(playerServices.opponent() == null){
+                playerServices.removeFromGame();
                 playerServices.setWonGame(true);
-                playerServices.curPlayer().setGame(null);
-                playerServices.curPlayer().setColor(null);
-                playerServices.setCurMove(null);
+
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }

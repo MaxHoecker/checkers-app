@@ -68,6 +68,7 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
+    LOG.info("entering getHomeRoute");
     //
     Map<String, Object> vm = new HashMap<>();
     Session curSession = request.session();
@@ -111,7 +112,7 @@ public class GetHomeRoute implements Route {
         playerServices.setWonGame(null);
       }
       //}
-      if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
+       if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
         return null;
       }

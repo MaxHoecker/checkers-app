@@ -25,7 +25,6 @@ public class PostValidateMoveRoute implements Route {
     public String handle(Request request, Response response){
 
         String param = request.queryParams(ACTION_DATA_PARAM);
-        System.err.println(param);
         Session curSession = request.session();
         PlayerServices playerServices = curSession.attribute("playerServices");
 

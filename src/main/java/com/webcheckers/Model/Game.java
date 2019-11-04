@@ -18,8 +18,8 @@ public class Game {
     private int gameID;
     private Color currentPlayerColor;
 
-    private int numRedPieces = 12;
-    private int numWhitePieces = 12;
+    private int numRedPieces = 1;
+    private int numWhitePieces = 1;
 
 
     /**
@@ -121,10 +121,8 @@ public class Game {
         //kinging
         if(currentPlayerColor == Color.WHITE && move.getEnd().getRow() == 0){
             toMove.kingMe();
-            System.err.println("Kinged!");
         }else if(currentPlayerColor == Color.RED && move.getEnd().getRow() == 7){
             toMove.kingMe();
-            System.err.println("Kinged!");
         }
 
 
