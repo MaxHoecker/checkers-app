@@ -22,11 +22,13 @@ public class PlayerTest {
     @BeforeEach
     public void setup() {
         CuT = new Player("Player1");
+        p2 = new Player("Player2");
         CuT.setColor(Color.RED);
         p2.setColor(Color.WHITE);
         game = mock(Game.class);
         CuT.setGame(game);
         p2.setGame(game);
+        game.setCurrentPlayerColor(Color.RED);
     }
 
 
@@ -43,7 +45,7 @@ public class PlayerTest {
 
     @Test
     public void is_equal(){
-        assertEquals(this.CuT, game.getPlayer(Color.RED));
+        assertTrue(this.CuT.equals(game.getPlayer(Color.RED)));
     }
 
     
