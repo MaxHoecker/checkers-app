@@ -17,16 +17,16 @@ import static org.mockito.Mockito.when;
 public class PlayerTest {
     private Player CuT;
     private Player p2;
+    private Game game;
 
     @BeforeEach
     public void setup() {
         CuT = new Player("Player1");
         CuT.setColor(Color.RED);
         p2.setColor(Color.WHITE);
-        Game game = new Game(CuT,p2);
+        game = mock(Game.class);
         CuT.setGame(game);
         p2.setGame(game);
-        game.setCurrentPlayerColor(Color.RED);
     }
 
 
@@ -37,7 +37,13 @@ public class PlayerTest {
 
     @Test
     public void is_not_my_turn(){
+        assertFalse(p2.isMyTurn());
 
+    }
+
+    @Test
+    public void is_equal(){
+        assertEquals(this.CuT, game.getPlayer(Color.RED));
     }
 
     
