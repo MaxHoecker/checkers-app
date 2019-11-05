@@ -3,26 +3,40 @@ package com.webcheckers.Model;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag("com.webcheckers.Model tier")
 public class PieceTest {
 
-    private static final Color W = Color.WHITE;
-    private static final Color R = Color.RED;
+    private Piece red;
+    private Piece white;
+    private Piece king;
 
-    @Test
-    public void ctor_testW(){
-        final Piece CuT = new Piece(Color.WHITE);
-        assertSame("W" , CuT.toString());
+
+    @BeforeEach
+    public void setup(){
+        red = new Piece(Color.RED);
+        white = new Piece(Color.WHITE);
+        king = new Piece(Color.RED);
+        king.kingMe();
+
     }
 
     @Test
-    public void ctor_testR(){
-        final Piece Cut = new Piece(Color.RED);
-        assertSame("R" , Cut.toString());
+    public void test_red(){
+        assertEquals(Color.RED,red.getColor());
+    }
 
+    @Test
+    public void test_white(){
+        assertEquals(Color.WHITE,white.getColor());
+    }
+
+    @Test
+    public void test_kinged(){
+        assertEquals(PieceType.KING, king.getType());
     }
 
 

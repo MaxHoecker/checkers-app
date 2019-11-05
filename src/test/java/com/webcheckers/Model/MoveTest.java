@@ -40,19 +40,19 @@ public class MoveTest {
     @Test
     public void test_distance_1(){
         int dist = dist1.getDistance();
-        assertEquals(1, dist);
+        assertEquals(-1, dist);
     }
 
     @Test
     public void test_distance_2(){
         int dist = dist2.getDistance();
-        assertEquals(2, dist);
+        assertEquals(-2, dist);
     }
 
     @Test
     public void test_distance_3(){
         int dist = dist3.getDistance();
-        assertEquals(3, dist);
+        assertEquals(-3, dist);
     }
 
     @Test
