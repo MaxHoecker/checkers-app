@@ -1,14 +1,16 @@
 package com.webcheckers.ui;
 
-import java.util.*;
-import java.util.logging.Logger;
-
 import com.google.gson.Gson;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
+import com.webcheckers.util.Message;
 import spark.*;
 
-import com.webcheckers.util.Message;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * The UI Controller to GET the Home page.

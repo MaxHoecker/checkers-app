@@ -1,0 +1,14 @@
+1.  in the home directory of the project, run the command "mvn compile exec:java" to start the project
+
+2.  in order to access the website, go to a browser and type in localhost:4567 into the url bar
+
+3.  in order for a second player to join, open a different or incognito browser and go to localhost:4567 in the url bar
+
+4.  click sign in and input a username with all alphanumeric characters
+
+5.  when both players are signed in, click on the other player's name in the home page
+
+known bug: if you drop a piece onto a space already occupied by a piece the game will seem to freeze,
+if you refresh the page, you can continue to play the game normally
+
+multi-jump: click submit after each jump, it will let you jump again
