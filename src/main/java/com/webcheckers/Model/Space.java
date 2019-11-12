@@ -43,19 +43,6 @@ public class Space {
 
     /**
      * 
-     * @param flip 
-     * @return cellIdx
-     */
-    public int getCellIdx(boolean flip)
-    {
-        if(flip){
-            return 8-cellIdx;
-        }
-        return cellIdx;
-    }
-
-    /**
-     * 
      * @return CellIdx
      */
     public int getCellIdx()
@@ -67,11 +54,10 @@ public class Space {
      * 
      * @param p peice being moved onto square
      */
-    public void moveTo(Piece p){
+    public void setOccupant(Piece p){
         if(isValid){
             piece = p;
         }
-
     }
 
     /**
