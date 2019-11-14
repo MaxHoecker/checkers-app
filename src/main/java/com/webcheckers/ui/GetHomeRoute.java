@@ -98,6 +98,7 @@ public class GetHomeRoute implements Route {
       vm.put("message", Message.info("Sign-out Successful!"));
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
+
     else{
       vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
 
@@ -105,14 +106,22 @@ public class GetHomeRoute implements Route {
       //if(playerServices.getViewMode() == "Spectator" || playerServices.getViewMode() == "Replay"){
 
       if (playerServices.getWonGame() == null){ }
+
+
+      //ToDo
       else if(playerServices.getWonGame()){
         vm.put("message", Message.info("You Won!"));
         playerServices.setWonGame(null);
+          playerServices.removeFromGame();
       }
       else{
         vm.put("message", Message.info("You lost :("));
         playerServices.setWonGame(null);
+          playerServices.removeFromGame();
       }
+        //ToDo
+
+
       //}
        if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);

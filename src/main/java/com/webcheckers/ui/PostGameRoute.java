@@ -63,19 +63,22 @@ public class PostGameRoute implements Route {
         vm.put("title", "Game Page");
 
         if(playerServices.curPlayer().game() != null){ //getting game route
+
+            //ToDo
             if(playerServices.getWonGame() != null){
-                playerServices.removeFromGame();
 
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }
             if(playerServices.opponent() == null){
-                playerServices.removeFromGame();
+
                 playerServices.setWonGame(true);
 
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }
+            //ToDo
+
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
