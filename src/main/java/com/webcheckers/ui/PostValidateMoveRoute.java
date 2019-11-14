@@ -23,7 +23,6 @@ public class PostValidateMoveRoute implements Route {
     }
     @Override
     public String handle(Request request, Response response){
-
         String param = request.queryParams(ACTION_DATA_PARAM);
         Session curSession = request.session();
         PlayerServices playerServices = curSession.attribute("playerServices");

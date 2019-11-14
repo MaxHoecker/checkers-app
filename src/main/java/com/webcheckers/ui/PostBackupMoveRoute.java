@@ -22,7 +22,7 @@ public class PostBackupMoveRoute implements Route {
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
 
-        playerServices.setCurMove(null);
+        playerServices.removeLastMove(); //inputting null here removes most recent in sequence
 
         return gson.toJson(Message.info(""));
     }

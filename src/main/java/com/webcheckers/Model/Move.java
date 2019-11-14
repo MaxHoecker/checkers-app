@@ -38,6 +38,15 @@ public class Move {
         return dist;
     }
 
+    public Position getMidPoint(){
+        if(Math.abs(getDistance()) == 1){
+            return null;
+        }
+        int mrow = getStart().getRow() + (getEnd().getRow() - getStart().getRow())/2;
+        int mcell = getStart().getCell() + (getEnd().getCell() - getStart().getCell())/2;
+        return new Position(mrow, mcell);
+    }
+
     public String toString(){
         return "start:" + start + "\nend:" + end;
     }

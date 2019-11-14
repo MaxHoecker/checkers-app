@@ -1,7 +1,6 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
-import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerServices;
 import com.webcheckers.util.Message;
 import spark.Request;
@@ -18,11 +17,12 @@ public class PostSubmitTurnRoute implements Route {
     }
     @Override
     public String handle(Request request, Response response){
+        System.err.println("Entering SubmitTurnRoute");
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
 
-        playerServices.makeMove(playerServices.getcurMove());
+        Message msg = playerServices.submitTurn();
         
-        return gson.toJson(Message.info(""));
+        return gson.toJson(msg);
     }
 }

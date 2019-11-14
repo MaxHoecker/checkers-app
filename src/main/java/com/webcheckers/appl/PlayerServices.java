@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.webcheckers.Model.*;
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class PlayerServices {
 
     //Attributes
@@ -12,12 +16,14 @@ public class PlayerServices {
     private Boolean signedIn = null;
     private PlayerLobby playerLobby;
     private String viewMode = null;
-    private Move curMove = null;
     private Boolean wonGame = null;
+
+    private ArrayList<Move> curMoveSequence = new ArrayList<>();
 
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
     static final String INVALID_NAME_MSG = "Invalid username. Please enter another name.";
+    private final static String VALID_NAME_REGEX = "\\w+";
 
     /**
      * Constructs PlayerServices
@@ -44,12 +50,12 @@ public class PlayerServices {
         this.signedIn = signedIn;
     }
 
-    public void setCurMove(Move move){
-        this.curMove = move;
+    public void removeLastMove(){
+        curMoveSequence.remove(curMoveSequence.size()-1);
     }
 
-    public Move getcurMove(){
-        return curMove;
+    public Move getNextMove(){
+        return curMoveSequence.get(0);
     }
 
     /**
@@ -108,6 +114,10 @@ public class PlayerServices {
         return curPlayer.game().getPlayer(Color.RED);
     }
 
+    public Color curTurnColor(){
+        return curPlayer.game().getCurrentPlayerColor();
+    }
+
     /**
      * Add an instance of Player representing the current user to the playerLobby if:
      *  The username is valid
@@ -125,7 +135,7 @@ public class PlayerServices {
             }
             curPlayer = null;
             return null;
-        }else if(username.matches("\".*\"") || !username.matches(".*\\w+.*")){
+        }else if(!username.matches(VALID_NAME_REGEX)){
             return INVALID_NAME_MSG;
         }
         Player currentPlayer = new Player(username);
@@ -179,7 +189,7 @@ public class PlayerServices {
             curPlayer.setColor(null);
             curPlayer.setGame(null);
             viewMode = null;
-            curMove = null;
+            curMoveSequence.clear();
             return true;
         }
     }
@@ -215,12 +225,18 @@ public class PlayerServices {
         Game game = curPlayer.game();
 
 
-
         Space start = board.getAtPosition(move.getStart().getRow(), move.getStart().getCell() );
         Space end = board.getAtPosition(move.getEnd().getRow(), move.getEnd().getCell());
+        PieceType type;
+        if(curMoveSequence.size() == 0){
+            type = board.getAtPosition(move.getStart()).getOccupant().getType();
+        }else{
+            Position initPos = curMoveSequence.get(0).getStart();
+            type = board.getAtPosition(initPos).getOccupant().getType();
+        }
         int distance = move.getDistance();
-        boolean movingBackwards = (game.getCurrentPlayerColor() == Color.RED && distance < 0 && start.getOccupant().getType() != PieceType.KING)
-                || (game.getCurrentPlayerColor() == Color.WHITE && distance > 0 && start.getOccupant().getType() != PieceType.KING);
+        boolean movingBackwards = (game.getCurrentPlayerColor() == Color.RED && distance < 0 && type != PieceType.KING)
+                || (game.getCurrentPlayerColor() == Color.WHITE && distance > 0 && type != PieceType.KING);
 
         if( ! start.isValid()) {
                 return Message.error("Invalid Move:Starting Square is Invalid");
@@ -230,7 +246,16 @@ public class PlayerServices {
         }
         else if(start.getOccupant() == null)
         {
-            return Message.error("Invalid Move:No Piece in Starting Position");
+            if (Math.abs(curMoveSequence.get(0).getDistance()) == 2) {
+                if (!movingBackwards && Math.abs(move.getDistance()) == 2) {
+                    if(getMidPoints().contains(move.getMidPoint())){
+                        return Message.error("Invalid Move:Already jumped this piece");
+                    }
+                    curMoveSequence.add(move);
+                    return Message.info("Multi-jump in progress");
+                }
+            }
+            return Message.error("Invalid Move:No piece on start");
         }
         else if(end.getOccupant() != null)
         {
@@ -252,7 +277,7 @@ public class PlayerServices {
                     }
                 }
             }
-            setCurMove(move);
+            curMoveSequence.add(move);
             return Message.info("Valid Move");
         }
         else if(Math.abs(distance) == 2)
@@ -260,8 +285,9 @@ public class PlayerServices {
             int mrow = move.getStart().getRow() + (move.getEnd().getRow() - move.getStart().getRow())/2;
             int mcell = move.getStart().getCell() + (move.getEnd().getCell() - move.getStart().getCell())/2;
             Space mid = board.getAtPosition(mrow, mcell);
+            Position midPos = new Position(mrow, mcell);
             if(mid.getOccupant() != null && mid.getOccupant().getColor() != curPlayer().getColor()){
-                setCurMove(move);
+                curMoveSequence.add(move);
                 return Message.info("Valid Move");
             }
             else{
@@ -272,6 +298,21 @@ public class PlayerServices {
         {
             return Message.error("Invalid Move: Invalid distance");
         }
+    }
+
+    public Message submitTurn(){
+        Move lastMove = curMoveSequence.get(curMoveSequence.size()-1);
+        Position initialPos = curMoveSequence.get(0).getStart();
+        Space initSpace = gameBoard().getAtPosition(initialPos);
+        PieceType toMove = initSpace.getOccupant().getType();
+        if(Math.abs(lastMove.getDistance()) == 2 && checkForValidJump(lastMove.getEnd(), toMove, curTurnColor())){
+            return Message.error("Must complete multi-jump");
+        }
+        while(curMoveSequence.size() != 0){
+            Move nextMove = curMoveSequence.remove(0);
+            makeMove(nextMove);
+        }
+        return Message.info("Success");
     }
 
     /**
@@ -295,7 +336,11 @@ public class PlayerServices {
                     if(moveStartRow + y < 0 || moveStartRow + 2*y < 0|| moveStartRow + y > 7 || moveStartRow + 2*y > 7){
                         continue;
                     }
-                    Space neighbor = board.getAtPosition(moveStartRow + y, moveStartCol + x);
+                    Position neighborPos = new Position(moveStartRow+y, moveStartCol+x);
+                    if(getMidPoints().contains(neighborPos)){
+                        continue;
+                    }
+                    Space neighbor = board.getAtPosition(neighborPos);
                     if(neighbor.getOccupant() != null && neighbor.getOccupant().getColor() != currentColor){
                         Space behindNeighbor = board.getAtPosition(moveStartRow + (2*y), moveStartCol + (2*x));
                         if(behindNeighbor.getOccupant() == null){
@@ -328,5 +373,16 @@ public class PlayerServices {
             }
         }
         return false;
+    }
+    private ArrayList<Position> getMidPoints(){
+        ArrayList<Position> result = new ArrayList<>();
+        for(int i = 0; i < curMoveSequence.size(); i++){
+            Move curMove = curMoveSequence.get(i);
+            Position mid = curMove.getMidPoint();
+            if(mid != null){
+                result.add(mid);
+            }
+        }
+        return result;
     }
 }

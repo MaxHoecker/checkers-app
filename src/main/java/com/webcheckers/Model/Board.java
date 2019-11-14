@@ -34,6 +34,28 @@ public class Board {
             }
         }
     }
+    /*
+    //multi-jump test
+    public Board(){
+        for(int i = 0; i < 8; i++){
+            rows.add(new Row(i));
+            for(int j = 0; j < 8; j++){
+                if((i+j)%2 != 0){
+                    if(i == 7 && j == 0){
+                        rows.get(i).addSpacePiece(true, 0, Color.RED);
+                    }else if(i == 6 && j == 1) {
+                        rows.get(i).addSpacePiece(true, 1, Color.WHITE);
+                    }else if(i == 4 && j == 3) {
+                        rows.get(i).addSpacePiece(true, 3, Color.WHITE);
+                    }else{
+                        rows.get(i).addEmptySpace(true, j);
+                    }
+                }else{
+                    rows.get(i).addEmptySpace(false, j);
+                }
+            }
+        }
+    }*/
 
     public synchronized Space getAtPosition(Position pos){
         return getAtPosition(pos.getRow(), pos.getCell());

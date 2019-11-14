@@ -25,6 +25,9 @@ public class Row {
      */
     public void addSpacePiece(boolean valid, int index, Color color){
         Piece piece = new Piece(color);
+        if((color == Color.RED && this.index == 7) || (color == Color.WHITE && this.index == 0)){
+            piece.kingMe();
+        }
         Space space = new Space(valid, index, piece);
         spaces.add(space);
     }

@@ -17,6 +17,15 @@ public class Position {
         return cell;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if(!(other instanceof Position)){
+            return false;
+        }
+        Position o = (Position)other;
+        return this.getRow().equals(o.getRow()) && this.getCell().equals(getCell());
+    }
+
     public String toString(){
         return "["+row+","+cell+"]";
     }
