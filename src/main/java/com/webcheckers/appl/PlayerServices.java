@@ -118,6 +118,12 @@ public class PlayerServices {
         return curPlayer.game().getCurrentPlayerColor();
     }
 
+    public boolean becomeSpectator(String toSpectateId){
+        Player toSpectate = playerLobby.getPlayer(toSpectateId);
+        curPlayer.setGame(toSpectate.game());
+        return true;
+    }
+
     /**
      * Add an instance of Player representing the current user to the playerLobby if:
      *  The username is valid

@@ -63,6 +63,7 @@ public class WebServer {
   public static final String CHECK_TURN_URL = "/checkTurn";
   public static final String BACKUP_MOVE_URL = "/backupMove";
   public static final String RESIGN_URL= "/resignGame";
+  public static final String SPECTATOR_URL = "/spectator";
 
   //
   // Attributes
@@ -156,6 +157,8 @@ public class WebServer {
     post(SIGNIN_URL, new PostSigninRoute(playerLobby, templateEngine));
 
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
+
+    get(SPECTATOR_URL, new GetSpectatorRoute(playerLobby, templateEngine));
 
     post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
 

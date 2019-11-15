@@ -120,7 +120,7 @@ public class GetHomeRoute implements Route {
       }
       vm.put(IS_SIGNED_IN, true);
       if(playerLobby.getNumPlayers() > 1){
-        Set<String> x = playerLobby.getPlayersString();
+        Set<String> x = playerLobby.playersNotInGame();
         x.remove(playerServices.curPlayerName());
         vm.put(PLAYER_LIST_ATTR, x);
       }

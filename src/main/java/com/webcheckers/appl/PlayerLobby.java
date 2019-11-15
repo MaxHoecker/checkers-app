@@ -32,17 +32,26 @@ public class PlayerLobby {
         return playerList;
     }
 
-    /**
-     * gets a set of all the player's id Strings in the lobby
-     * @return set of player names
-     */
-    public synchronized Set<String> getPlayersString(){
+    public synchronized Set<String> playersInGame(){
         Set<Player> playerList = new HashSet<>(players.values());
-        Set<String> playerListString = new HashSet<>();
-        for (Player player : playerList){
-            playerListString.add(player.getName());
+        Set<String> result = new HashSet<>();
+        for(Player player : playerList){
+            if(player.game() != null){
+                result.add(player.getName());
+            }
         }
-        return playerListString;
+        return result;
+    }
+
+    public synchronized Set<String> playersNotInGame(){
+        Set<Player> playerList = new HashSet<>(players.values());
+        Set<String> result = new HashSet<>();
+        for(Player player : playerList){
+            if(player.game() == null){
+                result.add(player.getName());
+            }
+        }
+        return result;
     }
 
     /**
