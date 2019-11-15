@@ -14,6 +14,7 @@ public class PlayerServices {
     private String viewMode = null;
     private Move curMove = null;
     private Boolean wonGame = null;
+    private Message gameEndMessage;
 
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
@@ -188,8 +189,26 @@ public class PlayerServices {
         return wonGame;
     }
 
+    public void setWonGame(Boolean won, Message winMssg){
+        wonGame = won;
+        gameEndMessage = winMssg;
+    }
+
     public void setWonGame(Boolean won){
         wonGame = won;
+        gameEndMessage = new Message("Game ended for unknown reasons", Message.Type.ERROR);
+    }
+
+    public Message getGameEndMessage() {
+        return gameEndMessage;
+    }
+
+    public Boolean getResigned(){
+        return curPlayer.getResigned();
+    }
+
+    public void setResigned(Boolean b){
+        curPlayer.setResigned(b);
     }
 
     /**

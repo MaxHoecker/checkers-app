@@ -10,6 +10,7 @@ public class Player {
     private String name;
     private Color color;
     private Game game;
+    private Boolean resigned;
 
 
     /**
@@ -21,6 +22,7 @@ public class Player {
         this.name = name;
         color = null;
         game = null;
+        resigned = null;
     }
 
     public Game game(){
@@ -50,6 +52,16 @@ public class Player {
      */
     public Color getColor(){
         return color;
+    }
+
+
+    public Boolean getResigned() {
+        return resigned;
+    }
+
+
+    public void setResigned(Boolean resigned) {
+        this.resigned = resigned;
     }
 
 

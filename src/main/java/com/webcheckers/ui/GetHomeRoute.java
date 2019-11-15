@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -80,7 +81,7 @@ public class GetHomeRoute implements Route {
     }
     PlayerServices playerServices = curSession.attribute(PLAYER_SERVICE_ATTR);
 
-    vm.put("title", "Welcome!");
+    vm.put(TITLE_ATTR, "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
