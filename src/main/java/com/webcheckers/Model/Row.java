@@ -86,6 +86,20 @@ public class Row {
         return spaces.iterator();
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Row)){
+            return false;
+        }
+        Row other = (Row)obj;
+        for(int i = 0; i < 8; i++){
+            if(!spaces.get(i).equals(other.spaces.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
     // creats string for row when called by tostring
     public String toString(){
         return String.format("[%d] %s", index, spaces.toString());

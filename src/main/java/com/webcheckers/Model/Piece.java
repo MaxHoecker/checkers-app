@@ -35,6 +35,17 @@ public class Piece {
         type = PieceType.KING;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Piece)){
+            return false;
+        }
+        Piece other = (Piece)obj;
+        boolean eType = this.type == other.type;
+        boolean eColor = this.color == other.color;
+        return eType && eColor;
+    }
+
     // modify toString so that it returns R or W depending on color of piece
     @Override
     public String toString() {

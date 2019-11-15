@@ -70,6 +70,18 @@ public class Space {
         return p;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Space)){
+            return false;
+        }
+        Space other = (Space)obj;
+        boolean ePiece = (piece != null && other.piece != null) && this.piece.equals(other.piece);
+        boolean eCellIdx = this.cellIdx == other.cellIdx;
+        boolean eIsValid = this.isValid == other.isValid;
+        return ePiece && eCellIdx && eIsValid;
+    }
+
     /**
      * creates string that is created when tostring is called on space
      */

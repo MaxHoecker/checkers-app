@@ -8,20 +8,19 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-public class PostSubmitTurnRoute implements Route {
+public class PostSpectatorCheckTurnRoute implements Route {
 
     private Gson gson;
 
-    public PostSubmitTurnRoute(Gson gson){
+    public PostSpectatorCheckTurnRoute(Gson gson){
         this.gson = gson;
     }
-    @Override
+
     public String handle(Request request, Response response){
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
 
-        Message msg = playerServices.submitTurn();
-        
+        Message msg = playerServices.spectatorCheckTurn();
         return gson.toJson(msg);
     }
 }

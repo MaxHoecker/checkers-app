@@ -64,6 +64,9 @@ public class WebServer {
   public static final String BACKUP_MOVE_URL = "/backupMove";
   public static final String RESIGN_URL= "/resignGame";
   public static final String SPECTATOR_URL = "/spectator";
+  public static final String SPECTATOR_VIEW_URL = "/spectator/game";
+  public static final String SPECTATOR_STOP_URL = "/spectator/stopWatching";
+  public static final String SPECTATOR_CHECK_TURN_URL = "spectator/checkTurn";
 
   //
   // Attributes
@@ -159,6 +162,12 @@ public class WebServer {
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
 
     get(SPECTATOR_URL, new GetSpectatorRoute(playerLobby, templateEngine));
+
+    post(SPECTATOR_VIEW_URL, new PostSpectatorGameRoute(playerLobby, templateEngine));
+
+    post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gson));
+
+    get(SPECTATOR_STOP_URL, new GetSpectatorStopRoute());
 
     post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
 

@@ -73,6 +73,20 @@ public class Board {
         return rows.iterator();
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Board)){
+            return false;
+        }
+        Board other = (Board)obj;
+        for(int i = 0; i < 8; i++){
+            if(!this.rows.get(i).equals(other.rows.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * create string to print when toString is called for board
       */

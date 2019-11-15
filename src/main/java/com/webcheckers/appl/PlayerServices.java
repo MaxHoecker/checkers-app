@@ -20,6 +20,9 @@ public class PlayerServices {
 
     private ArrayList<Move> curMoveSequence = new ArrayList<>();
 
+    //for spectators only
+    private Board lastKnown = null;
+
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
     static final String INVALID_NAME_MSG = "Invalid username. Please enter another name.";
@@ -118,10 +121,20 @@ public class PlayerServices {
         return curPlayer.game().getCurrentPlayerColor();
     }
 
-    public boolean becomeSpectator(String toSpectateId){
+
+    public void becomeSpectator(String toSpectateId){
         Player toSpectate = playerLobby.getPlayer(toSpectateId);
         curPlayer.setGame(toSpectate.game());
-        return true;
+        lastKnown = toSpectate.game().getBoard();
+    }
+
+    public Message spectatorCheckTurn(){
+        if(curPlayer.game().getBoard().equals(lastKnown)){
+            return Message.info("false");
+        }else{
+            lastKnown = curPlayer.game().getBoard();
+            return Message.info("true");
+        }
     }
 
     /**
@@ -189,13 +202,14 @@ public class PlayerServices {
             if(curPlayer.getColor() == Color.RED){
                 curPlayer.game().setPlayer(Color.RED, null);
             }
-            else{
+            else if(curPlayer.getColor() == Color.WHITE){
                 curPlayer.game().setPlayer(Color.WHITE, null);
             }
             curPlayer.setColor(null);
             curPlayer.setGame(null);
             viewMode = null;
             curMoveSequence.clear();
+            lastKnown = null;
             return true;
         }
     }

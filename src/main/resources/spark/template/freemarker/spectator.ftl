@@ -20,7 +20,7 @@
     <#include "message.ftl" />
 
     <h3>Click a Player to Spectate Their Game</h3>
-    <form action="/game" method="post">
+    <form action="/spectator/game" method="post">
     <#list playerList as player>
         <ul style="list-style-type:none">
             <li>
