@@ -7,7 +7,7 @@ import java.util.Iterator;
  * The Row object
  * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
-public class Row {
+public class Row implements Cloneable{
 
     private int index;
     private ArrayList<Space> spaces = new ArrayList<>();
@@ -86,13 +86,21 @@ public class Row {
         return spaces.iterator();
     }
 
+    public Object clone() throws CloneNotSupportedException{
+        Row result = new Row(this.index);
+        for(int i = 0; i < this.spaces.size(); i++){
+            result.spaces.add((Space)this.spaces.get(i).clone());
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Row)){
             return false;
         }
         Row other = (Row)obj;
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < spaces.size(); i++){
             if(!spaces.get(i).equals(other.spaces.get(i))){
                 return false;
             }

@@ -3,7 +3,7 @@ package com.webcheckers.Model;
  * The Space object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
-public class Space {
+public class Space implements Cloneable{
     private Piece piece;
     private int cellIdx;
     private boolean isValid;
@@ -71,12 +71,20 @@ public class Space {
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException{
+        if(this.piece != null) {
+            return new Space(this.isValid, this.cellIdx, (Piece) this.piece.clone());
+        }
+        return new Space(this.isValid, this.cellIdx, null);
+    }
+
+    @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Space)){
             return false;
         }
         Space other = (Space)obj;
-        boolean ePiece = (piece != null && other.piece != null) && this.piece.equals(other.piece);
+        boolean ePiece = (piece == null && other.piece == null) || ((piece != null && other.piece != null) && this.piece.equals(other.piece));
         boolean eCellIdx = this.cellIdx == other.cellIdx;
         boolean eIsValid = this.isValid == other.isValid;
         return ePiece && eCellIdx && eIsValid;

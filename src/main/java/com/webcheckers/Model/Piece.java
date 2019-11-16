@@ -35,6 +35,14 @@ public class Piece {
         type = PieceType.KING;
     }
 
+    public Object clone() throws CloneNotSupportedException{
+        Piece result = new Piece(this.color);
+        if(this.type == PieceType.KING){
+            result.kingMe();
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Piece)){

@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
-public class Board {
+public class Board implements Cloneable{
 
     //an array of row objects
     private ArrayList<Row> rows = new ArrayList<>(); //used an arraylist because it has an iterator() method
@@ -73,13 +73,22 @@ public class Board {
         return rows.iterator();
     }
 
+    public Object clone() throws CloneNotSupportedException{
+        Board result = new Board();
+        result.rows = new ArrayList<>();
+        for(int i = 0; i < this.rows.size(); i++){
+            result.rows.add((Row)this.rows.get(i).clone());
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Board)){
             return false;
         }
         Board other = (Board)obj;
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < rows.size(); i++){
             if(!this.rows.get(i).equals(other.rows.get(i))){
                 return false;
             }

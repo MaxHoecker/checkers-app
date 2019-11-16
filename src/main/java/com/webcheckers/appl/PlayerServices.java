@@ -3,6 +3,7 @@ package com.webcheckers.appl;
 import com.google.gson.Gson;
 import com.webcheckers.Model.*;
 import com.webcheckers.util.Message;
+import org.eclipse.jetty.io.ssl.ALPNProcessor;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -26,7 +27,7 @@ public class PlayerServices {
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
     static final String INVALID_NAME_MSG = "Invalid username. Please enter another name.";
-    private final static String VALID_NAME_REGEX = "\\w+";
+    private final static String VALID_NAME_REGEX = "[a-zA-Z\\d ]+";
 
     /**
      * Constructs PlayerServices
@@ -125,14 +126,22 @@ public class PlayerServices {
     public void becomeSpectator(String toSpectateId){
         Player toSpectate = playerLobby.getPlayer(toSpectateId);
         curPlayer.setGame(toSpectate.game());
-        lastKnown = toSpectate.game().getBoard();
+        try {
+            lastKnown = (Board)toSpectate.game().getBoard().clone();
+        }catch(CloneNotSupportedException e){
+            System.err.println("PlayerServices.java:131: " + e.getMessage());
+        }
     }
 
     public Message spectatorCheckTurn(){
         if(curPlayer.game().getBoard().equals(lastKnown)){
             return Message.info("false");
         }else{
-            lastKnown = curPlayer.game().getBoard();
+            try {
+                lastKnown = (Board) curPlayer.game().getBoard().clone();
+            }catch(CloneNotSupportedException e){
+                System.err.println("PlayerServices.java:144: " + e.getMessage());
+            }
             return Message.info("true");
         }
     }
