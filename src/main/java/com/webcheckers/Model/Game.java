@@ -18,8 +18,8 @@ public class Game {
     private int gameID;
     private Color currentPlayerColor;
 
-    private int numRedPieces = 12;
-    private int numWhitePieces = 12;
+    private int numRedPieces = 1;
+    private int numWhitePieces = 1;
 
 
     /**

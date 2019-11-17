@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerServices;
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
  * UI Controller for rendering the game page
  *
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class PostGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostGameRoute.class.getName());
@@ -61,21 +63,15 @@ public class PostGameRoute implements Route {
         PlayerServices playerServices = curSession.attribute("playerServices");
 
         vm.put("title", "Game Page");
+        Map<String, Object> modeOptions = new HashMap<>(2);
 
         if(playerServices.curPlayer().game() != null){ //getting game route
-            if(playerServices.getWonGame() != null){
-                playerServices.removeFromGame();
 
-                response.redirect(WebServer.HOME_URL);
-                return null;
-            }
-            if(playerServices.opponent() == null){
-                playerServices.removeFromGame();
-                playerServices.setWonGame(true);
+            //ToDo
 
-                response.redirect(WebServer.HOME_URL);
-                return null;
-            }
+
+            //ToDo
+
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
@@ -88,26 +84,43 @@ public class PostGameRoute implements Route {
                 (!playerServices.curPlayer().isMyTurn() && playerServices.curPlayer().getColor() == Color.RED)){
                 vm.put(ACTIVE_COLOR_ATTR, "WHITE");
             }
-            Map<String, Object> modeOptions = new HashMap<>(2);
+
+            if(playerServices.opponent() == null){
+
+                Message winMssg = new Message("Your opponent left the game, so you win by default!", Message.Type.INFO);
+                playerServices.setWonGame(true, winMssg);
+                playerServices.setResigned(false);
+
+                response.redirect(WebServer.HOME_URL);
+                return null;
+            }
+
             if(playerServices.curPlayer().game().numRedPieces() == 0){
+                String endtext = String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName());
+                Message winMssg = new Message(endtext, Message.Type.INFO);
                 if(playerServices.curPlayer().getColor() == Color.WHITE){
-                    playerServices.setWonGame(true);
+
+                    //ToDo
+                    playerServices.setWonGame(true, winMssg);
                 }
                 else{
-                    playerServices.setWonGame(false);
+                    playerServices.setWonGame(false, winMssg);
                 }
                 modeOptions.put("isGameOver", true);
-                modeOptions.put("gameOverMessage", String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName()));
+                modeOptions.put("gameOverMessage", playerServices.getGameEndMessage().getText());
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
-            }else if(playerServices.curPlayer().game().numWhitePieces() == 0){
+            }
+            else if(playerServices.curPlayer().game().numWhitePieces() == 0){
+                String endtext = String.format(ALL_CAPTURED_MSG, playerServices.redPlayer().getName());
+                Message winMssg = new Message(endtext, Message.Type.INFO);
                 if(playerServices.curPlayer().getColor() == Color.RED){
-                    playerServices.setWonGame(true);
+                    playerServices.setWonGame(true, winMssg);
                 }
                 else{
-                    playerServices.setWonGame(false);
+                    playerServices.setWonGame(false, winMssg);
                 }
                 modeOptions.put("isGameOver", true);
-                modeOptions.put("gameOVerMessage", String.format(ALL_CAPTURED_MSG, playerServices.redPlayer().getName()));
+                modeOptions.put("gameOVerMessage", playerServices.getGameEndMessage().getText());
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));

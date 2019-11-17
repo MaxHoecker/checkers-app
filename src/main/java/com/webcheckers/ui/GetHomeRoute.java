@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -80,7 +81,7 @@ public class GetHomeRoute implements Route {
     }
     PlayerServices playerServices = curSession.attribute(PLAYER_SERVICE_ATTR);
 
-    vm.put("title", "Welcome!");
+    vm.put(TITLE_ATTR, "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
@@ -98,6 +99,7 @@ public class GetHomeRoute implements Route {
       vm.put("message", Message.info("Sign-out Successful!"));
       return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
+
     else{
       vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
 
@@ -105,14 +107,24 @@ public class GetHomeRoute implements Route {
       //if(playerServices.getViewMode() == "Spectator" || playerServices.getViewMode() == "Replay"){
 
       if (playerServices.getWonGame() == null){ }
-      else if(playerServices.getWonGame()){
-        vm.put("message", Message.info("You Won!"));
-        playerServices.setWonGame(null);
-      }
+
       else{
-        vm.put("message", Message.info("You lost :("));
-        playerServices.setWonGame(null);
+        if (playerServices.getResigned() == null){}
+        else if (playerServices.getResigned()){
+          vm.put("message", playerServices.getGameEndMessage());
+          playerServices.setWonGame(null, playerServices.getGameEndMessage());
+        }
+        else if (!playerServices.getResigned()){
+          vm.put("message", playerServices.getGameEndMessage());
+          playerServices.removeFromGame();
+          playerServices.setWonGame(null, playerServices.getGameEndMessage());
+        }
+        vm.put("message", playerServices.getGameEndMessage());
+        playerServices.setWonGame(null, playerServices.getGameEndMessage());
+          playerServices.removeFromGame();
       }
+
+
       //}
        if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
