@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+/**
+ * Handles all functionality of individual users
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
+ */
 public class PlayerServices {
 
     //Attributes
@@ -55,13 +60,13 @@ public class PlayerServices {
         this.signedIn = signedIn;
     }
 
+    /**
+     * Remove the most recent move added to the move sequence for this turn
+     */
     public void removeLastMove(){
         curMoveSequence.remove(curMoveSequence.size()-1);
     }
 
-    public Move getNextMove(){
-        return curMoveSequence.get(0);
-    }
 
     /**
      * Get current user's Player object
@@ -103,27 +108,51 @@ public class PlayerServices {
         return curPlayer.getColor();
     }
 
+    /**
+     * Set the view mode for the current user
+     * @param s String enum of PLAY | SPECTATOR | REPLAY
+     */
     public void setViewMode(String s){
         this.viewMode = s;
     }
 
+    /**
+     * Get the view mode for the current user
+     * @return String enum of PLAY | SPECTATOR | REPLAY
+     */
     public String getViewMode(){
         return this.viewMode;
     }
 
+    /**
+     * Get the white player for the game the current user is interacting with
+     * @return a player
+     */
     public Player whitePlayer(){
         return curPlayer.game().getPlayer(Color.WHITE);
     }
 
+    /**
+     * Get the red player for the game that the current user is interacting with
+     * @return a player
+     */
     public Player redPlayer(){
         return curPlayer.game().getPlayer(Color.RED);
     }
 
+    /**
+     * Returns the color of the player whose turn it is in the game that curPlayer is interacting with
+     * @return Color.RED | Color.WHITE
+     */
     public Color curTurnColor(){
         return curPlayer.game().getCurrentPlayerColor();
     }
 
 
+    /**
+     * Configure this instance of PlayerServices to accommodate the current player becoming a spectator
+     * @param toSpectateId the name of the player whose game curPlayer wishes to spectate
+     */
     public void becomeSpectator(String toSpectateId){
         Player toSpectate = playerLobby.getPlayer(toSpectateId);
         curPlayer.setGame(toSpectate.game());
@@ -134,6 +163,12 @@ public class PlayerServices {
         }
     }
 
+    /**
+     * Used by spectators to see if the state of the game board has changed at all. If it has,
+     * returns a message that tells the client side whether or not to refresh that page
+     * @return an affirmative message if the current game state does not match the last known game state or a negative
+     *          message otherwise
+     */
     public Message spectatorCheckTurn(){
         if(curPlayer.game().getBoard().equals(lastKnown)){
             return Message.info("false");
@@ -202,6 +237,10 @@ public class PlayerServices {
         }
     }
 
+    /**
+     * Erase all data related to a game that curPlayer is interacting with
+     * @return true if successful, false if there is no game to begin with
+     */
     public boolean removeFromGame(){
 
         if(curPlayer.game() == null){
@@ -224,28 +263,53 @@ public class PlayerServices {
         }
     }
 
+    /**
+     * Check if the game is over and curPlayer won the game (used for users playing a game)
+     * @return a Boolean
+     */
     public Boolean getWonGame(){
         return wonGame;
     }
 
+    /**
+     * Set how the game ended for curPlayer (used for users playing a game)
+     * @param won true if curPlayer won the game, false otherwise
+     * @param winMssg message for the player based on the game's outcome
+     */
     public void setWonGame(Boolean won, Message winMssg){
         wonGame = won;
         gameEndMessage = winMssg;
     }
 
+    /**
+     * Called when the game ends for unknown reasons/in error
+     * @param won true if curPlayer won the game, false otherwise
+     */
     public void setWonGame(Boolean won){
         wonGame = won;
         gameEndMessage = new Message("Game ended for unknown reasons", Message.Type.ERROR);
     }
 
+    /**
+     * Get the end game message
+     * @return a Message
+     */
     public Message getGameEndMessage() {
         return gameEndMessage;
     }
 
+    /**
+     * Check if the user resigned or not
+     * @return a Boolean
+     */
     public Boolean getResigned(){
         return curPlayer.getResigned();
     }
 
+    /**
+     * Set the current user's resignation status
+     * @param b a Boolean
+     */
     public void setResigned(Boolean b){
         curPlayer.setResigned(b);
     }
@@ -264,6 +328,12 @@ public class PlayerServices {
         curPlayer.game().makeMove(move, multiJump);
     }
 
+    /**
+     * Return a message for the client side on whether or not a given move is valid. Returns a message of type error if
+     * the move is invalid, and a message of type info if valid. Validity is based on American checkers rules.
+     * @param moveJson a JSON string for a move object
+     * @return a Message
+     */
     public Message validateMove(String moveJson){
         if(moveJson.contains("null")){
             return Message.error("Invalid Move:null square detected");
@@ -367,6 +437,7 @@ public class PlayerServices {
      * Helper method for validate move. Checks to see if it is possible for the piece at a position to make a
      * jump
      * @param pos we check for valid jumps from here
+     * @param type type of the piece we want to see if it can make a jump
      * @param currentColor the color of the player whose turn it is
      * @return true if there is a possible jump, false otherwise
      */
@@ -422,6 +493,11 @@ public class PlayerServices {
         }
         return false;
     }
+
+    /**
+     * Get the midpoints for all jumps made in the move sequence for the current turn
+     * @return an ArrayList of the midpoints represented by Position objects
+     */
     private ArrayList<Position> getMidPoints(){
         ArrayList<Position> result = new ArrayList<>();
         for(int i = 0; i < curMoveSequence.size(); i++){

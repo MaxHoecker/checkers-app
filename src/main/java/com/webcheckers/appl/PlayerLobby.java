@@ -32,6 +32,10 @@ public class PlayerLobby {
         return playerList;
     }
 
+    /**
+     * Gets a set of the names of all players that are in a game
+     * @return Set of PLayers
+     */
     public synchronized Set<String> playersInGame(){
         Set<Player> playerList = new HashSet<>(players.values());
         Set<String> result = new HashSet<>();
@@ -43,6 +47,10 @@ public class PlayerLobby {
         return result;
     }
 
+    /**
+     * Gets a set of the names of all the players that are not in a game
+     * @return Set of PLayers
+     */
     public synchronized Set<String> playersNotInGame(){
         Set<Player> playerList = new HashSet<>(players.values());
         Set<String> result = new HashSet<>();

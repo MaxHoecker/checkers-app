@@ -57,10 +57,21 @@ public class Board implements Cloneable{
         }
     }*/
 
+    /**
+     * Get the space at a given position on the board
+     * @param pos the row/col position of the space to be gotten in the form of a Position object
+     * @return  a Space
+     */
     public synchronized Space getAtPosition(Position pos){
         return getAtPosition(pos.getRow(), pos.getCell());
     }
 
+    /**
+     * Get the space at a given position on the board
+     * @param row the row of the space to be gotten
+     * @param col the col of the space to be gotten
+     * @return a Space
+     */
     public synchronized Space getAtPosition(int row, int col){
         return rows.get(row).getSpace(col);
     }
@@ -73,6 +84,12 @@ public class Board implements Cloneable{
         return rows.iterator();
     }
 
+    /**
+     * Return a perfect clone of this instance of Board (no references are the same)
+     * @return a new Board
+     * @throws CloneNotSupportedException
+     */
+    @Override
     public Object clone() throws CloneNotSupportedException{
         Board result = new Board();
         result.rows = new ArrayList<>();
@@ -82,6 +99,11 @@ public class Board implements Cloneable{
         return result;
     }
 
+    /**
+     * Check to see if this board is equal to another given board. Equality is determined by the fields being equal.
+     * @param obj the object we are comparing this board to
+     * @return true if the fields are equal, false if they are not, or obj is not a Board instance
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Board)){

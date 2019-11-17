@@ -1,9 +1,9 @@
 package com.webcheckers.Model;
 
-import com.webcheckers.appl.PlayerServices;
 
 /**
  * The game object
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
 public class Game {
@@ -18,8 +18,8 @@ public class Game {
     private int gameID;
     private Color currentPlayerColor;
 
-    private int numRedPieces = 1;
-    private int numWhitePieces = 1;
+    private int numRedPieces = 12;
+    private int numWhitePieces = 12;
 
 
     /**
@@ -44,11 +44,20 @@ public class Game {
     }
 
 
+    /**
+     * Get the board this game is being played on
+     * @return a Board
+     */
     public Board getBoard(){
         return board;
     }
 
 
+    /**
+     * Get the player of the given color
+     * @param color the color of the player to be gotten
+     * @return a Player
+     */
     public Player getPlayer(Color color){
         if(color == Color.WHITE){
             return white;
@@ -57,6 +66,10 @@ public class Game {
         }
     }
 
+    /**
+     * Get the color of the player whose turn it is
+     * @return a Color
+     */
     public Color getCurrentPlayerColor(){
         if(currentPlayerColor == Color.WHITE){
             return Color.WHITE;
@@ -65,6 +78,11 @@ public class Game {
         }
     }
 
+    /**
+     * Get the opponent of the player passed in
+     * @param player the player whose opponent you want to find
+     * @return a Player
+     */
     public Player getOpponent(Player player){
         if(player.getColor() == Color.WHITE){
             return red;
@@ -75,6 +93,11 @@ public class Game {
     }
 
 
+    /**
+     * Assign a player to a game based on color
+     * @param color the color we want to assign this player
+     * @param player the player we want to assign
+     */
     public void setPlayer(Color color, Player player){
         if(color == Color.RED){
             this.red = player;
@@ -85,6 +108,10 @@ public class Game {
         }
     }
 
+    /**
+     * Get the number of red pieces left in the game
+     * @return an int
+     */
     public int numRedPieces(){
         return numRedPieces;
     }
