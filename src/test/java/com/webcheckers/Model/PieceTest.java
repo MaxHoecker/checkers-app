@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-@Tag("com.webcheckers.Model tier")
+@Tag("Model-tier")
 public class PieceTest {
 
     private Piece red;
