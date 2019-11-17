@@ -21,14 +21,14 @@ public class PostResignGameRoute implements Route {
         Session curSession = request.session();
         PlayerServices playerServices = curSession.attribute("playerServices");
         boolean removed = playerServices.removeFromGame();
+        playerServices.setResigned(true);
+        Message endMssg = new Message("Successfully resigned", Message.Type.INFO);
         if(removed){
-            playerServices.setWonGame(false);
-            return gson.toJson(Message.info(""));
+            playerServices.setWonGame(false, endMssg);
+            return gson.toJson(endMssg);
         }
         else{
             return gson.toJson(Message.error("Unable to end"));
         }
-
-
     }
 }

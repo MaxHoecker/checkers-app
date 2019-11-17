@@ -108,19 +108,21 @@ public class GetHomeRoute implements Route {
 
       if (playerServices.getWonGame() == null){ }
 
-
-      //ToDo
-      else if(playerServices.getWonGame()){
-        vm.put("message", Message.info("You Won!"));
-        playerServices.setWonGame(null);
-          playerServices.removeFromGame();
-      }
       else{
-        vm.put("message", Message.info("You lost :("));
-        playerServices.setWonGame(null);
+        if (playerServices.getResigned() == null){}
+        else if (playerServices.getResigned()){
+          vm.put("message", playerServices.getGameEndMessage());
+          playerServices.setWonGame(null, playerServices.getGameEndMessage());
+        }
+        else if (!playerServices.getResigned()){
+          vm.put("message", playerServices.getGameEndMessage());
+          playerServices.removeFromGame();
+          playerServices.setWonGame(null, playerServices.getGameEndMessage());
+        }
+        vm.put("message", playerServices.getGameEndMessage());
+        playerServices.setWonGame(null, playerServices.getGameEndMessage());
           playerServices.removeFromGame();
       }
-        //ToDo
 
 
       //}

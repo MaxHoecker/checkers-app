@@ -68,24 +68,8 @@ public class PostGameRoute implements Route {
         if(playerServices.curPlayer().game() != null){ //getting game route
 
             //ToDo
-            if(playerServices.getWonGame() != null){
-
-                response.redirect(WebServer.HOME_URL);
-                return null;
-            }
-            if(playerServices.opponent() == null){
-
-                Message winMssg = new Message("Your opponent left the game, so you win by default!", Message.Type.INFO);
-                playerServices.setWonGame(true, winMssg);
-                playerServices.setResigned(true);
-
-                modeOptions.put("isGameOver", true);
-                modeOptions.put("gameOVerMessage", winMssg);
-                vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
 
 
-                return null;
-            }
             //ToDo
 
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
@@ -101,6 +85,16 @@ public class PostGameRoute implements Route {
                 vm.put(ACTIVE_COLOR_ATTR, "WHITE");
             }
 
+            if(playerServices.opponent() == null){
+
+                Message winMssg = new Message("Your opponent left the game, so you win by default!", Message.Type.INFO);
+                playerServices.setWonGame(true, winMssg);
+                playerServices.setResigned(false);
+
+                response.redirect(WebServer.HOME_URL);
+                return null;
+            }
+
             if(playerServices.curPlayer().game().numRedPieces() == 0){
                 String endtext = String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName());
                 Message winMssg = new Message(endtext, Message.Type.INFO);
@@ -113,7 +107,7 @@ public class PostGameRoute implements Route {
                     playerServices.setWonGame(false, winMssg);
                 }
                 modeOptions.put("isGameOver", true);
-                modeOptions.put("gameOverMessage", playerServices.getGameEndMessage());
+                modeOptions.put("gameOverMessage", playerServices.getGameEndMessage().getText());
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }
             else if(playerServices.curPlayer().game().numWhitePieces() == 0){
@@ -126,7 +120,7 @@ public class PostGameRoute implements Route {
                     playerServices.setWonGame(false, winMssg);
                 }
                 modeOptions.put("isGameOver", true);
-                modeOptions.put("gameOVerMessage", playerServices.getGameEndMessage());
+                modeOptions.put("gameOVerMessage", playerServices.getGameEndMessage().getText());
                 vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             }
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
