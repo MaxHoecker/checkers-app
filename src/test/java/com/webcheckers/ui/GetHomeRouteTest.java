@@ -4,7 +4,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.gson.Gson;
+import com.webcheckers.Model.Color;
 import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
@@ -75,20 +79,91 @@ public class GetHomeRouteTest {
 
     @Test
     public void test_NO_SIGNIN_FIRST_USER(){
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(null);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
+        CuT.handle(request, response);
+
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("title", "Welcome!");
+        testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
+    }
+
+    public void test_signedout(){
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(false);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        CuT.handle(request, response);
+
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("title", "Welcome!");
+        testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
     }
 
     @Test
-    public void test_SIGNIN_FIRST_USER(){
+    public void test_nullwongame(){
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(true);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        CuT.handle(request, response);
 
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("title", "Welcome!");
+        testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
     }
 
     @Test
-    public void test_NOT_SIGNED_IN_SECOND_USER(){
+    public void testyouwon(){
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(true);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(playerServices.getWonGame()).thenReturn(true);
+        CuT.handle(request, response);
 
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("title", "Welcome!");
+        testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
     }
 
     @Test
-    public void test_SIGNED_IN_SECOND_USER() {
+    public void testyoulost() {
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(true);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(playerServices.getWonGame()).thenReturn(true);
+        CuT.handle(request, response);
+
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("title", "Welcome!");
+        testHelper.assertViewName(GetHomeRoute.VIEW_NAME);
+    }
+    @Test
+    public void testcolorclick() {
+        Set<String> players = new HashSet<String>(); 
+        players.add("Josh");
+        players.add("Dan");
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        final Color color = Color.RED;
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        when(playerServices.signedIn()).thenReturn(true);
+        when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(playerServices.getWonGame()).thenReturn(null);
+        when(playerServices.curPlayerColor()).thenReturn(color);
+        when(playerLobby.getNumPlayers()).thenReturn(2);
+        when(playerLobby.getPlayersString()).thenReturn(players);
+        when(playerServices.curPlayerName()).thenReturn("Josh");
+        CuT.handle(request, response);
     }
 }
