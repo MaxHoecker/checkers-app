@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import com.google.gson.Gson;
 import com.webcheckers.Model.Player;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.appl.PlayerServices;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -29,6 +30,7 @@ public class GetHomeRouteTest {
     private Response response;
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
+    private PlayerServices playerServices;
     private Session session;
 
     //HTML constant
@@ -40,7 +42,7 @@ public class GetHomeRouteTest {
     private String IS_SIGNED_IN = GetHomeRoute.IS_SIGNED_IN;
 
     //Friendly
-    Gson gson = new Gson();
+    private Gson gson = new Gson();
 
 
     @BeforeEach
@@ -51,13 +53,15 @@ public class GetHomeRouteTest {
         response = mock(Response.class);
         templateEngine = mock(TemplateEngine.class);
         playerLobby = mock(PlayerLobby.class);
-
+        playerServices = mock(PlayerServices.class);
         CuT = new GetHomeRoute(playerLobby, templateEngine, gson);
     }
 
     @Test
     public void render_page(){
         final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
+        
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
         CuT.handle(request, response);
