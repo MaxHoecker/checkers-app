@@ -106,8 +106,11 @@ public class GetHomeRoute implements Route {
       //ToDo
       //if(playerServices.getViewMode() == "Spectator" || playerServices.getViewMode() == "Replay"){
 
-      if (playerServices.getWonGame() == null){ }
-
+      if (playerServices.getWonGame() == null){
+        if (playerServices.getGameEndMessage() != null){
+          vm.put("message", playerServices.getGameEndMessage());
+        }
+      }
       else{
         if (playerServices.getResigned() == null){}
         else if (playerServices.getResigned()){
