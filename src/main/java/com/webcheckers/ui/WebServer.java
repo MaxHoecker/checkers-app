@@ -67,6 +67,11 @@ public class WebServer {
   public static final String SPECTATOR_VIEW_URL = "/spectator/game";
   public static final String SPECTATOR_STOP_URL = "/spectator/stopWatching";
   public static final String SPECTATOR_CHECK_TURN_URL = "spectator/checkTurn";
+  public static final String REPLAY_PAGE_URL = "/replay";
+  public static final String REPLAY_VIEW_URL = "/replay/game";
+  public static final String REPLAY_STOP_URL = "/replay/stopWatching";
+  public static final String REPLAY_NEXT_MOVE_URL = "/replay/nextTurn";
+  public static final String REPLAY_PREV_MOVE_URL = "/replay/previousTurn";
 
   //
   // Attributes
@@ -161,6 +166,11 @@ public class WebServer {
 
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
 
+    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
+
+    //
+    //Spectator Routes
+    //
     get(SPECTATOR_URL, new GetSpectatorRoute(playerLobby, templateEngine));
 
     post(SPECTATOR_VIEW_URL, new PostSpectatorGameRoute(playerLobby, templateEngine));
@@ -169,8 +179,22 @@ public class WebServer {
 
     get(SPECTATOR_STOP_URL, new GetSpectatorStopRoute());
 
-    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
+    //
+    //Replay Routes
+    //
+    get(REPLAY_PAGE_URL, new GetReplayRoute(playerLobby, templateEngine));
 
+    post(REPLAY_VIEW_URL, new PostReplayGameRoute(playerLobby, templateEngine));
+
+    post(REPLAY_NEXT_MOVE_URL, new PostReplayNextMoveRoute(gson));
+
+    post(REPLAY_PREV_MOVE_URL, new PostReplayPreviousMoveRoute(gson));
+
+    get(REPLAY_STOP_URL, new GetReplayStopRoute());
+
+    //
+    //Game related Routes
+    //
     post(GAME_URL, new PostGameRoute(gson, templateEngine));
 
     get(GAME_URL, new PostGameRoute(gson, templateEngine));

@@ -18,6 +18,7 @@ public class PlayerServices {
     private PlayerLobby playerLobby;
     private String viewMode = null;
     private Boolean wonGame = null;
+    private Boolean visitReplayPage = null;
     private Message gameEndMessage;
 
     private ArrayList<Move> curMoveSequence = new ArrayList<>();
@@ -37,6 +38,14 @@ public class PlayerServices {
     public PlayerServices(final PlayerLobby playerLobby, final Gson gson){
         this.playerLobby = playerLobby;
         this.gson = gson;
+    }
+
+    public Boolean getVisitReplayPage(){
+        return visitReplayPage;
+    }
+
+    public void setVisitReplayPage(Boolean visitReplayPage) {
+        this.visitReplayPage = visitReplayPage;
     }
 
     /**

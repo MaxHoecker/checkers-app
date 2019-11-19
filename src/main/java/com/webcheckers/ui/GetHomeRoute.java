@@ -101,34 +101,38 @@ public class GetHomeRoute implements Route {
     }
 
     else{
-      vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
+        vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
 
-      //ToDo
-      //if(playerServices.getViewMode() == "Spectator" || playerServices.getViewMode() == "Replay"){
 
-      if (playerServices.getWonGame() == null){
-        if (playerServices.getGameEndMessage() != null){
-          vm.put("message", playerServices.getGameEndMessage());
+        if(!playerServices.getVisitReplayPage()){
+
+
         }
-      }
-      else{
-        if (playerServices.getResigned() == null){}
-        else if (playerServices.getResigned()){
-          vm.put("message", playerServices.getGameEndMessage());
-          playerServices.setWonGame(null, playerServices.getGameEndMessage());
+        else{
+            if (playerServices.getWonGame() == null){
+                if (playerServices.getGameEndMessage() != null){
+                    vm.put("message", playerServices.getGameEndMessage());
+                }
+            }
+            else{
+                if (playerServices.getResigned() == null){}
+                else if (playerServices.getResigned()){
+                    vm.put("message", playerServices.getGameEndMessage());
+                    playerServices.setWonGame(null, playerServices.getGameEndMessage());
+                }
+                else if (!playerServices.getResigned()){
+                    vm.put("message", playerServices.getGameEndMessage());
+                    playerServices.removeFromGame();
+                    playerServices.setWonGame(null, playerServices.getGameEndMessage());
+                }
+                vm.put("message", playerServices.getGameEndMessage());
+                playerServices.setWonGame(null, playerServices.getGameEndMessage());
+                playerServices.removeFromGame();
+            }
         }
-        else if (!playerServices.getResigned()){
-          vm.put("message", playerServices.getGameEndMessage());
-          playerServices.removeFromGame();
-          playerServices.setWonGame(null, playerServices.getGameEndMessage());
-        }
-        vm.put("message", playerServices.getGameEndMessage());
-        playerServices.setWonGame(null, playerServices.getGameEndMessage());
-          playerServices.removeFromGame();
-      }
 
 
-      //}
+
        if(playerServices.curPlayerColor() != null){ //handles player getting clicked on by another player
         response.redirect(WebServer.GAME_URL);
         return null;
