@@ -35,6 +35,12 @@ public class Piece {
         type = PieceType.KING;
     }
 
+    /**
+     * Creates a copy of this Piece such that no pointers are shared
+     * @return a clone of this Piece
+     * @throws CloneNotSupportedException
+     */
+    @Override
     public Object clone() throws CloneNotSupportedException{
         Piece result = new Piece(this.color);
         if(this.type == PieceType.KING){
@@ -43,6 +49,11 @@ public class Piece {
         return result;
     }
 
+    /**
+     * Check the equality of a piece.
+     * @param obj the object we are comparing this Piece to
+     * @return true if the object is an instance of Piece and has matching fields, false otherwise
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Piece)){

@@ -6,6 +6,7 @@ import java.util.Iterator;
 /**
  * The Row object
  * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class Row implements Cloneable{
 
@@ -86,6 +87,12 @@ public class Row implements Cloneable{
         return spaces.iterator();
     }
 
+    /**
+     * Create a clone of this row, and all spaces inside of it
+     * @return a clone of this row, including a deep clone of rows
+     * @throws CloneNotSupportedException
+     */
+    @Override
     public Object clone() throws CloneNotSupportedException{
         Row result = new Row(this.index);
         for(int i = 0; i < this.spaces.size(); i++){
@@ -94,6 +101,11 @@ public class Row implements Cloneable{
         return result;
     }
 
+    /**
+     * Check the equality of this instance of row to another
+     * @param obj object we are comparing to
+     * @return true if obj is a Row instance and has equal contents to this one, false otherwise
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Row)){
@@ -108,7 +120,10 @@ public class Row implements Cloneable{
         return true;
     }
 
-    // creats string for row when called by tostring
+    /**
+     * Encodes this Row as a string
+     * @return a string following the format "[{index of this row} {stringified list of spaces in this row}"
+     */
     public String toString(){
         return String.format("[%d] %s", index, spaces.toString());
     }

@@ -116,14 +116,27 @@ public class Game {
         return numRedPieces;
     }
 
+    /**
+     * Get the number of white pieces left in the game
+     * @return an int
+     */
     public int numWhitePieces(){
         return numWhitePieces;
     }
 
+    /**
+     * Set the color of the player whose turn it is
+     * @param color the color of the player whose turn it is
+     */
     public void setCurrentPlayerColor(Color color){
         currentPlayerColor = color;
     }
 
+    /**
+     * Modifies the board state when a user makes a move
+     * @param move the move a player made
+     * @param multiJump a boolean that is true if the player just made a jump and can make another
+     */
     public synchronized void makeMove(Move move, boolean multiJump){
         Space toMoveFrom = board.getAtPosition(move.getStart());
         Piece toMove = toMoveFrom.removeOccupant();

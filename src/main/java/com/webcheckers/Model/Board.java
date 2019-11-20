@@ -7,6 +7,7 @@ import java.util.Iterator;
  * The board object that contains row objects
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class Board implements Cloneable{
 

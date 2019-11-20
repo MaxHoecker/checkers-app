@@ -2,6 +2,7 @@ package com.webcheckers.Model;
 /**
  * The Space object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class Space implements Cloneable{
     private Piece piece;
@@ -61,7 +62,7 @@ public class Space implements Cloneable{
     }
 
     /**
-     * remove peice on square
+     * remove piece on square
      * @return removed piece
      */
     public Piece removeOccupant(){
@@ -70,6 +71,11 @@ public class Space implements Cloneable{
         return p;
     }
 
+    /**
+     * Make a clone of this space such that no pointers are shared between this and its clone
+     * @return a clone if this Space
+     * @throws CloneNotSupportedException
+     */
     @Override
     public Object clone() throws CloneNotSupportedException{
         if(this.piece != null) {
@@ -78,6 +84,11 @@ public class Space implements Cloneable{
         return new Space(this.isValid, this.cellIdx, null);
     }
 
+    /**
+     * Check the equality of this Space instance to another
+     * @param obj the object we are comparing to
+     * @return true if obj is a Space instance and has equal contents to this one, false otherwise
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Space)){
@@ -92,6 +103,7 @@ public class Space implements Cloneable{
 
     /**
      * creates string that is created when tostring is called on space
+     * @return the string representation of piece if piece exists, otherwise "1" if this space is valid, and "0" otherwise
      */
     @Override
     public String toString() {

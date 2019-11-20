@@ -6,8 +6,19 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+/**
+ * The UI Controller for removing a player from a game they are spectating. Redirects users to home page
+ *
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ */
 public class GetSpectatorStopRoute implements Route {
 
+    /**
+     * Remove spectators from whichever game they are spectating and bring them to the home page
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return null
+     */
     public String handle(Request request, Response response){
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
