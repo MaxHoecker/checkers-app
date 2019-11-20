@@ -16,9 +16,20 @@ public class PostCheckTurnRoute implements Route {
     //attributes
     private Gson gson;
 
+    /**
+     * Constructor
+     * @param gson WevServer's instance of Gson
+     */
     public PostCheckTurnRoute(final Gson gson){
         this.gson = gson;
     }
+
+    /**
+     * Tell the client if it is this user's turn in the checkers game
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return a message telling the client whether or not it is this user's turn, in json format
+     */
     @Override
     public String handle(Request request, Response response){
         Session curSession = request.session();

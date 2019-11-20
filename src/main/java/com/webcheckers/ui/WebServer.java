@@ -42,7 +42,6 @@ import spark.TemplateEngine;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
- * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class WebServer {
   private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
@@ -163,7 +162,7 @@ public class WebServer {
 
     get(SPECTATOR_URL, new GetSpectatorRoute(playerLobby, templateEngine));
 
-    post(SPECTATOR_VIEW_URL, new PostSpectatorGameRoute(playerLobby, templateEngine));
+    post(SPECTATOR_VIEW_URL, new PostSpectatorGameRoute(templateEngine));
 
     post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gson));
 

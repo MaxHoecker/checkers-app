@@ -8,13 +8,27 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+/**
+ * Called when client clicks the Submit Turn button in the game view
+ */
 public class PostSubmitTurnRoute implements Route {
 
     private Gson gson;
 
+    /**
+     * Constructor
+     * @param gson WebServer's instance of Gson
+     */
     public PostSubmitTurnRoute(Gson gson){
         this.gson = gson;
     }
+
+    /**
+     * Attempt to submit turn, tell the client if successful or not
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return message to client, in json format
+     */
     @Override
     public String handle(Request request, Response response){
         Session session = request.session();

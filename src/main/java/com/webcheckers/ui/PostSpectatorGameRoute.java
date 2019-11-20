@@ -1,6 +1,5 @@
 package com.webcheckers.ui;
 
-import com.google.gson.Gson;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
@@ -8,18 +7,29 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * UI Controller for rendering the game page when the user is a spectator
+ */
 public class PostSpectatorGameRoute implements Route{
 
     static final String SPECTATING_PARAM = "spectating";
 
-    private PlayerLobby playerLobby;
     private TemplateEngine templateEngine;
 
-    public PostSpectatorGameRoute(PlayerLobby playerLobby, TemplateEngine templateEngine){
-        this.playerLobby = playerLobby;
+    /**
+     * Constructor
+     * @param templateEngine WebServer's instance of FreeMarkerEngine
+     */
+    public PostSpectatorGameRoute(TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
     }
 
+    /**
+     * Render the game page for a spectator. Includes procedure for setting up a player's spectator status
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return the rendered game page
+     */
     public String handle(Request request, Response response){
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");

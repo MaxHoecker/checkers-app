@@ -10,6 +10,9 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+/**
+ * Called whenever the client tries to move a piece somewhere on the board in the game view.
+ */
 public class PostValidateMoveRoute implements Route {
 
     //constants
@@ -18,9 +21,20 @@ public class PostValidateMoveRoute implements Route {
     //attributes
     private Gson gson;
 
+    /**
+     * Constructor
+     * @param gson WebServer's instance of Gson
+     */
     public PostValidateMoveRoute(final Gson gson){
         this.gson = gson;
     }
+
+    /**
+     * Tell the client if the move made was valid or not
+     * @param request HTTP request
+     * @param response HTTP response
+     * @return message to client, in json format
+     */
     @Override
     public String handle(Request request, Response response){
         String param = request.queryParams(ACTION_DATA_PARAM);
