@@ -22,6 +22,7 @@ public class PostResignGameRoute implements Route {
         PlayerServices playerServices = curSession.attribute("playerServices");
         boolean removed = playerServices.removeFromGame();
         playerServices.setResigned(true);
+        playerServices.setVisitReplayPage(true);
         Message endMssg = new Message("Successfully resigned", Message.Type.INFO);
         if(removed){
             playerServices.setWonGame(false, endMssg);

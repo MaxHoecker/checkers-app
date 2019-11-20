@@ -1,9 +1,12 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.appl.PlayerServices;
+import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
 
 public class PostReplayPreviousMoveRoute implements Route {
     //attributes
@@ -14,6 +17,15 @@ public class PostReplayPreviousMoveRoute implements Route {
     }
 
     public String handle(Request request, Response response){
-        return null;
+        Session curSession = request.session();
+        PlayerServices playerServices = curSession.attribute("playerServices");
+        boolean next = playerServices.setPreviousMove();
+
+        if(next){
+            return gson.toJson(Message.info("true"));
+        }
+        else{
+            return gson.toJson(Message.error("Displaying the initial board"));
+        }
     }
 }

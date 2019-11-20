@@ -18,14 +18,20 @@ public class PlayerServices {
     private PlayerLobby playerLobby;
     private String viewMode = null;
     private Boolean wonGame = null;
-    private Boolean visitReplayPage = null;
     private Message gameEndMessage;
-
+    
     private ArrayList<Move> curMoveSequence = new ArrayList<>();
 
     //for spectators only
     private Board lastKnown = null;
-
+    
+    //for the replay feature
+    private Game savedInitialGame;
+    private ArrayList<Move> moveList = new ArrayList<>();
+    private ArrayList<Move> moveListSaved = new ArrayList<>();
+    private Boolean visitReplayPage = false;
+    private int moveIndex = 0;
+    
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
     static final String INVALID_NAME_MSG = "Invalid username. Please enter another name.";
@@ -40,12 +46,56 @@ public class PlayerServices {
         this.gson = gson;
     }
 
+    public void enterReplay(){
+        curPlayer.setGame(savedInitialGame);
+    }
+
     public Boolean getVisitReplayPage(){
         return visitReplayPage;
     }
 
     public void setVisitReplayPage(Boolean visitReplayPage) {
         this.visitReplayPage = visitReplayPage;
+    }
+
+    public void setMoveList(ArrayList<Move> moveListSaved) {
+        this.moveListSaved = moveListSaved;
+        moveIndex = 0;
+    }
+
+    public boolean setNextMove(){
+        moveIndex ++;
+        if(moveIndex > moveListSaved.size()){
+            moveIndex = moveListSaved.size();
+            return false;
+        }
+        makeMove(moveListSaved.get(moveIndex));
+        return true;
+    }
+    
+    public boolean setPreviousMove(){
+        moveIndex --;
+        if (moveIndex < 0){
+            moveIndex = 0;
+            return false;
+        }
+        curPlayer.setGame(savedInitialGame);
+        for(int i = 0; i < moveIndex; i++){
+            makeMove(moveListSaved.get(i));
+        }
+        return true;
+    }
+
+    public boolean saveReplay(){
+        if (moveList.size() == 0){
+            return false;
+        }
+        else{
+            //savedInitialGame = new Game(redPlayer().clone(), whitePlayer());
+            moveListSaved = moveList;
+            return true;
+        }
+
     }
 
     /**
@@ -68,9 +118,9 @@ public class PlayerServices {
         curMoveSequence.remove(curMoveSequence.size()-1);
     }
 
-    public Move getNextMove(){
-        return curMoveSequence.get(0);
-    }
+    //public Move getNextMove(){
+    //    return curMoveSequence.get(0);
+    //}
 
     /**
      * Get current user's Player object
@@ -229,6 +279,7 @@ public class PlayerServices {
             viewMode = null;
             curMoveSequence.clear();
             lastKnown = null;
+            visitReplayPage = true;
             return true;
         }
     }
@@ -270,6 +321,7 @@ public class PlayerServices {
         Piece toMove = board.getAtPosition(move.getStart()).getOccupant();
         PieceType type = toMove.getType();
         boolean multiJump = Math.abs(move.getDistance()) == 2 && checkForValidJump(move.getEnd(), type, game.getCurrentPlayerColor());
+        moveList.add(move);
         curPlayer.game().makeMove(move, multiJump);
     }
 

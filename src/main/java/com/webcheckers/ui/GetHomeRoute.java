@@ -104,11 +104,11 @@ public class GetHomeRoute implements Route {
         vm.put("message", Message.info("Sign-in successful")); //temporary placeholder
 
 
-        if(!playerServices.getVisitReplayPage()){
+        //if(!playerServices.getVisitReplayPage()){
 
 
-        }
-        else{
+        //}
+        //else{
             if (playerServices.getWonGame() == null){
                 if (playerServices.getGameEndMessage() != null){
                     vm.put("message", playerServices.getGameEndMessage());
@@ -129,7 +129,7 @@ public class GetHomeRoute implements Route {
                 playerServices.setWonGame(null, playerServices.getGameEndMessage());
                 playerServices.removeFromGame();
             }
-        }
+        //}
 
 
 

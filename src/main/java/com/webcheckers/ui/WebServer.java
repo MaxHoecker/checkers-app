@@ -184,7 +184,7 @@ public class WebServer {
     //
     get(REPLAY_PAGE_URL, new GetReplayRoute(playerLobby, templateEngine));
 
-    post(REPLAY_VIEW_URL, new PostReplayGameRoute(playerLobby, templateEngine));
+    post(REPLAY_VIEW_URL, new PostReplayGameRoute(templateEngine));
 
     post(REPLAY_NEXT_MOVE_URL, new PostReplayNextMoveRoute(gson));
 

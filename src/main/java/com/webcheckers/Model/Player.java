@@ -5,7 +5,7 @@ package com.webcheckers.Model;
  *
  * @author <a href="jak3703@rit.edu">Jacob Kobrak</a>
  */
-public class Player {
+public class Player implements Cloneable{
 
     private String name;
     private Color color;
@@ -94,5 +94,14 @@ public class Player {
     @Override
     public int hashCode(){
         return this.name.hashCode();
+    }
+
+
+    public Object clone()throws CloneNotSupportedException{
+        Player result = new Player(name);
+        result.setColor(null);
+        result.setGame(null);
+        result.setResigned(null);
+        return result;
     }
 }

@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class PostReplayGameRoute implements Route {
 
+    static final String REPLAYING_PARAM = "replaying";
+
     private TemplateEngine templateEngine;
 
-    public PostReplayGameRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
+    public PostReplayGameRoute(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
@@ -19,9 +21,20 @@ public class PostReplayGameRoute implements Route {
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "SPECTATING");
+        vm.put("title", "REPLAYING");
 
-        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+        if(playerServices.curPlayer().game() == null) { //initial entry to spectator mode
+            //String replayId = request.queryParams(REPLAYING_PARAM);
+            playerServices.enterReplay();
+            playerServices.setViewMode("REPLAY");
+        }
+            vm.put("currentUser", playerServices.curPlayer());
+            vm.put("viewMode", playerServices.getViewMode());
+            vm.put("redPlayer", playerServices.redPlayer());
+            vm.put("whitePlayer", playerServices.whitePlayer());
+            vm.put("activeColor", playerServices.curTurnColor().name());
+            vm.put("board", playerServices.gameBoard());
+            return templateEngine.render(new ModelAndView(vm, "game.ftl"));
     }
 
 }
