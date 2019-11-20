@@ -25,6 +25,6 @@ public class GetReplayRoute implements Route {
         vm.put("currentUser", playerServices.curPlayer());
 
 
-        return templateEngine.render(new ModelAndView(vm, "spectator.ftl"));
+        return templateEngine.render(new ModelAndView(vm, "replaySelection.ftl"));
     }
 }

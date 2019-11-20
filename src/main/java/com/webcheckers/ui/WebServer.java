@@ -43,6 +43,7 @@ import spark.TemplateEngine;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class WebServer {
   private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
@@ -72,6 +73,8 @@ public class WebServer {
   public static final String REPLAY_STOP_URL = "/replay/stopWatching";
   public static final String REPLAY_NEXT_MOVE_URL = "/replay/nextTurn";
   public static final String REPLAY_PREV_MOVE_URL = "/replay/previousTurn";
+  public static final String REPLAY_PROMPT_URL = "/replay/prompt";
+  public static final String REPLAY_PROMPT_RESPONSE_URL = "/replay/prompt/response";
 
   //
   // Attributes
@@ -183,6 +186,10 @@ public class WebServer {
     //Replay Routes
     //
     get(REPLAY_PAGE_URL, new GetReplayRoute(playerLobby, templateEngine));
+
+    get(REPLAY_PROMPT_URL, new GetReplayPromptRoute(templateEngine));
+
+    post(REPLAY_PROMPT_RESPONSE_URL, new PostReplayPromptResponseRoute());
 
     post(REPLAY_VIEW_URL, new PostReplayGameRoute(templateEngine));
 
