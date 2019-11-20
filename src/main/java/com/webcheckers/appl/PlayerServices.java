@@ -117,6 +117,7 @@ public class PlayerServices {
     }
 
     public boolean saveRed(){
+        //ToDo possible concurrency issues
         if ( curPlayer.game() != null) {
             try {
                 if (curPlayer.getColor() == Color.RED) {
@@ -320,6 +321,9 @@ public class PlayerServices {
             return false;
         }
         else{
+            moveList = curPlayer.game().getMoveList();
+            moveIndex = 0;
+            visitReplayPage = true;
 
             if(curPlayer.getColor() == Color.RED){
                 curPlayer.game().setPlayer(Color.RED, null);
@@ -333,10 +337,6 @@ public class PlayerServices {
             viewMode = null;
             curMoveSequence.clear();
             lastKnown = null;
-
-            moveList = curPlayer.game().getMoveList();
-            moveIndex = 0;
-            visitReplayPage = true;
 
             return true;
         }
