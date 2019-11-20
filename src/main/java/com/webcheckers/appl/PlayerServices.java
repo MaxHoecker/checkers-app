@@ -27,6 +27,8 @@ public class PlayerServices {
     
     //for the replay feature
     private Game savedInitialGame;
+    private Player redCopy;
+    private Player whiteCopy;
     private ArrayList<Move> moveList = new ArrayList<>();
     private ArrayList<Move> moveListSaved = new ArrayList<>();
     private Boolean visitReplayPage = false;
@@ -58,44 +60,92 @@ public class PlayerServices {
         this.visitReplayPage = visitReplayPage;
     }
 
-    public void setMoveList(ArrayList<Move> moveListSaved) {
-        this.moveListSaved = moveListSaved;
-        moveIndex = 0;
+    public boolean hasNext(){
+        moveIndex ++;
+        if(moveIndex > moveListSaved.size()){
+            moveIndex --;
+            return false;
+        }
+        moveIndex --;
+        return true;
+    }
+
+    public boolean hasPrevious(){
+        moveIndex --;
+        if(moveIndex < 0){
+            moveIndex ++;
+            return false;
+        }
+        moveIndex ++;
+        return true;
     }
 
     public boolean setNextMove(){
-        moveIndex ++;
-        if(moveIndex > moveListSaved.size()){
-            moveIndex = moveListSaved.size();
-            return false;
+        if(hasNext()){
+            makeMove(moveListSaved.get(moveIndex));
+            moveIndex ++;
+            return true;
         }
-        makeMove(moveListSaved.get(moveIndex));
-        return true;
+        return false;
     }
     
     public boolean setPreviousMove(){
-        moveIndex --;
-        if (moveIndex < 0){
-            moveIndex = 0;
-            return false;
+        if (hasPrevious()){
+            moveIndex --;
+            curPlayer.setGame(savedInitialGame);
+            for(int i = 0; i < moveIndex; i++){
+                makeMove(moveListSaved.get(i));
+            }
+            return true;
         }
-        curPlayer.setGame(savedInitialGame);
-        for(int i = 0; i < moveIndex; i++){
-            makeMove(moveListSaved.get(i));
-        }
-        return true;
+        return false;
+    }
+
+    public void clearMoveList(){
+        moveList.clear();
     }
 
     public boolean saveReplay(){
-        if (moveList.size() == 0){
-            return false;
-        }
-        else{
-            //savedInitialGame = new Game(redPlayer().clone(), whitePlayer());
+            try{
+                savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone());
+            }
+            catch (CloneNotSupportedException e){
+                System.err.println(e);
+            }
             moveListSaved = moveList;
             return true;
-        }
+    }
 
+    public boolean saveRed(){
+        if ( curPlayer.game() != null) {
+            try {
+                if (curPlayer.getColor() == Color.RED) {
+                    redCopy = curPlayer.clone();
+                } else {
+                    redCopy = redPlayer().clone();
+                }
+            } catch (CloneNotSupportedException e) {
+                System.err.println(e);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean saveWhite(){
+        if ( curPlayer.game() != null) {
+            try {
+                if (curPlayer.getColor() == Color.WHITE) {
+                    whiteCopy = curPlayer.clone();
+                } else {
+                    whiteCopy = whitePlayer().clone();
+                }
+            } catch (CloneNotSupportedException e) {
+                System.err.println(e);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -249,9 +299,11 @@ public class PlayerServices {
      */
     public boolean setUpGame(String opponentName){
         Player op = playerLobby.getPlayer(opponentName);
+
         if(op.getColor() != null){
             return false;
-        }else{
+        }
+        else {
             op.setColor(Color.WHITE);
             curPlayer.setColor(Color.RED);
             Game game = new Game(curPlayer, op);
@@ -262,6 +314,7 @@ public class PlayerServices {
     }
 
     public boolean removeFromGame(){
+
 
         if(curPlayer.game() == null){
             return false;
@@ -274,12 +327,17 @@ public class PlayerServices {
             else if(curPlayer.getColor() == Color.WHITE){
                 curPlayer.game().setPlayer(Color.WHITE, null);
             }
+            moveList = curPlayer.game().getMoveList();
             curPlayer.setColor(null);
             curPlayer.setGame(null);
             viewMode = null;
             curMoveSequence.clear();
             lastKnown = null;
+
+            moveList = curPlayer.game().getMoveList();
+            moveIndex = 0;
             visitReplayPage = true;
+
             return true;
         }
     }
@@ -321,7 +379,6 @@ public class PlayerServices {
         Piece toMove = board.getAtPosition(move.getStart()).getOccupant();
         PieceType type = toMove.getType();
         boolean multiJump = Math.abs(move.getDistance()) == 2 && checkForValidJump(move.getEnd(), type, game.getCurrentPlayerColor());
-        moveList.add(move);
         curPlayer.game().makeMove(move, multiJump);
     }
 
@@ -420,7 +477,9 @@ public class PlayerServices {
         while(curMoveSequence.size() != 0){
             Move nextMove = curMoveSequence.remove(0);
             makeMove(nextMove);
+            curPlayer.game().addMove(nextMove);
         }
+
         return Message.info("Success");
     }
 

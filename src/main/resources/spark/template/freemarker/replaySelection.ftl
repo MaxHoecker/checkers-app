@@ -22,14 +22,8 @@
     <h3>Click the replay you would like to watch</h3>
 
 
-    <form action="/spectator/game" method="post">
-    <#list playerList as player>
-        <ul style="list-style-type:none">
-            <li>
-                <button type="submit" name="spectating" value="${player}">${player}</button>
-            </li>
-        </ul>
-    </#list>
+    <form action="/replay/game" method="post">
+        <button type="submit" name="replay" value="true">one</button>
     </form>
 
 

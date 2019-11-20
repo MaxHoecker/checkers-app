@@ -67,7 +67,8 @@ public class PostGameRoute implements Route {
 
         if(playerServices.curPlayer().game() != null){ //getting game route
 
-            //ToDo
+            playerServices.saveRed();
+            playerServices.saveWhite();
 
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
@@ -137,6 +138,9 @@ public class PostGameRoute implements Route {
                 return null;
             }
 
+            playerServices.saveRed();
+            playerServices.saveWhite();
+
             playerServices.setViewMode("PLAY");
             vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
@@ -148,6 +152,8 @@ public class PostGameRoute implements Route {
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
+
+
             playerServices.setViewMode("PLAY");
             vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());

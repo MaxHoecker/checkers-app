@@ -16,6 +16,7 @@ public class GetReplayStopRoute implements Route {
         Message endMssg = new Message("No longer replaying your game", Message.Type.INFO);
         playerServices.setWonGame(null, endMssg);
         playerServices.removeFromGame();
+        playerServices.setVisitReplayPage(false);
         response.redirect(WebServer.HOME_URL);
         return null;
     }

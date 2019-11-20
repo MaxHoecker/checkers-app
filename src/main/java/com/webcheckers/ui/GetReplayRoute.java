@@ -20,7 +20,7 @@ public class GetReplayRoute implements Route {
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
         Map<String, Object> vm = new HashMap<>();
-        vm.put("playerList", playerLobby.playersInGame());
+
         vm.put("title", "Welcome!");
         vm.put("currentUser", playerServices.curPlayer());
 

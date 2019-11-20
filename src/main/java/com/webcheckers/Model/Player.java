@@ -97,7 +97,7 @@ public class Player implements Cloneable{
     }
 
 
-    public Object clone()throws CloneNotSupportedException{
+    public Player clone()throws CloneNotSupportedException{
         Player result = new Player(name);
         result.setColor(null);
         result.setGame(null);

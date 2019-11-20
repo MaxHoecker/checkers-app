@@ -2,6 +2,8 @@ package com.webcheckers.Model;
 
 import com.webcheckers.appl.PlayerServices;
 
+import java.util.ArrayList;
+
 /**
  * The game object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
@@ -17,6 +19,7 @@ public class Game {
     private Board board;
     private int gameID;
     private Color currentPlayerColor;
+    private ArrayList<Move> moveList = new ArrayList<>();
 
     private int numRedPieces = 1;
     private int numWhitePieces = 1;
@@ -43,6 +46,18 @@ public class Game {
         return gameID;
     }
 
+
+    public void clearMoveList(){
+        moveList.clear();
+    }
+
+    public void addMove(Move move){
+        moveList.add(move);
+    }
+
+    public ArrayList<Move> getMoveList() {
+        return moveList;
+    }
 
     public Board getBoard(){
         return board;

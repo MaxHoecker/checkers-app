@@ -64,10 +64,12 @@ public class WebServer {
   public static final String CHECK_TURN_URL = "/checkTurn";
   public static final String BACKUP_MOVE_URL = "/backupMove";
   public static final String RESIGN_URL= "/resignGame";
+
   public static final String SPECTATOR_URL = "/spectator";
   public static final String SPECTATOR_VIEW_URL = "/spectator/game";
   public static final String SPECTATOR_STOP_URL = "/spectator/stopWatching";
   public static final String SPECTATOR_CHECK_TURN_URL = "spectator/checkTurn";
+
   public static final String REPLAY_PAGE_URL = "/replay";
   public static final String REPLAY_VIEW_URL = "/replay/game";
   public static final String REPLAY_STOP_URL = "/replay/stopWatching";
@@ -191,7 +193,7 @@ public class WebServer {
 
     post(REPLAY_PROMPT_RESPONSE_URL, new PostReplayPromptResponseRoute());
 
-    post(REPLAY_VIEW_URL, new PostReplayGameRoute(templateEngine));
+    post(REPLAY_VIEW_URL, new PostReplayGameRoute(templateEngine, gson));
 
     post(REPLAY_NEXT_MOVE_URL, new PostReplayNextMoveRoute(gson));
 
