@@ -239,6 +239,8 @@ public class PlayerServices {
 
 
 
+
+
     /**
      * =================================================================================
      *                                SPECTATOR METHODS
@@ -280,19 +282,17 @@ public class PlayerServices {
     }
 
 
+
+
+
+
+
     /**
      * ===========================================================================
-     *
+     *                             SETTERS
      * ===========================================================================
      */
 
-    /**
-     * Check if current user is signed in
-     * @return null if player just connected for the first time, false if signed out, and true if signed in
-     */
-    public Boolean signedIn(){
-        return signedIn;
-    }
 
     /**
      * Set the signed-in status of the current user
@@ -308,6 +308,64 @@ public class PlayerServices {
     public void removeLastMove(){
         curMoveSequence.remove(curMoveSequence.size()-1);
     }
+
+    /**
+     * Check if current user is signed in
+     * @return null if player just connected for the first time, false if signed out, and true if signed in
+     */
+    public Boolean signedIn(){
+        return signedIn;
+    }
+
+    /**
+     * Set the view mode for the current user
+     * @param s String enum of PLAY | SPECTATOR | REPLAY
+     */
+    public void setViewMode(String s){
+        this.viewMode = s;
+    }
+
+    /**
+     * Set how the game ended for curPlayer (used for users playing a game)
+     * @param won true if curPlayer won the game, false otherwise
+     * @param winMssg message for the player based on the game's outcome
+     */
+    public void setWonGame(Boolean won, Message winMssg){
+        wonGame = won;
+        gameEndMessage = winMssg;
+    }
+
+    /**
+     * Called when the game ends for unknown reasons/in error
+     * @param won true if curPlayer won the game, false otherwise
+     */
+    public void setWonGame(Boolean won){
+        wonGame = won;
+        gameEndMessage = new Message("Game ended for unknown reasons", Message.Type.ERROR);
+    }
+
+    /**
+     * Set the current user's resignation status
+     * @param b a Boolean
+     */
+    public void setResigned(Boolean b){
+        curPlayer.setResigned(b);
+    }
+
+
+
+
+
+
+
+
+    /**
+     * ===========================================================================
+     *                             Getters
+     * ===========================================================================
+     */
+
+
 
     /**
      * Get current user's Player object
@@ -350,14 +408,6 @@ public class PlayerServices {
     }
 
     /**
-     * Set the view mode for the current user
-     * @param s String enum of PLAY | SPECTATOR | REPLAY
-     */
-    public void setViewMode(String s){
-        this.viewMode = s;
-    }
-
-    /**
      * Get the view mode for the current user
      * @return String enum of PLAY | SPECTATOR | REPLAY
      */
@@ -388,6 +438,48 @@ public class PlayerServices {
     public Color curTurnColor(){
         return curPlayer.game().getCurrentPlayerColor();
     }
+
+
+    /**
+     * Check if the game is over and curPlayer won the game (used for users playing a game)
+     * @return a Boolean
+     */
+    public Boolean getWonGame(){
+        return wonGame;
+    }
+
+
+
+    /**
+     * Get the end game message
+     * @return a Message
+     */
+    public Message getGameEndMessage() {
+        return gameEndMessage;
+    }
+
+    /**
+     * Check if the user resigned or not
+     * @return a Boolean
+     */
+    public Boolean getResigned(){
+        return curPlayer.getResigned();
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * ===========================================================================
+     *                             SETTING UP AND ENDING GAMES
+     * ===========================================================================
+     */
+
 
     /**
      * Add an instance of Player representing the current user to the playerLobby if:
@@ -452,7 +544,6 @@ public class PlayerServices {
      */
     public boolean removeFromGame(){
 
-
         if(curPlayer.game() == null){
             return false;
         }
@@ -477,56 +568,16 @@ public class PlayerServices {
         }
     }
 
-    /**
-     * Check if the game is over and curPlayer won the game (used for users playing a game)
-     * @return a Boolean
-     */
-    public Boolean getWonGame(){
-        return wonGame;
-    }
+
+
+
+
 
     /**
-     * Set how the game ended for curPlayer (used for users playing a game)
-     * @param won true if curPlayer won the game, false otherwise
-     * @param winMssg message for the player based on the game's outcome
+     * ===========================================================================
+     *                             HANDLING MOVES/TURNS
+     * ===========================================================================
      */
-    public void setWonGame(Boolean won, Message winMssg){
-        wonGame = won;
-        gameEndMessage = winMssg;
-    }
-
-    /**
-     * Called when the game ends for unknown reasons/in error
-     * @param won true if curPlayer won the game, false otherwise
-     */
-    public void setWonGame(Boolean won){
-        wonGame = won;
-        gameEndMessage = new Message("Game ended for unknown reasons", Message.Type.ERROR);
-    }
-
-    /**
-     * Get the end game message
-     * @return a Message
-     */
-    public Message getGameEndMessage() {
-        return gameEndMessage;
-    }
-
-    /**
-     * Check if the user resigned or not
-     * @return a Boolean
-     */
-    public Boolean getResigned(){
-        return curPlayer.getResigned();
-    }
-
-    /**
-     * Set the current user's resignation status
-     * @param b a Boolean
-     */
-    public void setResigned(Boolean b){
-        curPlayer.setResigned(b);
-    }
 
     /**
      * Alter the board that is shown to curPlayer and their opponent
