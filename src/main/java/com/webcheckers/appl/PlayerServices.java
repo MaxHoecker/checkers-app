@@ -49,7 +49,12 @@ public class PlayerServices {
     }
 
     public void enterReplay(){
-        curPlayer.setGame(savedInitialGame);
+        try{
+            curPlayer.setGame((Game)savedInitialGame.clone());
+        }
+        catch (CloneNotSupportedException e){
+            System.err.println(e);
+        }
     }
 
     public Boolean getVisitReplayPage(){
@@ -92,7 +97,12 @@ public class PlayerServices {
     public boolean setPreviousMove(){
         if (hasPrevious()){
             moveIndex --;
-            curPlayer.setGame(savedInitialGame);
+            try{
+                curPlayer.setGame((Game)savedInitialGame.clone());
+            }
+            catch (CloneNotSupportedException e){
+                System.err.println(e);
+            }
             for(int i = 0; i < moveIndex; i++){
                 makeMove(moveListSaved.get(i));
             }

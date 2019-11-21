@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The game object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
-public class Game {
+public class Game implements Cloneable{
 
     /**
      * Attributes
@@ -149,6 +149,13 @@ public class Game {
                 setCurrentPlayerColor(Color.RED);
             }
         }
+    }
+
+    public Object clone() throws CloneNotSupportedException{
+        Game result = new Game(this.red.clone(), this.white.clone());
+        result.board = (Board)this.board.clone();
+        result.moveList = moveList;
+        return result;
     }
 
 }
