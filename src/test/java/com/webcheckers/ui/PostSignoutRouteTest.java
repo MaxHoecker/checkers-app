@@ -29,12 +29,12 @@ public class PostSignoutRouteTest {
         response = mock(Response.class);
         CuT = new PostSignoutRoute(playerLobby, templateEngine);
     }
-/*
+
     @Test
     public void test_handle(){
-        assertNull(CuT.handle(request, response));
+
     }
 
-*/
+
 
 }

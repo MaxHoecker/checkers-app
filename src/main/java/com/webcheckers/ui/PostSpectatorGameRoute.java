@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.appl.PlayerServices;
 import spark.*;
@@ -49,6 +50,10 @@ public class PostSpectatorGameRoute implements Route{
             vm.put("board", playerServices.gameBoard());
             return templateEngine.render(new ModelAndView(vm, "game.ftl"));
         }else{
+            if(playerServices.curPlayer().game().getPlayer(Color.RED) == null || playerServices.curPlayer().game().getPlayer(Color.WHITE) == null){
+                response.redirect(WebServer.SPECTATOR_STOP_URL);
+                return null;
+            }
             vm.put("currentUser", playerServices.curPlayer());
             vm.put("viewMode", playerServices.getViewMode());
             vm.put("redPlayer", playerServices.redPlayer());

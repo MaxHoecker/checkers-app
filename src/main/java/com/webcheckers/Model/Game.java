@@ -22,8 +22,30 @@ public class Game implements Cloneable{
     private Color currentPlayerColor;
     private ArrayList<Move> moveList = new ArrayList<>();
 
-    private int numRedPieces = 12;
-    private int numWhitePieces = 12;
+    /**
+     * Assign the number of pieces in the game depending on the demo mode
+     * @param color so the function returns the number of pieces for that color
+     * @return the number of pieces
+     */
+    private int numPieces(Color color){
+        String demo = System.getProperty("mode");
+        if(demo == null){
+            return 12;
+        }
+        if(demo.equals("multi-jump")){
+            if(color == Color.RED){
+                return 1;
+            }else{
+                return 2;
+            }
+        }else if(demo.equals("kinging")){
+            return 1;
+        }
+        return 12;
+    }
+
+    private int numRedPieces = numPieces(Color.RED);
+    private int numWhitePieces = numPieces(Color.WHITE);
 
 
     /**
