@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.Model.Color;
 import com.webcheckers.appl.PlayerServices;
 import com.webcheckers.util.Message;
 import spark.Request;
@@ -36,7 +37,11 @@ public class PostSpectatorCheckTurnRoute implements Route {
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
 
-        Message msg = playerServices.spectatorCheckTurn();
-        return gson.toJson(msg);
+        if(playerServices.curPlayer().game().getPlayer(Color.RED) == null || playerServices.curPlayer().game().getPlayer(Color.WHITE) == null){
+            return gson.toJson(Message.info("true"));
+        }else {
+            Message msg = playerServices.spectatorCheckTurn();
+            return gson.toJson(msg);
+        }
     }
 }

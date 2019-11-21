@@ -9,73 +9,90 @@ import java.util.Iterator;
  * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
-public class Board implements Cloneable{
+public class Board implements Cloneable {
 
     //an array of row objects
     private ArrayList<Row> rows = new ArrayList<>(); //used an arraylist because it has an iterator() method
 
     /**
+     * Get an int signifying the Board constructor which board type to construct depending on the demo mode
+     * @return an int
+     */
+    private int toDemo(){
+        String demoMode = System.getProperty("mode");
+        if(demoMode == null){
+            return 0;
+        }else if(demoMode.equals("multi-jump")){
+            return 1;
+        }else if(demoMode.equals("kinging")){
+            return 2;
+        }
+        return 0;
+    }
+
+    /**
      * board constructor that makes the 8x8 board filled in with pieces where they should be
      */
     public Board() {
-        for(int i = 0; i < 8; i++){
-            rows.add(new Row(i));
-            for(int j = 0; j < 8; j++){
-                if((i+j)%2 != 0){
-                    if(i <= 2){
-                        rows.get(i).addSpacePiece(true, j, Color.RED);
-                    }else if(i >= 5){
-                        rows.get(i).addSpacePiece(true, j, Color.WHITE);
-                    }else{
-                        rows.get(i).addEmptySpace(true, j);
+        int toUse = toDemo();
+        if(toUse == 0) {
+            for (int i = 0; i < 8; i++) {
+                rows.add(new Row(i));
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 != 0) {
+                        if (i <= 2) {
+                            rows.get(i).addSpacePiece(true, j, Color.RED);
+                        } else if (i >= 5) {
+                            rows.get(i).addSpacePiece(true, j, Color.WHITE);
+                        } else {
+                            rows.get(i).addEmptySpace(true, j);
+                        }
+                    } else {
+                        rows.get(i).addEmptySpace(false, j);
                     }
-                }else{
-                    rows.get(i).addEmptySpace(false, j);
+                }
+            }
+        }else if(toUse == 1) {
+
+            for (int i = 0; i < 8; i++) { // multi-jump
+                rows.add(new Row(i));
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 != 0) {
+                        if (i == 7 && j == 0) {
+                            rows.get(i).addSpacePiece(true, 0, Color.RED);
+                        } else if (i == 6 && j == 1) {
+                            rows.get(i).addSpacePiece(true, 1, Color.WHITE);
+                        } else if (i == 4 && j == 3) {
+                            rows.get(i).addSpacePiece(true, 3, Color.WHITE);
+                        } else {
+                            rows.get(i).addEmptySpace(true, j);
+                        }
+                    } else {
+                        rows.get(i).addEmptySpace(false, j);
+                    }
+                }
+            }
+        }else if(toUse == 2) {
+
+            // test kinging
+            for (int i = 0; i < 8; i++) {
+                rows.add(new Row(i));
+                for (int j = 0; j < 8; j++) {
+                    if ((i + j) % 2 != 0) {
+                        if (i == 1 && j == 2) {
+                            rows.get(i).addSpacePiece(true, j, Color.WHITE);
+                        } else if (i == 6 && j == 3) {
+                            rows.get(i).addSpacePiece(true, j, Color.RED);
+                        } else {
+                            rows.get(i).addEmptySpace(true, j);
+                        }
+                    } else {
+                        rows.get(i).addEmptySpace(false, j);
+                    }
                 }
             }
         }
     }
-    /*
-    //multi-jump test
-    public Board(){
-        for(int i = 0; i < 8; i++){
-            rows.add(new Row(i));
-            for(int j = 0; j < 8; j++){
-                if((i+j)%2 != 0){
-                    if(i == 7 && j == 0){
-                        rows.get(i).addSpacePiece(true, 0, Color.RED);
-                    }else if(i == 6 && j == 1) {
-                        rows.get(i).addSpacePiece(true, 1, Color.WHITE);
-                    }else if(i == 4 && j == 3) {
-                        rows.get(i).addSpacePiece(true, 3, Color.WHITE);
-                    }else{
-                        rows.get(i).addEmptySpace(true, j);
-                    }
-                }else{
-                    rows.get(i).addEmptySpace(false, j);
-                }
-            }
-        }
-    }*/
-    /*
-    public Board(){ // test kinging
-        for(int i = 0; i < 8; i++){
-            rows.add(new Row(i));
-            for(int j = 0; j < 8; j++){
-                if((i+j)%2 != 0) {
-                    if (i == 1 && j == 2) {
-                        rows.get(i).addSpacePiece(true, j, Color.WHITE);
-                    } else if(i == 6 && j == 3){
-                        rows.get(i).addSpacePiece(true, j, Color.RED);
-                    }else{
-                        rows.get(i).addEmptySpace(true, j);
-                    }
-                }else{
-                    rows.get(i).addEmptySpace(false, j);
-                }
-            }
-        }
-    }*/
 
     /**
      * Get the space at a given position on the board
