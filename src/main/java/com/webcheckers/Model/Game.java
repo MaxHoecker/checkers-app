@@ -21,8 +21,8 @@ public class Game implements Cloneable{
     private Color currentPlayerColor;
     private ArrayList<Move> moveList = new ArrayList<>();
 
-    private int numRedPieces = 1;
-    private int numWhitePieces = 1;
+    private int numRedPieces = 12;
+    private int numWhitePieces = 12;
 
 
     /**
