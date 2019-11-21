@@ -86,6 +86,15 @@ public final class Application {
       System.err.println("Could not initialize log manager because: " + e.getMessage());
     }
 
+    if(args.length != 0){
+      if(args[0].equals("multi-jump")){
+        System.setProperty("mode", "multi-jump");
+      }else if(args[0].equals("kinging")){
+        System.setProperty("mode", "kinging");
+      }
+    }
+
+
     // The application uses FreeMarker templates to generate the HTML
     // responses sent back to the client. This will be the engine processing
     // the templates and associated data.
