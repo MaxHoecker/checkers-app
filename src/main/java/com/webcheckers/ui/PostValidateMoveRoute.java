@@ -12,6 +12,7 @@ import spark.Session;
 
 /**
  * Called whenever the client tries to move a piece somewhere on the board in the game view.
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class PostValidateMoveRoute implements Route {
 

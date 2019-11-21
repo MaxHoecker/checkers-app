@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public class PostReplayGameRoute implements Route {
 
+    static final String REPLAYING_PARAM = "replay";
+
     //Attributes
     private TemplateEngine templateEngine;
     private Gson gson;
@@ -51,8 +53,8 @@ public class PostReplayGameRoute implements Route {
         vm.put("title", "REPLAYING");
 
         if(playerServices.curPlayer().game() == null) { //initial entry to spectator mode
-            //String replayId = request.queryParams(REPLAYING_PARAM);
-            playerServices.enterReplay();
+            String replayId = request.queryParams(REPLAYING_PARAM);
+            playerServices.enterReplay(Integer.parseInt(replayId));
             playerServices.setViewMode("REPLAY");
         }
 

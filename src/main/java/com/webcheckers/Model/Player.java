@@ -4,6 +4,7 @@ package com.webcheckers.Model;
  * Represents a player (user)
  *
  * @author <a href="jak3703@rit.edu">Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class Player implements Cloneable{
 
@@ -89,6 +90,9 @@ public class Player implements Cloneable{
      * @return true if it is this player's turn, false otherwise
      */
     public boolean isMyTurn(){
+        if(game == null){
+            return false;
+        }
         if(game.getCurrentPlayerColor() == color){
             return true;
         }

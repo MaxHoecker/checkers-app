@@ -11,6 +11,7 @@ import spark.Session;
  * The UI Controller for removing a player from a game they are spectating. Redirects users to home page
  *
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class GetSpectatorStopRoute implements Route {
 
@@ -26,6 +27,7 @@ public class GetSpectatorStopRoute implements Route {
         Message endMssg = new Message("No longer a spectator", Message.Type.INFO);
         playerServices.setWonGame(null, endMssg);
         playerServices.removeFromGame();
+        playerServices.setVisitReplayPage(false);
         response.redirect(WebServer.HOME_URL);
         return null;
     }

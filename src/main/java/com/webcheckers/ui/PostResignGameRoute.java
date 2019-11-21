@@ -10,6 +10,8 @@ import spark.Session;
 
 /**
  * Remove a player who is in the middle of a checkers game
+ *
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class PostResignGameRoute implements Route {
     private Gson gson;

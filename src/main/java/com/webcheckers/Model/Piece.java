@@ -2,6 +2,7 @@ package com.webcheckers.Model;
 /**
  * The Piece Object
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
+ *  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class Piece {
     private PieceType type;

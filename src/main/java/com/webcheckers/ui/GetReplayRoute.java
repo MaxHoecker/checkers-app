@@ -46,6 +46,7 @@ public class GetReplayRoute implements Route {
         vm.put("title", "Welcome!");
         vm.put("currentUser", playerServices.curPlayer());
         vm.put("hasSaved", playerServices.hasSaved());
+        vm.put("replays", playerServices.getReplays());
 
 
         return templateEngine.render(new ModelAndView(vm, "replaySelection.ftl"));

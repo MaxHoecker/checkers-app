@@ -6,6 +6,7 @@ import java.util.ArrayList;
 /**
  * The game object
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
 public class Game implements Cloneable{

@@ -2,6 +2,8 @@ package com.webcheckers.Model;
 
 /**
  * Represents a move of a piece on a checker board from a start position to another
+ *  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class Move {
     Position start;

@@ -21,11 +21,16 @@
 
     <#if hasSaved == true>
         <h3>Click the replay you would like to watch</h3>
-
-
         <form action="/replay/game" method="post">
-            <button type="submit" name="replay" value="true">saved game</button>
+            <#list replays as replay>
+                <ul style="list-style-type:none">
+                    <li>
+                        <button type="submit" name="replay" value="${replay}">${replay}</button>
+                    </li>
+                </ul>
+            </#list>
         </form>
+
     <#else>
         <h3>No saved replays</h3>
     </#if>

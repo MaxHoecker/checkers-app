@@ -10,6 +10,7 @@ import spark.Session;
 
 /**
  * Called when client clicks the Submit Turn button in the game view
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  */
 public class PostSubmitTurnRoute implements Route {
 

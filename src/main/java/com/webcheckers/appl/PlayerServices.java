@@ -36,6 +36,7 @@ public class PlayerServices {
     private Player whiteCopy;
     private ArrayList<Move> moveList = new ArrayList<>();
     private ArrayList<Move> moveListSaved = new ArrayList<>();
+    private ArrayList<SavedReplay> replays = new ArrayList<>();
     private Boolean visitReplayPage = false;
     private int moveIndex = 0;
 
@@ -63,10 +64,12 @@ public class PlayerServices {
     /**
      *lets the player enter the saved game by cloning the saved game's initial state
      *and setting it as the current game
+     * @param index what replay to enter from the array of saved replays
      */
-    public void enterReplay(){
+    public void enterReplay(int index){
         try{
-            curPlayer.setGame((Game)savedInitialGame.clone());
+            curPlayer.setGame((Game)replays.get(index).getSavedInitialGame().clone());
+            moveListSaved = replays.get(index).getMoveListSaved();
         }
         catch (CloneNotSupportedException e){
             System.err.println(e);
@@ -94,7 +97,7 @@ public class PlayerServices {
      * @return true if there's a saved game false otherwise
      */
     public boolean hasSaved(){
-        if(moveListSaved.size() > 0){
+        if(replays.size() > 0){
             return true;
         }
         else{
@@ -175,11 +178,12 @@ public class PlayerServices {
     public boolean saveReplay(){
             try{
                 savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone());
+                SavedReplay save = new SavedReplay(savedInitialGame, moveList, replays.size());
+                replays.add(save);
             }
             catch (CloneNotSupportedException e){
                 System.err.println(e);
             }
-            moveListSaved = moveList;
             return true;
     }
 
@@ -224,12 +228,63 @@ public class PlayerServices {
     }
 
     /**
+     * returns the array of saved replays
+     * @return the array of saved replays
+     */
+    public ArrayList<SavedReplay> getReplays(){
+        return replays;
+    }
+
+
+
+
+
+    /**
      * =================================================================================
-     *
+     *                                SPECTATOR METHODS
      * ==================================================================================
      */
 
 
+    /**
+     * Configure this instance of PlayerServices to accommodate the current player becoming a spectator
+     * @param toSpectateId the name of the player whose game curPlayer wishes to spectate
+     */
+    public void becomeSpectator(String toSpectateId){
+        Player toSpectate = playerLobby.getPlayer(toSpectateId);
+        curPlayer.setGame(toSpectate.game());
+        try {
+            lastKnown = (Board)toSpectate.game().getBoard().clone();
+        }catch(CloneNotSupportedException e){
+            System.err.println("PlayerServices.java:131: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Used by spectators to see if the state of the game board has changed at all. If it has,
+     * returns a message that tells the client side whether or not to refresh that page
+     * @return an affirmative message if the current game state does not match the last known game state or a negative
+     *          message otherwise
+     */
+    public Message spectatorCheckTurn(){
+        if(curPlayer.game().getBoard().equals(lastKnown)){
+            return Message.info("false");
+        }else{
+            try {
+                lastKnown = (Board) curPlayer.game().getBoard().clone();
+            }catch(CloneNotSupportedException e){
+                System.err.println("PlayerServices.java:144: " + e.getMessage());
+            }
+            return Message.info("true");
+        }
+    }
+
+
+    /**
+     * ===========================================================================
+     *
+     * ===========================================================================
+     */
 
     /**
      * Check if current user is signed in
@@ -253,7 +308,6 @@ public class PlayerServices {
     public void removeLastMove(){
         curMoveSequence.remove(curMoveSequence.size()-1);
     }
-
 
     /**
      * Get current user's Player object
@@ -333,40 +387,6 @@ public class PlayerServices {
      */
     public Color curTurnColor(){
         return curPlayer.game().getCurrentPlayerColor();
-    }
-
-
-    /**
-     * Configure this instance of PlayerServices to accommodate the current player becoming a spectator
-     * @param toSpectateId the name of the player whose game curPlayer wishes to spectate
-     */
-    public void becomeSpectator(String toSpectateId){
-        Player toSpectate = playerLobby.getPlayer(toSpectateId);
-        curPlayer.setGame(toSpectate.game());
-        try {
-            lastKnown = (Board)toSpectate.game().getBoard().clone();
-        }catch(CloneNotSupportedException e){
-            System.err.println("PlayerServices.java:131: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Used by spectators to see if the state of the game board has changed at all. If it has,
-     * returns a message that tells the client side whether or not to refresh that page
-     * @return an affirmative message if the current game state does not match the last known game state or a negative
-     *          message otherwise
-     */
-    public Message spectatorCheckTurn(){
-        if(curPlayer.game().getBoard().equals(lastKnown)){
-            return Message.info("false");
-        }else{
-            try {
-                lastKnown = (Board) curPlayer.game().getBoard().clone();
-            }catch(CloneNotSupportedException e){
-                System.err.println("PlayerServices.java:144: " + e.getMessage());
-            }
-            return Message.info("true");
-        }
     }
 
     /**
