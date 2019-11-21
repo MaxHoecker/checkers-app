@@ -162,7 +162,6 @@ public class GetHomeRouteTest {
         when(playerServices.getWonGame()).thenReturn(null);
         when(playerServices.curPlayerColor()).thenReturn(color);
         when(playerLobby.getNumPlayers()).thenReturn(2);
-        when(playerLobby.getPlayersString()).thenReturn(players);
         when(playerServices.curPlayerName()).thenReturn("Josh");
         CuT.handle(request, response);
     }
