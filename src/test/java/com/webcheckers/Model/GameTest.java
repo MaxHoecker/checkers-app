@@ -13,9 +13,11 @@ public class GameTest {
     private Player red;
     private Player white;
     private Board board;
+    private Move move2;
     private Move move;
     private Piece redpiece;
     private Piece whitepiece;
+    private Object game2;
 
 
     @BeforeEach
@@ -26,22 +28,35 @@ public class GameTest {
         white.setColor(Color.WHITE);
         board = new Board();
         move = new Move(new Position(5,2), new Position(7, 0));
+        move2 = new Move(new Position(7, 0), new Position(5, 2));
         CuT = new Game(red, white);
         redpiece = new Piece(Color.RED);
         redpiece.kingMe();
         whitepiece = new Piece(Color.WHITE);
+        CuT.setPlayer(Color.RED, red);
+        CuT.setPlayer(Color.WHITE, white);
+
     }
 
 
 
     @Test
-    public void test_init_move(){
+    public void test_init_move_red(){
         CuT.makeMove(move, false);
         assertEquals(2, move.getDistance());
+        assertEquals(CuT.getOpponent(white), red);
 
 
 
 
+    }
+
+    @Test
+    public void test_init_move_white(){
+        CuT.setCurrentPlayerColor(Color.WHITE);
+        CuT.makeMove(move, false);
+        assertEquals(CuT.getCurrentPlayerColor(), Color.RED);
+        assertEquals(move.getDistance(), 2);
     }
 
     @Test
