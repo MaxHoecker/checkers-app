@@ -8,24 +8,31 @@ import spark.Route;
 import spark.Session;
 
 /**
- * The UI Controller for removing a player from a game they are spectating. Redirects users to home page
+ * removes you from the game you're currently replaying
  *
- * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
-public class GetSpectatorStopRoute implements Route {
+public class GetReplayStopRoute implements Route {
 
     /**
-     * Remove spectators from whichever game they are spectating and bring them to the home page
-     * @param request HTTP request
-     * @param response HTTP response
-     * @return null
+     * removes you from the replay game and redirects you back home
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   null because the session is redirected
      */
     public String handle(Request request, Response response){
+
         Session session = request.session();
         PlayerServices playerServices = session.attribute("playerServices");
-        Message endMssg = new Message("No longer a spectator", Message.Type.INFO);
+        Message endMssg = new Message("No longer replaying your game", Message.Type.INFO);
         playerServices.setWonGame(null, endMssg);
         playerServices.removeFromGame();
+        playerServices.setVisitReplayPage(false);
         response.redirect(WebServer.HOME_URL);
         return null;
     }

@@ -30,6 +30,15 @@ public class PlayerServices {
     //for spectators only
     private Board lastKnown = null;
 
+    //for the replay feature
+    private Game savedInitialGame;
+    private Player redCopy;
+    private Player whiteCopy;
+    private ArrayList<Move> moveList = new ArrayList<>();
+    private ArrayList<Move> moveListSaved = new ArrayList<>();
+    private Boolean visitReplayPage = false;
+    private int moveIndex = 0;
+
     //Constants
     static final String NAME_TAKEN_MSG = "Username taken. Please enter another name.";
     static final String INVALID_NAME_MSG = "Invalid username. Please enter another name.";
@@ -43,6 +52,184 @@ public class PlayerServices {
         this.playerLobby = playerLobby;
         this.gson = gson;
     }
+
+
+    /**
+     * ==========================================================================================
+     *                                     REPLAY METHODS
+     * ==========================================================================================
+     */
+
+    /**
+     *lets the player enter the saved game by cloning the saved game's initial state
+     *and setting it as the current game
+     */
+    public void enterReplay(){
+        try{
+            curPlayer.setGame((Game)savedInitialGame.clone());
+        }
+        catch (CloneNotSupportedException e){
+            System.err.println(e);
+        }
+    }
+
+    /**
+     * gets whether the current session needs to visit the save replay page
+     * @return true if they need to visit, otherwise false
+     */
+    public Boolean getVisitReplayPage(){
+        return visitReplayPage;
+    }
+
+    /**
+     * sets whether the current session needs to visit the save replay page
+     * @param visitReplayPage true if the game ends and the player needs to visit the replay page
+     */
+    public void setVisitReplayPage(Boolean visitReplayPage) {
+        this.visitReplayPage = visitReplayPage;
+    }
+
+    /**
+     * gets whether a game has been saved or not
+     * @return true if there's a saved game false otherwise
+     */
+    public boolean hasSaved(){
+        if(moveListSaved.size() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * gets whether there's a next move in the saved move list
+     * @return true is there is, false otherwise
+     */
+    public boolean hasNext(){
+        moveIndex ++;
+        if(moveIndex > moveListSaved.size()){
+            moveIndex --;
+            return false;
+        }
+        moveIndex --;
+        return true;
+    }
+
+    /**
+     * gets whether there's a previous move in the saved move list
+     * @return true is there is, false otherwise
+     */
+    public boolean hasPrevious(){
+        moveIndex --;
+        if(moveIndex < 0){
+            moveIndex ++;
+            return false;
+        }
+        moveIndex ++;
+        return true;
+    }
+
+    /**
+     * if there's moves left, gets the next move in the saved move list and then makes the move in the game
+     * @return true if it made the move successfully, false otherwise
+     */
+    public boolean setNextMove(){
+        if(hasNext()){
+            makeMove(moveListSaved.get(moveIndex));
+            moveIndex ++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * if the game's not on the initial board state,
+     * reset the board to the initial state
+     * and makes moves from the Saved move list up until the move before what state the game was at
+     *
+     * @return true if it made the move successfully, false otherwise
+     */
+    public boolean setPreviousMove(){
+        if (hasPrevious()){
+            moveIndex --;
+            try{
+                curPlayer.setGame((Game)savedInitialGame.clone());
+            }
+            catch (CloneNotSupportedException e){
+                System.err.println(e);
+            }
+            for(int i = 0; i < moveIndex; i++){
+                makeMove(moveListSaved.get(i));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * makes copy of the initial board state from the game just played
+     * and then saves the list of moves that were made in the game
+     * @return true if successfully saved
+     */
+    public boolean saveReplay(){
+            try{
+                savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone());
+            }
+            catch (CloneNotSupportedException e){
+                System.err.println(e);
+            }
+            moveListSaved = moveList;
+            return true;
+    }
+
+    /**
+     * saves a clone of the red player for if the player wants to save the replay
+     * @return true if the player was successfully cloned, false otherwise
+     */
+    public boolean saveRed(){
+        if ( curPlayer.game() != null) {
+            try {
+                if (curPlayer.getColor() == Color.RED) {
+                    redCopy = curPlayer.clone();
+                } else {
+                    redCopy = redPlayer().clone();
+                }
+            } catch (CloneNotSupportedException e) {
+                System.err.println(e);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * saves a clone of the white player for if the player wants to save the replay
+     * @return true if the player was successfully cloned, false otherwise
+     */
+    public boolean saveWhite(){
+        if ( curPlayer.game() != null) {
+            try {
+                if (curPlayer.getColor() == Color.WHITE) {
+                    whiteCopy = curPlayer.clone();
+                } else {
+                    whiteCopy = whitePlayer().clone();
+                }
+            } catch (CloneNotSupportedException e) {
+                System.err.println(e);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * =================================================================================
+     *
+     * ==================================================================================
+     */
+
+
 
     /**
      * Check if current user is signed in
@@ -225,9 +412,11 @@ public class PlayerServices {
      */
     public boolean setUpGame(String opponentName){
         Player op = playerLobby.getPlayer(opponentName);
+
         if(op.getColor() != null){
             return false;
-        }else{
+        }
+        else {
             op.setColor(Color.WHITE);
             curPlayer.setColor(Color.RED);
             Game game = new Game(curPlayer, op);
@@ -243,10 +432,14 @@ public class PlayerServices {
      */
     public boolean removeFromGame(){
 
+
         if(curPlayer.game() == null){
             return false;
         }
         else{
+            moveList = curPlayer.game().getMoveList();
+            moveIndex = 0;
+            visitReplayPage = true;
 
             if(curPlayer.getColor() == Color.RED){
                 curPlayer.game().setPlayer(Color.RED, null);
@@ -259,6 +452,7 @@ public class PlayerServices {
             viewMode = null;
             curMoveSequence.clear();
             lastKnown = null;
+
             return true;
         }
     }
@@ -429,7 +623,9 @@ public class PlayerServices {
         while(curMoveSequence.size() != 0){
             Move nextMove = curMoveSequence.remove(0);
             makeMove(nextMove);
+            curPlayer.game().addMove(nextMove);
         }
+
         return Message.info("Success");
     }
 

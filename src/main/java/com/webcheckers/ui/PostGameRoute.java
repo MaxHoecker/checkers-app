@@ -67,11 +67,6 @@ public class PostGameRoute implements Route {
 
         if(playerServices.curPlayer().game() != null){ //getting game route
 
-            //ToDo
-
-
-            //ToDo
-
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
@@ -86,7 +81,7 @@ public class PostGameRoute implements Route {
             }
 
             if(playerServices.opponent() == null){
-
+                playerServices.setVisitReplayPage(true);
                 Message winMssg = new Message("Your opponent left the game, so you win by default!", Message.Type.INFO);
                 playerServices.setWonGame(true, winMssg);
                 playerServices.setResigned(false);
@@ -95,9 +90,14 @@ public class PostGameRoute implements Route {
                 return null;
             }
 
+            //for reconstructing the game for the replay mode
+            playerServices.saveRed();
+            playerServices.saveWhite();
+
             if(playerServices.curPlayer().game().numRedPieces() == 0){
                 String endtext = String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName());
                 Message winMssg = new Message(endtext, Message.Type.INFO);
+                playerServices.setVisitReplayPage(true);
                 if(playerServices.curPlayer().getColor() == Color.WHITE){
 
                     //ToDo
@@ -113,6 +113,7 @@ public class PostGameRoute implements Route {
             else if(playerServices.curPlayer().game().numWhitePieces() == 0){
                 String endtext = String.format(ALL_CAPTURED_MSG, playerServices.redPlayer().getName());
                 Message winMssg = new Message(endtext, Message.Type.INFO);
+                playerServices.setVisitReplayPage(true);
                 if(playerServices.curPlayer().getColor() == Color.RED){
                     playerServices.setWonGame(true, winMssg);
                 }
@@ -138,6 +139,9 @@ public class PostGameRoute implements Route {
                 return null;
             }
 
+            playerServices.saveRed();
+            playerServices.saveWhite();
+
             playerServices.setViewMode("PLAY");
             vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
@@ -149,6 +153,8 @@ public class PostGameRoute implements Route {
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }else{ //case where curPlayer is the one clicked on
+
+
             playerServices.setViewMode("PLAY");
             vm.put(VIEW_MODE, playerServices.getViewMode());
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());

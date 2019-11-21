@@ -42,6 +42,8 @@ import spark.TemplateEngine;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
+ * @author <a href='mjh9131@rit.edu'>Max Hoecker</a>
  */
 public class WebServer {
   private static final Logger LOG = Logger.getLogger(WebServer.class.getName());
@@ -62,10 +64,19 @@ public class WebServer {
   public static final String CHECK_TURN_URL = "/checkTurn";
   public static final String BACKUP_MOVE_URL = "/backupMove";
   public static final String RESIGN_URL= "/resignGame";
+
   public static final String SPECTATOR_URL = "/spectator";
   public static final String SPECTATOR_VIEW_URL = "/spectator/game";
   public static final String SPECTATOR_STOP_URL = "/spectator/stopWatching";
   public static final String SPECTATOR_CHECK_TURN_URL = "spectator/checkTurn";
+
+  public static final String REPLAY_PAGE_URL = "/replay";
+  public static final String REPLAY_VIEW_URL = "/replay/game";
+  public static final String REPLAY_STOP_URL = "/replay/stopWatching";
+  public static final String REPLAY_NEXT_MOVE_URL = "/replay/nextTurn";
+  public static final String REPLAY_PREV_MOVE_URL = "/replay/previousTurn";
+  public static final String REPLAY_PROMPT_URL = "/replay/prompt";
+  public static final String REPLAY_PROMPT_RESPONSE_URL = "/replay/prompt/response";
 
   //
   // Attributes
@@ -160,6 +171,11 @@ public class WebServer {
 
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine, gson));
 
+    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
+
+    //
+    //Spectator Routes
+    //
     get(SPECTATOR_URL, new GetSpectatorRoute(playerLobby, templateEngine));
 
     post(SPECTATOR_VIEW_URL, new PostSpectatorGameRoute(templateEngine));
@@ -168,8 +184,26 @@ public class WebServer {
 
     get(SPECTATOR_STOP_URL, new GetSpectatorStopRoute());
 
-    post(SIGNOUT_URL, new PostSignoutRoute(playerLobby, templateEngine));
+    //
+    //Replay Routes
+    //
+    get(REPLAY_PAGE_URL, new GetReplayRoute(playerLobby, templateEngine));
 
+    get(REPLAY_PROMPT_URL, new GetReplayPromptRoute(templateEngine));
+
+    post(REPLAY_PROMPT_RESPONSE_URL, new PostReplayPromptResponseRoute());
+
+    post(REPLAY_VIEW_URL, new PostReplayGameRoute(templateEngine, gson));
+
+    post(REPLAY_NEXT_MOVE_URL, new PostReplayNextMoveRoute(gson));
+
+    post(REPLAY_PREV_MOVE_URL, new PostReplayPreviousMoveRoute(gson));
+
+    get(REPLAY_STOP_URL, new GetReplayStopRoute());
+
+    //
+    //Game related Routes
+    //
     post(GAME_URL, new PostGameRoute(gson, templateEngine));
 
     get(GAME_URL, new PostGameRoute(gson, templateEngine));

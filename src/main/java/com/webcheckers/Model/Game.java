@@ -1,12 +1,14 @@
 package com.webcheckers.Model;
 
 
+import java.util.ArrayList;
+
 /**
  * The game object
  * @author <a href='jak3703@rit.edu'>Jacob Kobrak</a>
  * @author <a href='jxw7470@rit.edu'>Joshua Weiss</a>
  */
-public class Game {
+public class Game implements Cloneable{
 
     /**
      * Attributes
@@ -17,6 +19,7 @@ public class Game {
     private Board board;
     private int gameID;
     private Color currentPlayerColor;
+    private ArrayList<Move> moveList = new ArrayList<>();
 
     private int numRedPieces = 12;
     private int numWhitePieces = 12;
@@ -43,6 +46,18 @@ public class Game {
         return gameID;
     }
 
+
+    public void clearMoveList(){
+        moveList.clear();
+    }
+
+    public void addMove(Move move){
+        moveList.add(move);
+    }
+
+    public ArrayList<Move> getMoveList() {
+        return moveList;
+    }
 
     /**
      * Get the board this game is being played on
@@ -71,6 +86,9 @@ public class Game {
      * @return a Color
      */
     public Color getCurrentPlayerColor(){
+        if(currentPlayerColor == null){
+            return Color.RED;
+        }
         if(currentPlayerColor == Color.WHITE){
             return Color.WHITE;
         }else{
@@ -174,6 +192,13 @@ public class Game {
                 setCurrentPlayerColor(Color.RED);
             }
         }
+    }
+
+    public Object clone() throws CloneNotSupportedException{
+        Game result = new Game(this.red.clone(), this.white.clone());
+        result.board = (Board)this.board.clone();
+        result.moveList = moveList;
+        return result;
     }
 
 }
