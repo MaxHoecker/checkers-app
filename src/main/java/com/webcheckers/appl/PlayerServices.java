@@ -48,6 +48,13 @@ public class PlayerServices {
         this.gson = gson;
     }
 
+
+    /**
+     * ==========================================================================================
+     *                                     REPLAY METHODS
+     * ==========================================================================================
+     */
+
     /**
      *lets the player enter the saved game by cloning the saved game's initial state
      *and setting it as the current game
@@ -155,10 +162,6 @@ public class PlayerServices {
         return false;
     }
 
-    //public void clearMoveList(){
-    //    moveList.clear();
-    //}
-
     /**
      * makes copy of the initial board state from the game just played
      * and then saves the list of moves that were made in the game
@@ -176,11 +179,10 @@ public class PlayerServices {
     }
 
     /**
-     *
-     * @return
+     * saves a clone of the red player for if the player wants to save the replay
+     * @return true if the player was successfully cloned, false otherwise
      */
     public boolean saveRed(){
-        //ToDo possible concurrency issues
         if ( curPlayer.game() != null) {
             try {
                 if (curPlayer.getColor() == Color.RED) {
@@ -196,6 +198,10 @@ public class PlayerServices {
         return false;
     }
 
+    /**
+     * saves a clone of the white player for if the player wants to save the replay
+     * @return true if the player was successfully cloned, false otherwise
+     */
     public boolean saveWhite(){
         if ( curPlayer.game() != null) {
             try {
@@ -211,6 +217,14 @@ public class PlayerServices {
         }
         return false;
     }
+
+    /**
+     * =================================================================================
+     *
+     * ==================================================================================
+     */
+
+
 
     /**
      * Check if current user is signed in
