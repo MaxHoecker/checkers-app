@@ -67,9 +67,6 @@ public class PostGameRoute implements Route {
 
         if(playerServices.curPlayer().game() != null){ //getting game route
 
-            playerServices.saveRed();
-            playerServices.saveWhite();
-
             vm.put(CUR_USER_ATTR, playerServices.curPlayer());
             vm.put(RED_PLAYER_ATTR, playerServices.redPlayer());
             vm.put(WHITE_PLAYER_ATTR, playerServices.whitePlayer());
@@ -92,6 +89,10 @@ public class PostGameRoute implements Route {
                 response.redirect(WebServer.HOME_URL);
                 return null;
             }
+
+            //for reconstructing the game for the replay mode
+            playerServices.saveRed();
+            playerServices.saveWhite();
 
             if(playerServices.curPlayer().game().numRedPieces() == 0){
                 String endtext = String.format(ALL_CAPTURED_MSG, playerServices.whitePlayer().getName());

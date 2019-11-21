@@ -48,6 +48,10 @@ public class PlayerServices {
         this.gson = gson;
     }
 
+    /**
+     *lets the player enter the saved game by cloning the saved game's initial state
+     *and setting it as the current game
+     */
     public void enterReplay(){
         try{
             curPlayer.setGame((Game)savedInitialGame.clone());
@@ -57,14 +61,39 @@ public class PlayerServices {
         }
     }
 
+    /**
+     * gets whether the current session needs to visit the save replay page
+     * @return true if they need to visit, otherwise false
+     */
     public Boolean getVisitReplayPage(){
         return visitReplayPage;
     }
 
+    /**
+     * sets whether the current session needs to visit the save replay page
+     * @param visitReplayPage true if the game ends and the player needs to visit the replay page
+     */
     public void setVisitReplayPage(Boolean visitReplayPage) {
         this.visitReplayPage = visitReplayPage;
     }
 
+    /**
+     * gets whether a game has been saved or not
+     * @return true if there's a saved game false otherwise
+     */
+    public boolean hasSaved(){
+        if(moveListSaved.size() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * gets whether there's a next move in the saved move list
+     * @return true is there is, false otherwise
+     */
     public boolean hasNext(){
         moveIndex ++;
         if(moveIndex > moveListSaved.size()){
@@ -75,6 +104,10 @@ public class PlayerServices {
         return true;
     }
 
+    /**
+     * gets whether there's a previous move in the saved move list
+     * @return true is there is, false otherwise
+     */
     public boolean hasPrevious(){
         moveIndex --;
         if(moveIndex < 0){
@@ -85,6 +118,10 @@ public class PlayerServices {
         return true;
     }
 
+    /**
+     * if there's moves left, gets the next move in the saved move list and then makes the move in the game
+     * @return true if it made the move successfully, false otherwise
+     */
     public boolean setNextMove(){
         if(hasNext()){
             makeMove(moveListSaved.get(moveIndex));
@@ -93,7 +130,14 @@ public class PlayerServices {
         }
         return false;
     }
-    
+
+    /**
+     * if the game's not on the initial board state,
+     * reset the board to the initial state
+     * and makes moves from the Saved move list up until the move before what state the game was at
+     *
+     * @return true if it made the move successfully, false otherwise
+     */
     public boolean setPreviousMove(){
         if (hasPrevious()){
             moveIndex --;
@@ -111,10 +155,15 @@ public class PlayerServices {
         return false;
     }
 
-    public void clearMoveList(){
-        moveList.clear();
-    }
+    //public void clearMoveList(){
+    //    moveList.clear();
+    //}
 
+    /**
+     * makes copy of the initial board state from the game just played
+     * and then saves the list of moves that were made in the game
+     * @return true if successfully saved
+     */
     public boolean saveReplay(){
             try{
                 savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone());
@@ -126,6 +175,10 @@ public class PlayerServices {
             return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean saveRed(){
         //ToDo possible concurrency issues
         if ( curPlayer.game() != null) {

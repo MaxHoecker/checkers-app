@@ -23,7 +23,11 @@
       <h3>Number of Players</h3>
       <p>${numPlayers}</p>
     <#elseif (numPlayers > 1)>
-        <a href="/spectator">Players In Game</a>
+        <div class = "SignIn">
+                <a href="/spectator">Players In Game</a>
+                <br>
+                <a href="/replay">Saved replays</a>
+        </div>
         <h3>Player List</h3>
             <form action="/game" method="post">
             <#list playerList as player>

@@ -73,6 +73,9 @@ public class Game implements Cloneable{
     }
 
     public Color getCurrentPlayerColor(){
+        if(currentPlayerColor == null){
+            return Color.RED;
+        }
         if(currentPlayerColor == Color.WHITE){
             return Color.WHITE;
         }else{
