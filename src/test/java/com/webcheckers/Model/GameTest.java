@@ -25,7 +25,7 @@ public class GameTest {
         white = new Player("WHITE");
         white.setColor(Color.WHITE);
         board = new Board();
-        move = new Move(new Position(7,0), new Position(6, 1));
+        move = new Move(new Position(5,2), new Position(7, 0));
         CuT = new Game(red, white);
         redpiece = new Piece(Color.RED);
         redpiece.kingMe();
@@ -36,6 +36,8 @@ public class GameTest {
 
     @Test
     public void test_init_move(){
+        CuT.makeMove(move, false);
+        assertEquals(2, move.getDistance());
 
 
 
@@ -64,6 +66,7 @@ public class GameTest {
     @Test
     public void test_swap_turn_red(){
         assertTrue(CuT.getCurrentPlayerColor() == red.getColor());
+
 
     }
 
