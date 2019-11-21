@@ -57,6 +57,25 @@ public class Board implements Cloneable{
             }
         }
     }*/
+    /*
+    public Board(){ // test kinging
+        for(int i = 0; i < 8; i++){
+            rows.add(new Row(i));
+            for(int j = 0; j < 8; j++){
+                if((i+j)%2 != 0) {
+                    if (i == 1 && j == 2) {
+                        rows.get(i).addSpacePiece(true, j, Color.WHITE);
+                    } else if(i == 6 && j == 3){
+                        rows.get(i).addSpacePiece(true, j, Color.RED);
+                    }else{
+                        rows.get(i).addEmptySpace(true, j);
+                    }
+                }else{
+                    rows.get(i).addEmptySpace(false, j);
+                }
+            }
+        }
+    }*/
 
     /**
      * Get the space at a given position on the board
