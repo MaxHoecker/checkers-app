@@ -105,6 +105,7 @@ public class GetHomeRoute implements Route {
 
         if(playerServices.getVisitReplayPage()){
             response.redirect(WebServer.REPLAY_PROMPT_URL);
+            return null;
         }
         else{
             if (playerServices.getWonGame() == null){

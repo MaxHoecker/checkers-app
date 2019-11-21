@@ -341,7 +341,6 @@ public class PlayerServices {
             else if(curPlayer.getColor() == Color.WHITE){
                 curPlayer.game().setPlayer(Color.WHITE, null);
             }
-            moveList = curPlayer.game().getMoveList();
             curPlayer.setColor(null);
             curPlayer.setGame(null);
             viewMode = null;
