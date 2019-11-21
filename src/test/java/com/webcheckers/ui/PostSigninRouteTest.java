@@ -52,6 +52,7 @@ public class PostSigninRouteTest {
         playerServices = mock(PlayerServices.class);
         engine = mock(FreeMarkerEngine.class);
         when(request.session()).thenReturn(session);
+        when(session.attribute(any(String.class))).thenReturn(playerServices);
         response = mock(Response.class);
 
         playerLobby = mock(PlayerLobby.class);
