@@ -53,11 +53,11 @@ public class Game implements Cloneable{
      * @param red, first player
      * @param white, second player
      */
-    public Game(Player red, Player white){
+    public Game(Player red, Player white, Board board){
         this.red = red;
         this.white = white;
         gameID = gameNum;
-        board = new Board();
+        this.board = board;
         gameNum++;
         currentPlayerColor = Color.RED;
     }
@@ -218,7 +218,7 @@ public class Game implements Cloneable{
     }
 
     public Object clone() throws CloneNotSupportedException{
-        Game result = new Game(this.red.clone(), this.white.clone());
+        Game result = new Game(this.red.clone(), this.white.clone(), new Board());
         result.board = (Board)this.board.clone();
         result.moveList = moveList;
         return result;
