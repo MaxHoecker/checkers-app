@@ -39,6 +39,18 @@ public class BoardTest {
     }
 
     @Test
+    public void multi_jump_mode(){
+        System.setProperty("mode", "multi-jump");
+        new Board(new ArrayList<>());
+    }
+
+    @Test
+    public void kinging_mode(){
+        System.setProperty("mode", "kinging");
+        new Board(new ArrayList<>());
+    }
+
+    @Test
     public void get_at_position_row_col(){
         when(row.getSpace(any(Integer.class))).thenReturn(space);
 
