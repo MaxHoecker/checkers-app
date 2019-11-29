@@ -11,11 +11,12 @@ import java.util.Iterator;
 public class Row implements Cloneable{
 
     private int index;
-    private ArrayList<Space> spaces = new ArrayList<>();
+    private ArrayList<Space> spaces;
 
     // constructor for row
-    public Row(int index) {
+    public Row(int index, ArrayList list) {
         this.index = index;
+        spaces = list;
     }
 
     /**
@@ -94,7 +95,7 @@ public class Row implements Cloneable{
      */
     @Override
     public Object clone() throws CloneNotSupportedException{
-        Row result = new Row(this.index);
+        Row result = new Row(this.index, new ArrayList());
         for(int i = 0; i < this.spaces.size(); i++){
             result.spaces.add((Space)this.spaces.get(i).clone());
         }

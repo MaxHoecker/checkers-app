@@ -38,7 +38,7 @@ public class Board implements Cloneable {
         int toUse = toDemo();
         if(toUse == 0) {
             for (int i = 0; i < 8; i++) {
-                rows.add(new Row(i));
+                rows.add(new Row(i, new ArrayList()));
                 for (int j = 0; j < 8; j++) {
                     if ((i + j) % 2 != 0) {
                         if (i <= 2) {
@@ -56,7 +56,7 @@ public class Board implements Cloneable {
         }else if(toUse == 1) {
 
             for (int i = 0; i < 8; i++) { // multi-jump
-                rows.add(new Row(i));
+                rows.add(new Row(i, new ArrayList()));
                 for (int j = 0; j < 8; j++) {
                     if ((i + j) % 2 != 0) {
                         if (i == 7 && j == 0) {
@@ -77,7 +77,7 @@ public class Board implements Cloneable {
 
             // test kinging
             for (int i = 0; i < 8; i++) {
-                rows.add(new Row(i));
+                rows.add(new Row(i, new ArrayList()));
                 for (int j = 0; j < 8; j++) {
                     if ((i + j) % 2 != 0) {
                         if (i == 1 && j == 2) {
