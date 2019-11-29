@@ -177,7 +177,7 @@ public class PlayerServices {
      */
     public boolean saveReplay(){
             try{
-                savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone(), new Board());
+                savedInitialGame = new Game(redCopy.clone(), whiteCopy.clone(), new Board(new ArrayList<>()));
                 SavedReplay save = new SavedReplay(savedInitialGame, moveList, replays.size());
                 replays.add(save);
             }
@@ -531,7 +531,7 @@ public class PlayerServices {
         else {
             op.setColor(Color.WHITE);
             curPlayer.setColor(Color.RED);
-            Game game = new Game(curPlayer, op, new Board());
+            Game game = new Game(curPlayer, op, new Board(new ArrayList<>()));
             op.setGame(game);
             curPlayer.setGame(game);
             return true;

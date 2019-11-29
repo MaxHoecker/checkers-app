@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class Board implements Cloneable {
 
     //an array of row objects
-    private ArrayList<Row> rows = new ArrayList<>(); //used an arraylist because it has an iterator() method
+    private ArrayList<Row> rows; //used an arraylist because it has an iterator() method
 
     /**
      * Get an int signifying the Board constructor which board type to construct depending on the demo mode
@@ -33,7 +33,8 @@ public class Board implements Cloneable {
     /**
      * board constructor that makes the 8x8 board filled in with pieces where they should be
      */
-    public Board() {
+    public Board(ArrayList<Row> rowList) {
+        this.rows = rowList;
         int toUse = toDemo();
         if(toUse == 0) {
             for (int i = 0; i < 8; i++) {
@@ -128,7 +129,7 @@ public class Board implements Cloneable {
      */
     @Override
     public Object clone() throws CloneNotSupportedException{
-        Board result = new Board();
+        Board result = new Board(new ArrayList<>());
         result.rows = new ArrayList<>();
         for(int i = 0; i < this.rows.size(); i++){
             result.rows.add((Row)this.rows.get(i).clone());

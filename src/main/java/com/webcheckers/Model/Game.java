@@ -218,7 +218,7 @@ public class Game implements Cloneable{
     }
 
     public Object clone() throws CloneNotSupportedException{
-        Game result = new Game(this.red.clone(), this.white.clone(), new Board());
+        Game result = new Game(this.red.clone(), this.white.clone(), new Board(new ArrayList<>()));
         result.board = (Board)this.board.clone();
         result.moveList = moveList;
         return result;
