@@ -3,11 +3,8 @@ package com.webcheckers.appl;
 import com.google.gson.Gson;
 import com.webcheckers.Model.*;
 import com.webcheckers.util.Message;
-import org.eclipse.jetty.io.ssl.ALPNProcessor;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 /**
  * Handles all functionality of individual users

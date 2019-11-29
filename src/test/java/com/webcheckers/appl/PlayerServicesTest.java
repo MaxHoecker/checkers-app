@@ -53,11 +53,12 @@ public class PlayerServicesTest {
         ps.hasPrevious();
         ps.setNextMove();
         ps.setPreviousMove();
-        ps.getReplays(); 
+        ps.getReplays();
         ps.getWonGame();
         ps.setWonGame(true);
         ps.getGameEndMessage();
     }
+
     @Test
     public void test_initialize_player_valid_name(){
         when(playerLobby.addPlayer(any(String.class), any(Player.class))).thenReturn(Boolean.TRUE);
